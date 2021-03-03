@@ -8,21 +8,34 @@
 
     <!-- Load our stylesheets -->
     <link href="assets/css/default.css" rel="stylesheet" />
+
+    <!-- Load our template stylesheets -->
+    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css">
+    <link rel="stylesheet" href="assets/css/template.css">
     <link href="assets/vendors/bootstrap/bootstrap.min.css" rel="stylesheet"/>
 
     <!-- Load jQuery 3.4.1 -->
     <script src="assets/vendors/jquery/jquery-3.4.1.min.js"></script>
+
+    <script src="assets/vendors/popper.js"></script>
     <script src="assets/vendors/bootstrap/bootstrap.bundle.min.js"></script>
+
+    <!-- Load template plugins -->
+    <script src="assets/vendors/scrollreveal.min.js"></script>
+    <script src="assets/vendors/jquery.counterup.min.js"></script>
+    <script src="assets/vendors/imgfix.min.js"></script>
 
     <!-- Prepare our application, load things in the proper order. -->
     <script src="assets/js/utils/sessionManager.js"></script>
     <script src="assets/js/utils/networkManager.js"></script>
+    <script src="assets/js/utils/templateManager.js"></script>
 
     <!-- Controllers -->
     <script src="assets/js/controllers/loginController.js"></script>
     <script src="assets/js/controllers/navbarController.js"></script>
     <script src="assets/js/controllers/welcomeController.js"></script>
     <script src="assets/js/controllers/uploadController.js"></script>
+    <script src="assets/js/controllers/homeController.js"></script>
 
     <!-- Repositories -->
     <script src="assets/js/repositories/roomExampleRepository.js"></script>
@@ -33,20 +46,47 @@
     <script src="assets/js/app.js"></script>
 </head>
 <body>
-    <!-- Navigation -->
-    <div class="sidebar">
-        <!-- Loads navigation via JS -->
+
+<!-- ***** Preloader Start ***** -->
+<div id="preloader">
+    <div class="jumper">
+        <div></div>
+        <div></div>
+        <div></div>
     </div>
+</div>
+<!-- ***** Preloader End ***** -->
+
+    <!-- Navigation -->
+    <header class="header-area header-sticky">
+        <!-- Loads navigation via JS -->
+    </header>
 
     <!-- Page Content -->
     <div class="content">
         <!-- Loads content via JS -->
     </div>
 
-    <footer id="sticky-footer" class="py-2 bg-dark text-white-50">
-        <div class="container text-center">
-            <small>Copyright &copy; Hogeschool van Amsterdam HBO-ICT 2020</small>
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <ul class="social">
+                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                    <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                    <li><a href="#"><i class="fa fa-rss"></i></a></li>
+                    <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+                </ul>
+            </div>
         </div>
-    </footer>
+        <div class="row">
+            <div class="col-lg-12">
+                <p class="copyright">Copyright &copy; Hogeschool van Amsterdam HBO-ICT 2020</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
 </body>
 </html> 
