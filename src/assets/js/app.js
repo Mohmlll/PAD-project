@@ -11,11 +11,13 @@ const CONTROLLER_SIDEBAR = "sidebar";
 const CONTROLLER_LOGIN = "login";
 const CONTROLLER_LOGOUT = "logout";
 const CONTROLLER_WELCOME = "welcome";
+const CONTROLLER_HOME = "home";
 const CONTROLLER_UPLOAD = "upload";
 const CONTROLLER_REGISTER = "register";
 
 const sessionManager = new SessionManager();
 const networkManager = new NetworkManager();
+const templateManager = new TemplateManager();
 
 class App {
 
@@ -24,7 +26,10 @@ class App {
         this.loadController(CONTROLLER_SIDEBAR);
 
         //Attempt to load the controller from the URL, if it fails, fall back to the welcome controller.
-        this.loadControllerFromUrl(CONTROLLER_WELCOME);
+        this.loadControllerFromUrl(CONTROLLER_HOME);
+
+        // init template js
+        templateManager.initPage();
     }
 
     /**
@@ -45,6 +50,11 @@ class App {
         switch (name) {
             case CONTROLLER_SIDEBAR:
                 new NavbarController();
+                break;
+
+            case CONTROLLER_HOME:
+                new HomeController();
+                this.setCurrentController(name);
                 break;
 
             case CONTROLLER_LOGIN:
