@@ -77,8 +77,8 @@ class App {
                 break;
 
             case CONTROLLER_REGISTER:
+                new RegisterController();
                 this.setCurrentController(name)
-                this.isLoggedIn(() => new WelcomeController, () => new LoginController())
                 break;
 
             default:

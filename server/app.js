@@ -70,19 +70,43 @@ app.post("/room_example", (req, res) => {
 
 app.post("/upload", function (req, res) {
     if (!req.files || Object.keys(req.files).length === 0) {
-        return res.status(badRequestCode).json({ reason: "No files were uploaded." });
+        return res.status(badRequestCode).json({reason: "No files were uploaded."});
     }
 
     let sampleFile = req.files.sampleFile;
 
     sampleFile.mv(wwwrootPath + "/uploads/test.jpg", function (err) {
         if (err) {
-            return res.status(badRequestCode).json({ reason: err });
+            return res.status(badRequestCode).json({reason: err});
         }
 
         return res.status(httpOkCode).json("OK");
     });
 });
+
+app.get("/rooms", (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "select * from room_example"
+    }, data => {
+        res.json(data);
+    }, err => {
+        res.json({message: "noooope"})
+    })
+})
+
+app.get('/register', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "INSERT INTO room_example(surface) values(5)"
+        // values: ["Yusuf"]
+    }, data => {
+        res.json(data);
+    }, err => {
+        console.log(err);
+        res.json({message: "f"})
+    })
+
+})
+
 //------- END ROUTES -------
 
 module.exports = app;
