@@ -11,13 +11,10 @@ const CONTROLLER_SIDEBAR = "sidebar";
 const CONTROLLER_LOGIN = "login";
 const CONTROLLER_LOGOUT = "logout";
 const CONTROLLER_WELCOME = "welcome";
-const CONTROLLER_HOME = "home";
 const CONTROLLER_UPLOAD = "upload";
-const CONTROLLER_REGISTER = "register";
 
 const sessionManager = new SessionManager();
 const networkManager = new NetworkManager();
-const templateManager = new TemplateManager();
 
 class App {
 
@@ -26,10 +23,7 @@ class App {
         this.loadController(CONTROLLER_SIDEBAR);
 
         //Attempt to load the controller from the URL, if it fails, fall back to the welcome controller.
-        this.loadControllerFromUrl(CONTROLLER_HOME);
-
-        // init template js
-        templateManager.initPage();
+        this.loadControllerFromUrl(CONTROLLER_WELCOME);
     }
 
     /**
@@ -52,11 +46,6 @@ class App {
                 new NavbarController();
                 break;
 
-            case CONTROLLER_HOME:
-                new HomeController();
-                this.setCurrentController(name);
-                break;
-
             case CONTROLLER_LOGIN:
                 this.setCurrentController(name);
                 this.isLoggedIn(() => new WelcomeController(), () => new LoginController());
@@ -69,16 +58,11 @@ class App {
 
             case CONTROLLER_WELCOME:
                 this.setCurrentController(name);
-                this.isLoggedIn(() => new WelcomeController, () => new LoginController())
+                this.isLoggedIn(() => new WelcomeController, () => new LoginController());
                 break;
 
             case CONTROLLER_UPLOAD:
                 new UploadController();
-                break;
-
-            case CONTROLLER_REGISTER:
-                this.setCurrentController(name)
-                this.isLoggedIn(() => new WelcomeController, () => new LoginController())
                 break;
 
             default:

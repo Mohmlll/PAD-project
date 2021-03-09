@@ -13,16 +13,15 @@ class NavbarController {
     //Called when the navbar.html has been loaded
     setup(data) {
         //Load the sidebar-content into memory
-        console.log(data);
         const sidebarView = $(data);
 
         //Find all anchors and register the click-event
-        sidebarView.find("a[data-controller]").on("click", this.handleClickMenuItem);
+        sidebarView.find("a").on("click", this.handleClickMenuItem);
+
+        //TODO: Add logic here to determine which menu items should be visible or not
 
         //Empty the sidebar-div and add the resulting view to the page
-        $(".header-area").empty().append(sidebarView);
-
-        templateManager.initSideBar()
+        $(".sidebar").empty().append(sidebarView);
     }
 
     handleClickMenuItem() {
