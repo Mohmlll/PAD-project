@@ -53,21 +53,6 @@ app.post("/user/login", (req, res) => {
 
     }, (err) => res.status(badRequestCode).json({reason: err}));
 });
-app.get('/register', (req, res) => {
-    db.handleQuery(connectionPool, {
-        query: "INSERT INTO id, email, password FROM user",
-        values: [id, req.body.emailadres, req.body.passwordRegister]
-    }, r => {
-
-        res.json({});
-    }, (err) => {
-        console.log(err);
-        res.status(500);
-        res.json({
-            message: err.message
-        })
-    });
-});
 //dummy data example - rooms
 app.post("/room_example", (req, res) => {
 
@@ -108,15 +93,15 @@ app.get("/rooms", (req, res) => {
     })
 })
 
-app.get('/register', (req, res) => {
+app.post('/register', (req, res) => {
     db.handleQuery(connectionPool, {
-        query: "INSERT INTO room_example(surface) values(5)"
-        // values: ["Yusuf"]
+        query: "INSERT INTO user(email, password) values(?,?)",
+        values: [req.body.email, req.body.password]
     }, data => {
         res.json(data);
     }, err => {
         console.log(err);
-        res.json({message: "f"})
+        res.json({message: "F"})
     })
 
 })
