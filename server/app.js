@@ -53,7 +53,21 @@ app.post("/user/login", (req, res) => {
 
     }, (err) => res.status(badRequestCode).json({reason: err}));
 });
+app.get('/register', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "INSERT INTO id, email, password FROM user",
+        values: [id, req.body.emailadres, req.body.passwordRegister]
+    }, r => {
 
+        res.json({});
+    }, (err) => {
+        console.log(err);
+        res.status(500);
+        res.json({
+            message: err.message
+        })
+    });
+});
 //dummy data example - rooms
 app.post("/room_example", (req, res) => {
 
