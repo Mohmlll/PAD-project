@@ -12,6 +12,7 @@ const CONTROLLER_LOGIN = "login";
 const CONTROLLER_LOGOUT = "logout";
 const CONTROLLER_WELCOME = "welcome";
 const CONTROLLER_UPLOAD = "upload";
+const CONTROLLER_REGISTER = "register"
 
 const sessionManager = new SessionManager();
 const networkManager = new NetworkManager();

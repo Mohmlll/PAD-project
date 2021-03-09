@@ -53,7 +53,21 @@ app.post("/user/login", (req, res) => {
 
     }, (err) => res.status(badRequestCode).json({reason: err}));
 });
+app.get('/register', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "INSERT INTO id, email, password FROM user",
+        values: [id, req.body.emailadres, req.body.passwordRegister]
+    }, r => {
 
+        res.json({});
+    }, (err) => {
+        console.log(err);
+        res.status(500);
+        res.json({
+            message: err.message
+        })
+    });
+});
 //dummy data example - rooms
 app.post("/room_example", (req, res) => {
 
@@ -70,14 +84,14 @@ app.post("/room_example", (req, res) => {
 
 app.post("/upload", function (req, res) {
     if (!req.files || Object.keys(req.files).length === 0) {
-        return res.status(badRequestCode).json({ reason: "No files were uploaded." });
+        return res.status(badRequestCode).json({reason: "No files were uploaded."});
     }
 
     let sampleFile = req.files.sampleFile;
 
     sampleFile.mv(wwwrootPath + "/uploads/test.jpg", function (err) {
         if (err) {
-            return res.status(badRequestCode).json({ reason: err });
+            return res.status(badRequestCode).json({reason: err});
         }
 
         return res.status(httpOkCode).json("OK");
