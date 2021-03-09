@@ -7,9 +7,9 @@ class RegisterController {
 
 
     async onRegister() {
-        let email = $('input[name=email]', this.registerView).val();
-        // let password = $('input[name=password]', this.registerView).val();
-        let password = "test";
+        let email = this.registerView.find('input[name=email]').val();
+        let password = this.registerView.find('input[name=password]').val();
+
         console.log(email + ", " + password)
         //TODO: We shouldn't save a password unencrypted!! Improve this by using cryptoHelper :)
 
@@ -23,6 +23,7 @@ class RegisterController {
 
     //Called when the home.html has been loaded
     setup(data) {
+        console.log(data);
         //Load the welcome-content into memory
         this.registerView = $(data);
 
@@ -40,16 +41,4 @@ class RegisterController {
     }
 }
 
-// $('button#save', this.newGameView).on("click", () => {
-//     let name = $('input[name=name]', this.newGameView).val();
-//     let description = $('textarea[name=description]', this.newGameView).val();
-//
-//     $.ajax({
-//         url: baseUrl + "/games",
-//         data: JSON.stringify({name: name, description: description}),
-//         contentType: "application/json",
-//         method: "POST"
-//     }).then(() => {
-//         this.refresh();
-//     })
-// });
+
