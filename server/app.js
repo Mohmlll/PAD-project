@@ -83,6 +83,57 @@ app.post("/upload", function (req, res) {
         return res.status(httpOkCode).json("OK");
     });
 });
+
+
+app.get('/games', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "select * from game"
+    }, d => {
+        res.json(d);
+    }, err => {
+        res.status(500);
+        res.json({
+            message: err.message
+        })
+    });
+});
+
+app.get('/games/:id', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "select * from game where id=?",
+        values: [req.params.id]
+    }, d => {
+        if(d.length === 0){
+            res.status(404);
+            res.message(`Game with id ${req.params.id} not found`);
+        }else{
+            res.json(d[0]);
+        }
+    }, err => {
+        console.error(err);
+        res.status(500);
+        res.json({
+            message: err.message
+        })
+    });
+});
+
+app.post('/games', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "use pad_gym_6_dev; insert into game(name, description) values(?, ?)",
+        // query: "insert into game(name, description) values(?,?)",
+        values: ["test2x", "testxdata2"]
+    }, (r) => {
+
+        res.json({})
+    }, (err) => {
+        console.error(err);
+        res.status(500);
+        res.json({
+            message: err.message
+        })
+    });
+});
 //------- END ROUTES -------
 
 module.exports = app;

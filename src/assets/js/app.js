@@ -14,6 +14,7 @@ const CONTROLLER_WELCOME = "welcome";
 const CONTROLLER_HOME = "home";
 const CONTROLLER_UPLOAD = "upload";
 const CONTROLLER_REGISTER = "register";
+const CONTROLLER_GAMES = "games";
 
 const sessionManager = new SessionManager();
 const networkManager = new NetworkManager();
@@ -81,6 +82,10 @@ class App {
                 this.isLoggedIn(() => new WelcomeController, () => new LoginController())
                 break;
 
+            case CONTROLLER_GAMES:
+                this.setCurrentController(name);
+                new GameController();
+                break;
             default:
                 return false;
         }
