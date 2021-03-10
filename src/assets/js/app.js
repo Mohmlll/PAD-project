@@ -15,6 +15,7 @@ const CONTROLLER_HOME = "home";
 const CONTROLLER_UPLOAD = "upload";
 const CONTROLLER_REGISTER = "register";
 
+const translationManager = new TranslationManager();
 const sessionManager = new SessionManager();
 const networkManager = new NetworkManager();
 const templateManager = new TemplateManager();
@@ -136,9 +137,28 @@ class App {
     }
 }
 
+async function init() {
+
+}
 const app = new App();
 
 //When the DOM is ready, kick off our application.
 $(function () {
     app.init();
 });
+
+
+/***************************   Translations   *********************************/
+
+
+/**
+ * Translation event listeners
+ */
+$("#localizationLanguageSwitch").on("change", function () {
+    translation.switchLanguage($(this).val());
+});
+
+$("#localizationDynamicClick").on("click", function () {
+    translation.translate();
+});
+
