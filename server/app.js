@@ -95,8 +95,8 @@ app.get("/rooms", (req, res) => {
 
 app.post('/register', (req, res) => {
     db.handleQuery(connectionPool, {
-        query: "INSERT INTO user(email, password) values(?,?)",
-        values: [req.body.email, req.body.password]
+        query: "INSERT INTO user(email, password, firstname, lastname, birthdate, school, country) values(?,?,?,?,?,?,?)",
+        values: [req.body.email, req.body.password, req.body.firstname, req.body.lastname, req.body.birthdate, req.body.schoolName, req.body.country]
     }, data => {
         res.json(data);
     }, err => {

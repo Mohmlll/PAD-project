@@ -7,15 +7,25 @@ class RegisterController {
 
 
     async onRegister() {
-        let email = $('input[name=email]', this.registerView).val()
-        let password = $('input[name=password]', this.registerView).val()
+        let email = $('input[name=email]', this.registerView).val();
+        let password = $('input[name=password]', this.registerView).val();
+        let passwordCheck = $('input[name=passwordCheck]', this.registerView).val();
+        let firstname = $('input[name=firstname]', this.registerView).val();
+        let lastname = $('input[name=lastname]', this.registerView).val();
+        let birthdate = $('input[name=birthdate]', this.registerView).val();
+        let schoolName = $('input[name=schoolName]', this.registerView).val();
+        let country = $('input[name=country]', this.registerView).val();
 
         console.log(email + ", " + password)
+        console.log($('input[name=email]', this.registerView))
+        console.log(this.registerView)
         //TODO: We shouldn't save a password unencrypted!! Improve this by using cryptoHelper :)
 
         await $.ajax({
             url: baseUrl + "/register",
-            data: JSON.stringify({email: email, password: password}),
+            data: JSON.stringify({email: email, password: password,
+                firstname: firstname, lastname: lastname, birthdate: birthdate
+                , schoolName: schoolName, country: country}),
             contentType: "application/json",
             method: "POST"
         });
@@ -27,9 +37,9 @@ class RegisterController {
         //Load the welcome-content into memory
         this.registerView = $(data);
 
-        $('#login', this.registerView).on("submit", (e) => {
+        $('#register', this.registerView).on("submit", (e) => {
             e.preventDefault();
-
+            console.log($(this));
             this.onRegister();
         })
 
