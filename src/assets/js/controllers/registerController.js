@@ -7,8 +7,8 @@ class RegisterController {
 
 
     async onRegister() {
-        let email = this.registerView.find('input[name=email]').val();
-        let password = this.registerView.find('input[name=password]').val();
+        let email = $('input[name=email]', this.registerView).val()
+        let password = $('input[name=password]', this.registerView).val()
 
         console.log(email + ", " + password)
         //TODO: We shouldn't save a password unencrypted!! Improve this by using cryptoHelper :)
@@ -27,7 +27,9 @@ class RegisterController {
         //Load the welcome-content into memory
         this.registerView = $(data);
 
-        $('button#save', this.registerView).on("click", () => {
+        $('#login', this.registerView).on("submit", (e) => {
+            e.preventDefault();
+
             this.onRegister();
         })
 
