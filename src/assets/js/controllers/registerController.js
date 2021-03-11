@@ -32,27 +32,40 @@ class RegisterController {
         }
     }
 
+
     //Called when the home.html has been loaded
     setup(data) {
         console.log(data);
         //Load the welcome-content into memory
         this.registerView = $(data);
 
-
-        $('#registerWizard1', this.registerView).on("click", (e) => {
+        $('#nextWizard1', this.registerView).on("click", (e) => {
             e.preventDefault();
             console.log("clicked");
             $('.registerPart1').css("display", "none");
             $('.registerPart2').css("display", "block");
         });
 
-        $('#registerWizard2', this.registerView).on("click", (e) => {
+        $('#backWizard1', this.registerView).on("click", (e) => {
+            e.preventDefault();
+            console.log("clicked");
+            $('.registerPart1').css("display", "block");
+            $('.registerPart2').css("display", "none");
+        });
+
+        $('#nextWizard2', this.registerView).on("click", (e) => {
             e.preventDefault();
             $('.registerPart2').css("display", "none");
             $('.registerPart3').css("display", "block");
 
         });
 
+        $('#backWizard2', this.registerView).on("click", (e) => {
+            e.preventDefault();
+            console.log("clicked");
+            $('.registerPart2').css("display", "block");
+            $('.registerPart3').css("display", "none");
+        });
 
         $('#register', this.registerView).on("submit", (e) => {
             e.preventDefault();
