@@ -160,16 +160,27 @@ app.post('/games', (req, res) => {
         query: "insert into game(name, description, rules, target_audience, type, amount_players) values(?, ?)",
         // values: [req.body.name, req.body.description, req.body.materials, req.body.rules, req.body.difEasy, req.body.difHard, req.body.targetAudience, req.body.gameType, req.body.amountStudents]
         values: [req.body.name, req.body.description, req.body.rules, req.body.targetAudience, req.body.type, req.body.amountStudents]
-    }, (r) => {
-        res.json({})
+    }, (data) => {
+        res.json({data})
     }, (err) => {
-        console.error(err);
-        res.status(500);
-        res.json({
-            message: err.message
-        })
+        console.log(err);
+        res.json({message: "F"})
     });
 });
+
+app.post('/register', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "INSERT INTO user(email, password, firstname, lastname, birthdate, school, country) values(?,?,?,?,?,?,?)",
+        values: [req.body.email, req.body.password, req.body.firstname, req.body.lastname, req.body.birthdate, req.body.schoolName, req.body.country]
+    }, data => {
+        res.json(data);
+    }, err => {
+        console.log(err);
+        res.json({message: "F"})
+    })
+
+})
+
 //------- END ROUTES -------
 
 module.exports = app;
