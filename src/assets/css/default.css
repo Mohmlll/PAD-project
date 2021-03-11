@@ -8,3 +8,6 @@
 .registerPart2, .registerPart3{
     display: none;
 }
+.registerImg{
+    width: 15%;
+}

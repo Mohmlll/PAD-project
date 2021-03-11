@@ -41,14 +41,12 @@ class RegisterController {
 
         $('#nextWizard1', this.registerView).on("click", (e) => {
             e.preventDefault();
-            console.log("clicked");
             $('.registerPart1').css("display", "none");
             $('.registerPart2').css("display", "block");
         });
 
         $('#backWizard1', this.registerView).on("click", (e) => {
             e.preventDefault();
-            console.log("clicked");
             $('.registerPart1').css("display", "block");
             $('.registerPart2').css("display", "none");
         });
@@ -62,7 +60,6 @@ class RegisterController {
 
         $('#backWizard2', this.registerView).on("click", (e) => {
             e.preventDefault();
-            console.log("clicked");
             $('.registerPart2').css("display", "block");
             $('.registerPart3').css("display", "none");
         });
