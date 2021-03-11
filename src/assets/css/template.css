@@ -1414,7 +1414,7 @@ contact
 }
 
 .contact-form input,
-.contact-form textarea {
+.contact-form textarea, .register-form input {
   color: #777;
   font-size: 14px;
   border: 1px solid #eee;

@@ -3,6 +3,8 @@
  *
  * @author Pim Meijer
  */
+const cryptoHelper = require("./utils/cryptoHelper");
+
 class LoginController {
 
     constructor() {
@@ -32,15 +34,16 @@ class LoginController {
         //prevent actual submit and page refresh
         event.preventDefault();
 
-        //Find the username and password
-        const username = this.loginView.find("[name='username']").val();
-        const password = this.loginView.find("[name='password']").val();
+        //Find the email and password
+        const email = this.loginView.find("[name='email']").val();
+        let password = this.loginView.find("[name='password']").val();
+        password = cryptoHelper.getHashedPassword(password);
 
         try{
             //await keyword 'stops' code until data is returned - can only be used in async function
-            const user = await this.userRepository.login(username, password);
+            const user = await this.userRepository.login(email, password);
 
-            sessionManager.set("username", user.username);
+            sessionManager.set("email", user.email);
             app.loadController(CONTROLLER_WELCOME);
 
         } catch(e) {

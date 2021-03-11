@@ -6,22 +6,82 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="features-small-item">
-                    <form id="login">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                <fieldset>
-                                    <input name="email" type="email" class="form-control" placeholder="E-Mail Adres" required="">
-                                </fieldset>
+                    <form id="register">
+                        <div class="registerPart1">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-12 col-sm-12">
+                                    <fieldset>
+                                        <input name="email" type="email" class="form-control" placeholder="E-Mail Adres"
+                                               required="">
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-6 col-md-12 col-sm-12">
+                                    <fieldset>
+                                        <input name="password" type="password" class="form-control"
+                                               placeholder="Wachtwoord" required="">
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-6 col-md-12 col-sm-12">
+                                    <fieldset>
+                                        <input name="passwordCheck" type="password" class="form-control"
+                                               placeholder="Wachtwoord herhalen" required="">
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-12">
+                                    <fieldset>
+                                        <button class="main-button" id="nextWizard1">Volgende</button>
+                                    </fieldset>
+                                </div>
                             </div>
-                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                <fieldset>
-                                    <input name="password" type="password" class="form-control" placeholder="Wachtwoord" required="">
-                                </fieldset>
+                        </div>
+                        <div class="registerPart2">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-12 col-sm-12">
+                                    <fieldset>
+                                        <input name="firstname" type="text" class="form-control" placeholder="Voornaam"
+                                               >
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-6 col-md-12 col-sm-12">
+                                    <fieldset>
+                                        <input name="lastname" type="text" class="form-control"
+                                               placeholder="Achternaam" >
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-6 col-md-12 col-sm-12">
+                                    <fieldset>
+                                        <input name="birthdate" type="date" class="form-control"
+                                               placeholder="Geboortedatum" >
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-12">
+                                    <fieldset>
+                                        <button class="main-button" id="backWizard1">Terug</button>
+                                        <button class="main-button" id="nextWizard2">Volgende</button>
+                                    </fieldset>
+                                </div>
                             </div>
-                            <div class="col-lg-12">
-                                <fieldset>
-                                    <button type="submit" id="form-submit" class="main-button">Inloggen</button>
-                                </fieldset>
+                        </div>
+                        <div class="registerPart3">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-12 col-sm-12">
+                                    <fieldset>
+                                        <input name="schoolName" type="text" class="form-control" placeholder="Locatie school"
+                                               >
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-6 col-md-12 col-sm-12">
+                                    <fieldset>
+                                        <input name="country" type="text" class="form-control"
+                                               placeholder="Land" >
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-12">
+                                    <fieldset>
+                                        <button class="main-button" id="backWizard2">Terug</button>
+                                        <button type="submit" id="form-submit" class="main-button">Registreren</button>
+                                    </fieldset>
+                                </div>
                             </div>
                         </div>
                     </form>

@@ -7,27 +7,68 @@ class RegisterController {
 
 
     async onRegister() {
-        let email = $('input[name=email]', this.registerView).val()
-        let password = $('input[name=password]', this.registerView).val()
+        let email = $('input[name=email]', this.registerView).val();
+        let password = $('input[name=password]', this.registerView).val();
+        let passwordCheck = $('input[name=passwordCheck]', this.registerView).val();
+        let firstname = $('input[name=firstname]', this.registerView).val();
+        let lastname = $('input[name=lastname]', this.registerView).val();
+        let birthdate = $('input[name=birthdate]', this.registerView).val();
+        let schoolName = $('input[name=schoolName]', this.registerView).val();
+        let country = $('input[name=country]', this.registerView).val();
 
-        //TODO: We shouldn't save a password unencrypted!! Improve this by using cryptoHelper :)
-
-        await $.ajax({
-            url: baseUrl + "/register",
-            data: JSON.stringify({email: email, password: password}),
-            contentType: "application/json",
-            method: "POST"
-        });
+        if (password === passwordCheck) {
+            await $.ajax({
+                url: baseUrl + "/register",
+                data: JSON.stringify({
+                    email: email, password: password,
+                    firstname: firstname, lastname: lastname, birthdate: birthdate
+                    , schoolName: schoolName, country: country
+                }),
+                contentType: "application/json",
+                method: "POST"
+            });
+        } else {
+            alert("password doesnt match");
+        }
     }
+
 
     //Called when the home.html has been loaded
     setup(data) {
+        console.log(data);
         //Load the welcome-content into memory
         this.registerView = $(data);
 
-        $('#login', this.registerView).on("submit", (e) => {
+        $('#nextWizard1', this.registerView).on("click", (e) => {
             e.preventDefault();
+            console.log("clicked");
+            $('.registerPart1').css("display", "none");
+            $('.registerPart2').css("display", "block");
+        });
 
+        $('#backWizard1', this.registerView).on("click", (e) => {
+            e.preventDefault();
+            console.log("clicked");
+            $('.registerPart1').css("display", "block");
+            $('.registerPart2').css("display", "none");
+        });
+
+        $('#nextWizard2', this.registerView).on("click", (e) => {
+            e.preventDefault();
+            $('.registerPart2').css("display", "none");
+            $('.registerPart3').css("display", "block");
+
+        });
+
+        $('#backWizard2', this.registerView).on("click", (e) => {
+            e.preventDefault();
+            console.log("clicked");
+            $('.registerPart2').css("display", "block");
+            $('.registerPart3').css("display", "none");
+        });
+
+        $('#register', this.registerView).on("submit", (e) => {
+            e.preventDefault();
             this.onRegister();
         })
 

@@ -34,21 +34,21 @@ const badRequestCode = 400;
 const authorizationErrCode = 401;
 
 app.post("/user/login", (req, res) => {
-    const username = req.body.username;
+    const email = req.body.username;
 
     //TODO: We shouldn't save a password unencrypted!! Improve this by using cryptoHelper :)
     const password = req.body.password;
 
     db.handleQuery(connectionPool, {
-        query: "SELECT username, password FROM user WHERE username = ? AND password = ?",
-        values: [username, password]
+        query: "SELECT email, password FROM user WHERE email = ? AND password = ?",
+        values: [email, password]
     }, (data) => {
         if (data.length === 1) {
-            //return just the username for now, never send password back!
-            res.status(httpOkCode).json({"username": data[0].username});
+            //return just the email for now, never send password back!
+            res.status(httpOkCode).json({"email": data[0].username});
         } else {
-            //wrong username
-            res.status(authorizationErrCode).json({reason: "Wrong username or password"});
+            //wrong email
+            res.status(authorizationErrCode).json({reason: "Wrong email or password"});
         }
 
     }, (err) => res.status(badRequestCode).json({reason: err}));
@@ -94,9 +94,12 @@ app.get("/rooms", (req, res) => {
 })
 
 app.post('/register', (req, res) => {
+    const password = req.body.password;
+    let hashedPassword = cryptoHelper.getHashedPassword(password);
+
     db.handleQuery(connectionPool, {
-        query: "INSERT INTO user(email, password) values(?,?)",
-        values: [req.body.email, req.body.password]
+        query: "INSERT INTO user(email, password, lastname, firstname, birthdate, school, country) values(?,?,?,?,?,?,?)",
+        values: [req.body.email, hashedPassword, req.body.firstname, req.body.lastname, req.body.birthdate, req.body.schoolName, req.body.country]
     }, data => {
         res.json(data);
     }, err => {
