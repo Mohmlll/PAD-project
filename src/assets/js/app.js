@@ -15,12 +15,14 @@ const CONTROLLER_HOME = "home";
 const CONTROLLER_UPLOAD = "upload";
 const CONTROLLER_REGISTER = "register";
 const CONTROLLER_GAME = "game";
+const CONTROLLER_GAME_CREATE = "gameCreate";
 
 const sessionManager = new SessionManager();
 const networkManager = new NetworkManager();
 const templateManager = new TemplateManager();
 
 class App {
+
 
     init() {
         //Always load the sidebar
@@ -88,6 +90,11 @@ class App {
                 this.setCurrentController(name);
                 new GameController();
                 break;
+            case CONTROLLER_GAME_CREATE:
+                this.setCurrentController(name);
+                new GameCreateController();
+                break;
+
             default:
                 return false;
         }

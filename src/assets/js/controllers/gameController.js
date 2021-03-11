@@ -5,57 +5,52 @@ class GameController {
             .catch(() => this.error());
     }
 
-
-    async onAddGame() {
-        let name = $('input[name=name]', this.gameView).val();
-        let description = $('input[name=description]', this.gameView).val();
-        let materials = $('input[name=materials]', this.gameView).val();
-        let rules = $('input[name=rules]', this.gameView).val();
-        let difEasy = $('input[name=dif-easy]', this.gameView).val();
-        let difHard = $('input[name=dif-hard]', this.gameView).val();
-        let targetAudience = $('input[name=target-audience]', this.gameView).val();
-        let gameType = $('input[name=game-type]', this.gameView).val();
-        let amountStudents = $('input[name=amount-students]', this.gameView).val();
-        let sampleFile = $('input[name=sampleFile]', this.gameView).val();
-
-        // console.log(email + ", " + password)
-        console.log($('input[name=email]', this.gameView))
-        console.log(this.gameView)
-        //TODO: We shouldn't save a password unencrypted!! Improve this by using cryptoHelper :)
-
-        await $.ajax({
+    async onGetGame() {
+        // get data
+        const result = await $.ajax({
             url: baseUrl + "/game",
-            data: JSON.stringify({
-                name: name,
-                description: description,
-                materials: materials,
-                rules: rules,
-                difEasy: difEasy,
-                difHard: difHard,
-                targetAudience: targetAudience,
-                gameType: gameType,
-                amountStudents: amountStudents,
-                sampleFile: sampleFile
-            }),
             contentType: "application/json",
-            method: "POST"
+            method: "get"
         });
-    }
 
+        // get template
+        let gameTemplate = await $.get("views/templateGame.html")
+
+        // loop trough available games
+        for (let i = 0; i < result.length; i++) {
+            const row = result[i];
+
+            let name = row["name"];
+            let description = row["description"];
+            let target_audience = row["target_audience"];
+            let type = row["type"];
+            let amount_players = row["amount_players"];
+            let rules = row["rules"];
+            let differentiates_easy = row["differentiates_easy"];
+            let differentiates_hard = row["differentiates_hard"];
+
+            let gameRowTemplate = $(gameTemplate);
+            gameRowTemplate.find(".name").text(name);
+            gameRowTemplate.find(".description").text(description);
+            gameRowTemplate.find(".target_audience").text(target_audience);
+            gameRowTemplate.find(".type").text(type);
+            gameRowTemplate.find(".amount_players").text(amount_players);
+            gameRowTemplate.find(".rules").text(rules);
+            gameRowTemplate.find(".differentiates_easy").text(differentiates_easy);
+            gameRowTemplate.find(".differentiates_hard").text(differentiates_hard);
+            gameRowTemplate.appendTo("#gameview");
+        }
+
+    }
     //Called when the home.html has been loaded
     setup(data) {
-        console.log(data);
         //Load the welcome-content into memory
         this.gameView = $(data);
 
-        $('#game', this.gameView).on("submit", (e) => {
-            e.preventDefault();
-            console.log($(this));
-            this.onAddGame();
-        })
-
         //Empty the content-div and add the resulting view to the page
         $(".content").empty().append(this.gameView);
+
+        this.onGetGame();
     }
 
     //Called when the game.html fails to load
