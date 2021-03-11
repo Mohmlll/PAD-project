@@ -26,12 +26,12 @@ class GameController {
         });
     }
 
-    async refresh(){
+    async refresh() {
         let gameData = await $.get(baseUrl + "/games");
         this.setList(gameData);
     }
 
-    setList(gameData){
+    setList(gameData) {
         let list = $('ul', this.view);
         list.empty();
         for (let game of gameData) {
@@ -56,11 +56,30 @@ class GameController {
 
         $('button#save', this.newGameView).on("click", () => {
             let name = $('input[name=name]', this.newGameView).val();
-            let description = $('textarea[name=description]', this.newGameView).val();
+            let description = $('input[name=description]', this.newGameView).val();
+            let materials = $('input[name=materials]', this.newGameView).val();
+            let rules = $('input[name=rules]', this.newGameView).val();
+            let difEasy = $('input[name=dif-easy]', this.newGameView).val();
+            let difHard = $('input[name=dif-hard]', this.newGameView).val();
+            let targetAudience = $('input[target-audience=description]', this.newGameView).val();
+            let gameType = $('input[name=game-type]', this.newGameView).val();
+            let amountStudents = $('input[name=amount-students]', this.newGameView).val();
+            let sampleFile = $('input[name=sampleFile]', this.newGameView).val();
 
             $.ajax({
                 url: baseUrl + "/games",
-                data: JSON.stringify({name: name, description: description}),
+                data: JSON.stringify({
+                    name: name,
+                    description: description,
+                    materials: materials,
+                    rules: rules,
+                    difEasy: difEasy,
+                    difHard: difHard,
+                    targetAudience: targetAudience,
+                    gameType: gameType,
+                    amountStudents: amountStudents,
+                    sampleFile: sampleFile
+                }),
                 contentType: "application/json",
                 method: "POST"
             }).then(() => {
@@ -74,7 +93,7 @@ class GameController {
         $(".content").empty().append(this.view);
 
         //File upload
-        this.view.find("#upload").on("click", function() {
+        this.view.find("#upload").on("click", function () {
             //Set the proper action url
             $(this).closest("form").attr("action", `${baseUrl}/upload`);
 

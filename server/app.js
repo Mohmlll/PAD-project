@@ -53,21 +53,21 @@ app.post("/user/login", (req, res) => {
 
     }, (err) => res.status(badRequestCode).json({reason: err}));
 });
-app.get('/register', (req, res) => {
-    db.handleQuery(connectionPool, {
-        query: "INSERT INTO id, email, password FROM user",
-        values: [id, req.body.emailadres, req.body.passwordRegister]
-    }, r => {
-
-        res.json({});
-    }, (err) => {
-        console.log(err);
-        res.status(500);
-        res.json({
-            message: err.message
-        })
-    });
-});
+// app.get('/register', (req, res) => {
+//     db.handleQuery(connectionPool, {
+//         query: "INSERT INTO id, email, password FROM user",
+//         values: [id, req.body.emailadres, req.body.passwordRegister]
+//     }, r => {
+//
+//         res.json({});
+//     }, (err) => {
+//         console.log(err);
+//         res.status(500);
+//         res.json({
+//             message: err.message
+//         })
+//     });
+// });
 //dummy data example - rooms
 app.post("/room_example", (req, res) => {
 
@@ -140,10 +140,10 @@ app.get('/games/:id', (req, res) => {
         query: "select * from game where id=?",
         values: [req.params.id]
     }, d => {
-        if(d.length === 0){
+        if (d.length === 0) {
             res.status(404);
             res.message(`Game with id ${req.params.id} not found`);
-        }else{
+        } else {
             res.json(d[0]);
         }
     }, err => {
@@ -157,11 +157,10 @@ app.get('/games/:id', (req, res) => {
 
 app.post('/games', (req, res) => {
     db.handleQuery(connectionPool, {
-        query: "use pad_gym_6_dev; insert into game(name, description) values(?, ?)",
-        // query: "insert into game(name, description) values(?,?)",
-        values: ["test2x", "testxdata2"]
+        query: "insert into game(name, description, rules, target_audience, type, amount_players) values(?, ?)",
+        // values: [req.body.name, req.body.description, req.body.materials, req.body.rules, req.body.difEasy, req.body.difHard, req.body.targetAudience, req.body.gameType, req.body.amountStudents]
+        values: [req.body.name, req.body.description, req.body.rules, req.body.targetAudience, req.body.type, req.body.amountStudents]
     }, (r) => {
-
         res.json({})
     }, (err) => {
         console.error(err);
