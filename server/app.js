@@ -122,7 +122,7 @@ app.get('/register', (req, res) => {
 })
 
 
-app.get('/games', (req, res) => {
+app.get('/game', (req, res) => {
     db.handleQuery(connectionPool, {
         query: "select * from game"
     }, d => {
@@ -135,31 +135,11 @@ app.get('/games', (req, res) => {
     });
 });
 
-app.get('/games/:id', (req, res) => {
-    db.handleQuery(connectionPool, {
-        query: "select * from game where id=?",
-        values: [req.params.id]
-    }, d => {
-        if (d.length === 0) {
-            res.status(404);
-            res.message(`Game with id ${req.params.id} not found`);
-        } else {
-            res.json(d[0]);
-        }
-    }, err => {
-        console.error(err);
-        res.status(500);
-        res.json({
-            message: err.message
-        })
-    });
-});
 
-app.post('/games', (req, res) => {
+app.post('/game', (req, res) => {
     db.handleQuery(connectionPool, {
-        query: "insert into game(name, description, rules, target_audience, type, amount_players) values(?, ?)",
-        // values: [req.body.name, req.body.description, req.body.materials, req.body.rules, req.body.difEasy, req.body.difHard, req.body.targetAudience, req.body.gameType, req.body.amountStudents]
-        values: [req.body.name, req.body.description, req.body.rules, req.body.targetAudience, req.body.type, req.body.amountStudents]
+        query: "insert into game(name, description, rules, target_audience, type, amount_players, differentiates_easy, differentiates_hard) values(?,?,?,?,?,?,?,?)",
+        values: [req.body.name, req.body.description, req.body.rules, req.body.targetAudience, req.body.gameType, req.body.amountStudents, req.body.difEasy, req.body.difHard]
     }, (data) => {
         res.json({data})
     }, (err) => {
@@ -167,19 +147,6 @@ app.post('/games', (req, res) => {
         res.json({message: "F"})
     });
 });
-
-app.post('/register', (req, res) => {
-    db.handleQuery(connectionPool, {
-        query: "INSERT INTO user(email, password, firstname, lastname, birthdate, school, country) values(?,?,?,?,?,?,?)",
-        values: [req.body.email, req.body.password, req.body.firstname, req.body.lastname, req.body.birthdate, req.body.schoolName, req.body.country]
-    }, data => {
-        res.json(data);
-    }, err => {
-        console.log(err);
-        res.json({message: "F"})
-    })
-
-})
 
 //------- END ROUTES -------
 
