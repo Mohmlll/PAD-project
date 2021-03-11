@@ -3,6 +3,8 @@
  *
  * @author Pim Meijer
  */
+const cryptoHelper = require("./utils/cryptoHelper");
+
 class LoginController {
 
     constructor() {
@@ -34,7 +36,8 @@ class LoginController {
 
         //Find the email and password
         const email = this.loginView.find("[name='email']").val();
-        const password = this.loginView.find("[name='password']").val();
+        let password = this.loginView.find("[name='password']").val();
+        password = cryptoHelper.getHashedPassword(password);
 
         try{
             //await keyword 'stops' code until data is returned - can only be used in async function

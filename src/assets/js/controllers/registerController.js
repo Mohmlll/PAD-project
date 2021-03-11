@@ -16,19 +16,20 @@ class RegisterController {
         let schoolName = $('input[name=schoolName]', this.registerView).val();
         let country = $('input[name=country]', this.registerView).val();
 
-        console.log(email + ", " + password)
-        console.log($('input[name=email]', this.registerView))
-        console.log(this.registerView)
-        //TODO: We shouldn't save a password unencrypted!! Improve this by using cryptoHelper :)
-
-        await $.ajax({
-            url: baseUrl + "/register",
-            data: JSON.stringify({email: email, password: password,
-                firstname: firstname, lastname: lastname, birthdate: birthdate
-                , schoolName: schoolName, country: country}),
-            contentType: "application/json",
-            method: "POST"
-        });
+        if (password === passwordCheck) {
+            await $.ajax({
+                url: baseUrl + "/register",
+                data: JSON.stringify({
+                    email: email, password: password,
+                    firstname: firstname, lastname: lastname, birthdate: birthdate
+                    , schoolName: schoolName, country: country
+                }),
+                contentType: "application/json",
+                method: "POST"
+            });
+        } else {
+            alert("password doesnt match");
+        }
     }
 
     //Called when the home.html has been loaded
@@ -37,9 +38,24 @@ class RegisterController {
         //Load the welcome-content into memory
         this.registerView = $(data);
 
+
+        $('#registerWizard1', this.registerView).on("click", (e) => {
+            e.preventDefault();
+            console.log("clicked");
+            $('.registerPart1').css("display", "none");
+            $('.registerPart2').css("display", "block");
+        });
+
+        $('#registerWizard2', this.registerView).on("click", (e) => {
+            e.preventDefault();
+            $('.registerPart2').css("display", "none");
+            $('.registerPart3').css("display", "block");
+
+        });
+
+
         $('#register', this.registerView).on("submit", (e) => {
             e.preventDefault();
-            console.log($(this));
             this.onRegister();
         })
 
