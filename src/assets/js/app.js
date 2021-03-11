@@ -31,6 +31,8 @@ class App {
 
         // init template js
         templateManager.initPage();
+
+
     }
 
     /**
