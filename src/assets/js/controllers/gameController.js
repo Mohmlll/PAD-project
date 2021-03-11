@@ -28,6 +28,7 @@ class GameController {
             let rules = row["rules"];
             let differentiates_easy = row["differentiates_easy"];
             let differentiates_hard = row["differentiates_hard"];
+            // let game_image = row["image_url"];
 
             let gameRowTemplate = $(gameTemplate);
             gameRowTemplate.find(".name").text(name);
@@ -38,6 +39,8 @@ class GameController {
             gameRowTemplate.find(".rules").text(rules);
             gameRowTemplate.find(".differentiates_easy").text(differentiates_easy);
             gameRowTemplate.find(".differentiates_hard").text(differentiates_hard);
+            // gameRowTemplate.find(".game_image").attr("src", "../uploads/" + gameId + ".png");
+
             gameRowTemplate.appendTo("#gameview");
         }
 
