@@ -59,21 +59,21 @@ class App {
 
             case CONTROLLER_HOME:
                 new HomeController();
-                this.setCurrentController(name);
+                this.setHash(name);
                 break;
 
             case CONTROLLER_LOGIN:
-                this.setCurrentController(name);
+                this.setHash(name);
                 this.isLoggedIn(() => new WelcomeController(), () => new LoginController());
                 break;
 
             case CONTROLLER_LOGOUT:
-                this.setCurrentController(name);
+                this.setHash(name);
                 this.handleLogout();
                 break;
 
             case CONTROLLER_WELCOME:
-                this.setCurrentController(name);
+                this.setHash(name);
                 this.isLoggedIn(() => new WelcomeController, () => new LoginController())
                 break;
 
@@ -83,15 +83,15 @@ class App {
 
             case CONTROLLER_REGISTER:
                 new RegisterController();
-                this.setCurrentController(name)
+                this.setHash(name)
                 break;
 
             case CONTROLLER_GAME:
-                this.setCurrentController(name);
+                this.setHash(name);
                 new GameController();
                 break;
             case CONTROLLER_GAME_CREATE:
-                this.setCurrentController(name);
+                this.setHash(name);
                 new GameCreateController();
                 break;
 
@@ -105,7 +105,7 @@ class App {
     }
 
     isCurrentController(controller) {
-        return controller === this.getCurrentController();
+        return controller === this.getHash();
     }
 
     /**
@@ -113,7 +113,7 @@ class App {
      * @param fallbackController
      */
     loadControllerFromUrl(fallbackController) {
-        const currentController = this.getCurrentController();
+        const currentController = this.getHash();
 
         if (currentController) {
             if (!this.loadController(currentController)) {
@@ -124,11 +124,11 @@ class App {
         }
     }
 
-    getCurrentController() {
+    getHash() {
         return location.hash.slice(1);
     }
 
-    setCurrentController(name) {
+    setHash(name) {
         location.hash = name;
     }
 
