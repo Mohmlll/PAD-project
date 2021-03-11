@@ -1,3 +1,4 @@
+
 class RegisterController {
     constructor() {
         $.get("views/register.html")
@@ -39,10 +40,15 @@ class RegisterController {
         //Load the welcome-content into memory
         this.registerView = $(data);
 
+
         $('#nextWizard1', this.registerView).on("click", (e) => {
             e.preventDefault();
-            $('.registerPart1').css("display", "none");
-            $('.registerPart2').css("display", "block");
+
+            if (emailValid){
+                $('.registerPart1').css("display", "none");
+                $('.registerPart2').css("display", "block");
+            }
+
         });
 
         $('#backWizard1', this.registerView).on("click", (e) => {
@@ -78,5 +84,3 @@ class RegisterController {
         $(".content").html("Failed to load content!");
     }
 }
-
-
