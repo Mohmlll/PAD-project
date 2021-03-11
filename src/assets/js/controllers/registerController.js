@@ -10,7 +10,6 @@ class RegisterController {
         let email = $('input[name=email]', this.registerView).val()
         let password = $('input[name=password]', this.registerView).val()
 
-        console.log(email + ", " + password)
         //TODO: We shouldn't save a password unencrypted!! Improve this by using cryptoHelper :)
 
         await $.ajax({
@@ -23,7 +22,6 @@ class RegisterController {
 
     //Called when the home.html has been loaded
     setup(data) {
-        console.log(data);
         //Load the welcome-content into memory
         this.registerView = $(data);
 
