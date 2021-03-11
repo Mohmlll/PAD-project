@@ -1,21 +1,27 @@
+
 /**
  * Implementation of a template manager that handles ppage  events
  */
 class TemplateManager {
 
-    initPage() {
+    setActiveState(){
+        const currentController = app.getCurrentController();
 
+        $(`.main-nav a[data-controller]`).removeClass('active')
+        $(`.main-nav a[data-controller='${currentController}']`).first().addClass('active')
+    }
+
+    initPage() {
         // Scroll animation init
         window.sr = new scrollReveal();
 
         // Home seperator
-        if ($('.home-seperator').length) {
+        if($('.home-seperator').length) {
             $('.home-seperator .left-item, .home-seperator .right-item').imgfix();
         }
 
-
         // Home number counterup
-        // if ($('.count-item').length) {
+        // if($('.count-item').length){
         //     $('.count-item strong').counterUp({
         //         delay: 10,
         //         time: 1000
@@ -24,104 +30,91 @@ class TemplateManager {
 
 
         // Page loading animation
-        if ($('.cover').length) {
-            $('.cover').parallax({
-                imageSrc: $('.cover').data('image'),
-                zIndex: '1'
-            });
-        }
+        $(window).on('load', function() {
+            if($('.cover').length){
+                $('.cover').parallax({
+                    imageSrc: $('.cover').data('image'),
+                    zIndex: '1'
+                });
+            }
 
-        $("#preloader").animate({
-            'opacity': '0'
-        }, 600, function () {
-            setTimeout(function () {
-                $("#preloader").css("visibility", "hidden").fadeOut();
-            }, 300);
+            $("#preloader").animate({
+                'opacity': '0'
+            }, 600, function(){
+                setTimeout(function(){
+                    $("#preloader").css("visibility", "hidden").fadeOut();
+                }, 300);
+            });
+
+            $("a[data-scroll-to]").on('click', function () {
+                let scroll_to = $(this).attr('data-scroll-to')
+                let scroll_to_element = $(`#${scroll_to}`);
+
+                if (scroll_to_element.length > 0) {
+                    templateManager.scrollTo(scroll_to_element, $(this))
+                }
+            })
         });
+
 
     }
 
-    initSideBar() {
+    scrollTo(target, button){
+        $(document).off("scroll");
+
+        $('a').each(function () {
+            $(this).removeClass('active');
+        })
+        button.addClass('active');
+
+        $('html, body').stop().animate({
+            scrollTop: (target.offset().top) - 130
+        }, 500, 'swing', function () {
+            $(document).on("scroll", templateManager.onScroll);
+        });
+    }
+
+    initSideBar(){
         // Window Resize Mobile Menu Fix
         this.mobileNav();
 
         // Menu Dropdown Toggle
-        if ($('.menu-trigger').length) {
-            $(".menu-trigger").on('click', function () {
+        if($('.menu-trigger').length){
+            $(".menu-trigger").on('click', function() {
                 $(this).toggleClass('active');
                 $('.header-area .nav').slideToggle(200);
             });
         }
 
-        // Menu elevator animation
-        $('a[href*=\\#]:not([href=\\#])').on('click', function () {
-            if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
-                var target = $(this.hash);
-                target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
-                if (target.length) {
-                    var width = $(window).width();
-                    if (width < 991) {
-                        $('.menu-trigger').removeClass('active');
-                        $('.header-area .nav').slideUp(200);
-                    }
-                    $('html,body').animate({
-                        scrollTop: (target.offset().top) - 130
-                    }, 700);
-                    return false;
-                }
-            }
-        });
-
         $(document).ready(function () {
-            $(document).on("scroll", onScroll);
-
-            //smoothscroll
-            $('a[href^="#"]').on('click', function (e) {
-                e.preventDefault();
-                $(document).off("scroll");
-
-                $('a').each(function () {
-                    $(this).removeClass('active');
-                })
-                $(this).addClass('active');
-
-                var target = this.hash,
-                    menu = target;
-                var target = $(this.hash);
-                $('html, body').stop().animate({
-                    scrollTop: (target.offset().top) - 130
-                }, 500, 'swing', function () {
-                    window.location.hash = target;
-                    $(document).on("scroll", onScroll);
-                });
-            });
+            $(document).on("scroll", templateManager.onScroll);
         });
-
-        function onScroll(event) {
-            var scrollPos = $(document).scrollTop();
-            $('.nav a').each(function () {
-                var currLink = $(this);
-                var refElement = $(currLink.attr("href"));
-                if (refElement.position().top <= scrollPos && refElement.position().top + refElement.height() > scrollPos) {
-                    $('.nav ul li a').removeClass("active");
-                    currLink.addClass("active");
-                } else {
-                    currLink.removeClass("active");
-                }
-            });
-        }
-
 
         // Window Resize Mobile Menu Fix
-        $(window).on('resize', function () {
+        $(window).on('resize', function() {
             templateManager.mobileNav();
+        });
+    }
+
+    onScroll(event){
+        var scrollPos = $(document).scrollTop();
+        $('.nav a').each(function () {
+            var currLink = $(this);
+            var refElement = $(currLink.attr("href"));
+            if (refElement.position().top <= scrollPos && refElement.position().top + refElement.height() > scrollPos) {
+                $('.nav ul li a').removeClass("active");
+                currLink.addClass("active");
+            }
+            else{
+                currLink.removeClass("active");
+            }
         });
     }
 
     mobileNav() {
         var width = $(window).width();
-        $('.submenu').on('click', function () {
-            if (width < 992) {
+        $('.submenu').on('click', function() {
+            if(width < 992) {
                 $('.submenu ul').removeClass('active');
                 $(this).find('ul').toggleClass('active');
             }

@@ -35,14 +35,13 @@ const authorizationErrCode = 401;
 
 app.post("/user/login", (req, res) => {
     const email = req.body.username;
-
-    //TODO: We shouldn't save a password unencrypted!! Improve this by using cryptoHelper :)
-    const password = req.body.password;
+    let password = cryptoHelper.getHashedPassword(req.body.password);
 
     db.handleQuery(connectionPool, {
         query: "SELECT email, password FROM user WHERE email = ? AND password = ?",
         values: [email, password]
     }, (data) => {
+        console.log(data);
         if (data.length === 1) {
             //return just the email for now, never send password back!
             res.status(httpOkCode).json({"email": data[0].username});
@@ -109,9 +108,12 @@ app.get("/rooms", (req, res) => {
 })
 
 app.post('/register', (req, res) => {
+    const password = req.body.password;
+    let hashedPassword = cryptoHelper.getHashedPassword(password);
+
     db.handleQuery(connectionPool, {
-        query: "INSERT INTO user(email, password, firstname, lastname, birthdate, school, country) values(?,?,?,?,?,?,?)",
-        values: [req.body.email, req.body.password, req.body.firstname, req.body.lastname, req.body.birthdate, req.body.schoolName, req.body.country]
+        query: "INSERT INTO user(email, password, lastname, firstname, birthdate, school, country) values(?,?,?,?,?,?,?)",
+        values: [req.body.email, hashedPassword, req.body.firstname, req.body.lastname, req.body.birthdate, req.body.schoolName, req.body.country]
     }, data => {
         res.json(data);
     }, err => {

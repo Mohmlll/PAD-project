@@ -6,8 +6,6 @@
 
 class HomeController {
     constructor() {
-        console.log('aa')
-
         $.get("views/home.html")
             .done((data) => this.setup(data))
             .fail(() => this.error());

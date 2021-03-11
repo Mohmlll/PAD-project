@@ -29,7 +29,7 @@ class App {
         this.loadController(CONTROLLER_SIDEBAR);
 
         //Attempt to load the controller from the URL, if it fails, fall back to the welcome controller.
-        this.loadControllerFromUrl(CONTROLLER_HOME);
+        this.loadControllerFromUrl(CONTROLLER_HOME)
 
         // init template js
         templateManager.initPage();
@@ -99,7 +99,13 @@ class App {
                 return false;
         }
 
+        templateManager.setActiveState();
+
         return true;
+    }
+
+    isCurrentController(controller) {
+        return controller === this.getCurrentController();
     }
 
     /**
