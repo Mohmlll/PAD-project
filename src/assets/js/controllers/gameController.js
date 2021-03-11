@@ -13,7 +13,7 @@ class GameController {
         let rules = $('input[name=rules]', this.gameView).val();
         let difEasy = $('input[name=dif-easy]', this.gameView).val();
         let difHard = $('input[name=dif-hard]', this.gameView).val();
-        let targetAudience = $('input[target-audience=description]', this.gameView).val();
+        let targetAudience = $('input[name=target-audience]', this.gameView).val();
         let gameType = $('input[name=game-type]', this.gameView).val();
         let amountStudents = $('input[name=amount-students]', this.gameView).val();
         let sampleFile = $('input[name=sampleFile]', this.gameView).val();
@@ -24,7 +24,7 @@ class GameController {
         //TODO: We shouldn't save a password unencrypted!! Improve this by using cryptoHelper :)
 
         await $.ajax({
-            url: baseUrl + "/games",
+            url: baseUrl + "/game",
             data: JSON.stringify({
                 name: name,
                 description: description,
@@ -48,7 +48,7 @@ class GameController {
         //Load the welcome-content into memory
         this.gameView = $(data);
 
-        $('#games', this.gameView).on("submit", (e) => {
+        $('#game', this.gameView).on("submit", (e) => {
             e.preventDefault();
             console.log($(this));
             this.onAddGame();

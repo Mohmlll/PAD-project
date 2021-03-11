@@ -14,7 +14,7 @@ const CONTROLLER_WELCOME = "welcome";
 const CONTROLLER_HOME = "home";
 const CONTROLLER_UPLOAD = "upload";
 const CONTROLLER_REGISTER = "register";
-const CONTROLLER_GAMES = "games";
+const CONTROLLER_GAME = "game";
 
 const sessionManager = new SessionManager();
 const networkManager = new NetworkManager();
@@ -82,7 +82,7 @@ class App {
                 this.setCurrentController(name)
                 break;
 
-            case CONTROLLER_GAMES:
+            case CONTROLLER_GAME:
                 this.setCurrentController(name);
                 new GameController();
                 break;
