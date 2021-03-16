@@ -20,6 +20,7 @@ class GameController {
         for (let i = 0; i < result.length; i++) {
             const row = result[i];
 
+            let gameId = row["id_game"];
             let name = row["name"];
             let description = row["description"];
             let target_audience = row["target_audience"];
@@ -41,10 +42,13 @@ class GameController {
             gameRowTemplate.find(".differentiates_hard").text(differentiates_hard);
             // gameRowTemplate.find(".game_image").attr("src", "../uploads/" + gameId + ".png");
             gameRowTemplate.find(".game_image").attr("src", "../assets/img/template/blank.jpg");
+            gameRowTemplate.find(".collapse").removeClass("collapseSummary").addClass("collapseSummary" + gameId);
+            gameRowTemplate.find("a[href='.collapseSummary']").attr('href', '.collapseSummary' + gameId);
             gameRowTemplate.appendTo("#gameview");
         }
 
     }
+
     //Called when the home.html has been loaded
     setup(data) {
         //Load the welcome-content into memory

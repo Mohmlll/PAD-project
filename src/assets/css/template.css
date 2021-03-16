@@ -794,7 +794,7 @@ features
 --------------------------------------------- 
 */
 .features-small-item {
-    cursor: pointer;
+    /*cursor: pointer;*/
     display: block;
     background: #FFFFFF;
     box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.10);
@@ -1381,8 +1381,8 @@ blog
 }
 
 .blog-post-thumb .blog-content {
-    margin-top: -30px;
-    padding-top: 50px;
+    /*margin-top: -30px;*/
+    /*padding-top: 50px;*/
 }
 
 .blog-post-thumb h3 {
@@ -1638,4 +1638,18 @@ preloader
     100% {
         opacity: 0;
     }
+}
+
+
+#summary a.collapsed:after {
+    content: 'Lees Meer';
+}
+
+#summary a:not(.collapsed):after {
+    content: 'Lees Minder';
+}
+
+.labelGames {
+    margin-top: .5rem;
+    margin-bottom: 0;
 }
