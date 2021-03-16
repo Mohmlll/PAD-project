@@ -52,21 +52,6 @@ app.post("/user/login", (req, res) => {
 
     }, (err) => res.status(badRequestCode).json({reason: err}));
 });
-// app.get('/register', (req, res) => {
-//     db.handleQuery(connectionPool, {
-//         query: "INSERT INTO id, email, password FROM user",
-//         values: [id, req.body.emailadres, req.body.passwordRegister]
-//     }, r => {
-//
-//         res.json({});
-//     }, (err) => {
-//         console.log(err);
-//         res.status(500);
-//         res.json({
-//             message: err.message
-//         })
-//     });
-// });
 //dummy data example - rooms
 app.post("/room_example", (req, res) => {
 
@@ -122,33 +107,6 @@ app.post('/register', (req, res) => {
     })
 
 })
-
-
-app.get('/game', (req, res) => {
-    db.handleQuery(connectionPool, {
-        query: "select * from game"
-    }, d => {
-        res.json(d);
-    }, err => {
-        res.status(500);
-        res.json({
-            message: err.message
-        })
-    });
-});
-
-
-app.post('/game', (req, res) => {
-    db.handleQuery(connectionPool, {
-        query: "insert into game(name, description, rules, target_audience, type, amount_players, differentiates_easy, differentiates_hard) values(?,?,?,?,?,?,?,?)",
-        values: [req.body.name, req.body.description, req.body.rules, req.body.targetAudience, req.body.gameType, req.body.amountStudents, req.body.difEasy, req.body.difHard]
-    }, (data) => {
-        res.json({data})
-    }, (err) => {
-        console.log(err);
-        res.json({message: "F"})
-    });
-});
 
 //------- END ROUTES -------
 

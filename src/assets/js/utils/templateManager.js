@@ -5,7 +5,7 @@
 class TemplateManager {
 
     setActiveState(){
-        const currentController = app.getHash();
+        const currentController = app.getCurrentController();
 
         $(`.main-nav a[data-controller]`).removeClass('active')
         $(`.main-nav a[data-controller='${currentController}']`).first().addClass('active')
