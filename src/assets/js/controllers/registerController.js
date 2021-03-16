@@ -1,4 +1,3 @@
-
 class RegisterController {
     constructor() {
         $.get("views/register.html")
@@ -17,7 +16,7 @@ class RegisterController {
         let schoolName = $('input[name=schoolName]', this.registerView).val();
         let country = $('input[name=country]', this.registerView).val();
 
-        if (password === passwordCheck) {
+
             await $.ajax({
                 url: baseUrl + "/register",
                 data: JSON.stringify({
@@ -28,59 +27,101 @@ class RegisterController {
                 contentType: "application/json",
                 method: "POST"
             });
+
+    }
+
+    setWizardButtons(currentStep){
+        const buttons = $(".bottom-nav", this.registerView);
+
+        if (currentStep.next().length === 0) {
+
+            buttons.find('#next').hide();
+            buttons.find('#finish').show();
         } else {
-            alert("password doesnt match");
+            buttons.find('#next').show();
+            buttons.find('#finish').hide();
+        }
+
+        if (currentStep.prev().length === 0) {
+            buttons.find('#back').hide();
+        } else {
+            buttons.find('#back').show();
         }
     }
 
+    validateStepForm(tab) {
+        const inputs = tab.find('[required]');
+        let errorCount = 0;
+
+        for (const input of inputs) {
+            const elem = $(input);
+
+            if (!elem.is(":valid")) {
+                elem.removeClass('input-success');
+                elem.addClass('input-error');
+                errorCount++;
+            } else {
+                elem.removeClass('input-error');
+                elem.addClass('input-success');
+            }
+        }
+
+        return errorCount === 0;
+    }
 
     //Called when the home.html has been loaded
     setup(data) {
-        console.log(data);
         //Load the welcome-content into memory
         this.registerView = $(data);
 
+        $("#next", this.registerView).on("click", (e) => {
+            const currentStep = $(".tab[data-wizard-state='current']", this.registerView);
+            const nextStep = currentStep.next();
+            
 
-        $('#nextWizard1', this.registerView).on("click", (e) => {
-            e.preventDefault();
+            // validate for
+            if (!this.validateStepForm(currentStep))
+                return;
 
-            if (emailValid){
-                $('.registerPart1').css("display", "none");
-                $('.registerPart2').css("display", "block");
+            if (nextStep.length === 1) {
+                currentStep.attr('data-wizard-state', 'done');
+                nextStep.attr('data-wizard-state', 'current');
             }
 
+            // set buttons
+            this.setWizardButtons(nextStep);
         });
 
-        $('#backWizard1', this.registerView).on("click", (e) => {
-            e.preventDefault();
-            $('.registerPart1').css("display", "block");
-            $('.registerPart2').css("display", "none");
+        $("#back", this.registerView).on("click", (e) => {
+            const currentStep = $(".tab[data-wizard-state='current']", this.registerView);
+            const prevStep = currentStep.prev();
+
+            if (prevStep.length === 1) {
+                currentStep.attr('data-wizard-state', 'pending');
+                prevStep.attr('data-wizard-state', 'current');
+            }
+
+            this.setWizardButtons(prevStep);
         });
 
-        $('#nextWizard2', this.registerView).on("click", (e) => {
-            e.preventDefault();
-            $('.registerPart2').css("display", "none");
-            $('.registerPart3').css("display", "block");
+        $("#finish", this.registerView).on("click", (e) => {
+            const currentStep = $(".tab[data-wizard-state='current']", this.registerView);
 
-        });
+            //the 'return;' stops when has invalid fields
+            if (!this.validateStepForm(currentStep))
+                return;
 
-        $('#backWizard2', this.registerView).on("click", (e) => {
-            e.preventDefault();
-            $('.registerPart2').css("display", "block");
-            $('.registerPart3').css("display", "none");
-        });
-
-        $('#register', this.registerView).on("submit", (e) => {
-            e.preventDefault();
+            // post user
             this.onRegister();
-        })
+        });
 
         //Empty the content-div and add the resulting view to the page
         $(".content").empty().append(this.registerView);
-    }
 
+    }
     //Called when the register.html fails to load
     error() {
         $(".content").html("Failed to load content!");
     }
+
 }

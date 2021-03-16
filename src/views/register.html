@@ -5,9 +5,16 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <div class="features-small-item">
-                    <form id="register">
-                        <div class="registerPart1">
+                <div class="features-small-item wizard">
+
+                    <ul class="nav">
+                        <li class="highlight">Account</li>
+                        <li>Persoonlijk</li>
+                        <li>School</li>
+                    </ul>
+
+                    <div class="tabs">
+                        <div class="tab" data-wizard-state="current" id="account-field">
                             <img class="registerImg"
                                  src="https://pics.freeicons.io/uploads/icons/png/7205445111595501398-512.png">
                             <div class="row">
@@ -16,7 +23,7 @@
                                         <label for="emailRegister">E-mail Adres</label>
                                         <input name="email" type="email" class="form-control" id="emailRegister"
                                                placeholder="E-Mail Adres"
-                                        >
+                                               required pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}">
                                     </fieldset>
                                 </div>
                                 <div class="col-lg-6 col-md-12 col-sm-12">
@@ -24,7 +31,7 @@
                                         <label for="passwordRegister">Wachtwoord</label>
                                         <input name="password" type="password" id="passwordRegister"
                                                class="form-control"
-                                               placeholder="Wachtwoord">
+                                               placeholder="Wachtwoord" required pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,32}$">
                                     </fieldset>
                                 </div>
                                 <div class="col-lg-6 col-md-12 col-sm-12">
@@ -32,17 +39,15 @@
                                         <label for="passwordCheckRegister">Wachtwoord herhalen</label>
                                         <input name="passwordCheck" type="password" id="passwordCheckRegister"
                                                class="form-control"
-                                               placeholder="Wachtwoord herhalen">
+                                               placeholder="Wachtwoord herhalen" required>
                                     </fieldset>
                                 </div>
                                 <div class="col-lg-12">
-                                    <fieldset>
-                                        <button type="submit" class="main-button" id="nextWizard1">Volgende</button>
-                                    </fieldset>
                                 </div>
                             </div>
                         </div>
-                        <div class="registerPart2">
+
+                        <div class="tab" data-wizard-state="pending" id="personal-field">
                             <img class="registerImg"
                                  src="https://pics.freeicons.io/uploads/icons/png/8835701331556281664-512.png">
                             <div class="row">
@@ -52,7 +57,7 @@
                                         <input name="firstname" type="text" class="form-control"
                                                id="firstnameRegister"
                                                placeholder="Voornaam"
-                                        >
+                                               required>
                                     </fieldset>
                                 </div>
                                 <div class="col-lg-6 col-md-12 col-sm-12">
@@ -60,7 +65,7 @@
                                         <label for="lastnameRegister">Achternaam</label>
                                         <input name="lastname" type="text" id="lastnameRegister"
                                                class="form-control"
-                                               placeholder="Achternaam">
+                                               placeholder="Achternaam" required>
                                     </fieldset>
                                 </div>
                                 <div class="col-lg-6 col-md-12 col-sm-12">
@@ -68,60 +73,53 @@
                                         <label for="birthdateRegister">Geboortedatum</label>
                                         <input name="birthdate" type="date" id="birthdateRegister"
                                                class="form-control"
-                                               placeholder="Geboortedatum">
+                                               placeholder="Geboortedatum" required>
                                     </fieldset>
                                 </div>
                                 <div class="col-lg-12">
-                                    <fieldset>
-                                        <button class="main-button" id="backWizard1">Terug</button>
-                                        <button type="submit" class="main-button" id="nextWizard2">Volgende</button>
-                                    </fieldset>
                                 </div>
                             </div>
                         </div>
-                        <div class="registerPart3">
-                            <img class="registerImg"
-                                 src="https://pics.freeicons.io/uploads/icons/png/9293099951595156175-512.png"
-                                 alt="test">
-                            <div class="row">
+                        <div class="tab" data-wizard-state="pending" id="school-field">
+                                <img class="registerImg"
+                                     src="https://pics.freeicons.io/uploads/icons/png/9293099951595156175-512.png"
+                                     alt="test">
+                                <div class="row">
 
-                                <div class="col-lg-6 col-md-12 col-sm-12">
-                                    <fieldset>
-                                        <label for="schoolNameRegister">Naam van school</label>
-                                        <input name="schoolName" type="text" id="schoolNameRegister"
-                                               class="form-control"
-                                               placeholder="Naam school"
-                                        >
-                                    </fieldset>
+                                    <div class="col-lg-6 col-md-12 col-sm-12">
+                                        <fieldset>
+                                            <label for="schoolNameRegister">Naam van school</label>
+                                            <input name="schoolName" type="text" id="schoolNameRegister"
+                                                   class="form-control"
+                                                   placeholder="Naam school" required>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-6 col-md-12 col-sm-12">
+                                        <fieldset>
+                                            <label for="countryRegister">Land van school</label>
+                                            <input name="country" type="text" id="countryRegister" class="form-control"
+                                                   placeholder="Land"  required>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-12">
+                                    </div>
                                 </div>
-                                <div class="col-lg-6 col-md-12 col-sm-12">
-                                    <fieldset>
-                                        <label for="countryRegister">Land van school</label>
-                                        <input name="country" type="text" id="countryRegister" class="form-control"
-                                               placeholder="Land">
-                                    </fieldset>
-                                </div>
-                                <div class="col-lg-12">
-                                    <fieldset>
-                                        <button class="main-button" id="backWizard2">Terug</button>
-                                        <button type="submit" id="form-submit" class="main-button">Registreren
-                                        </button>
-                                    </fieldset>
-                                </div>
-                            </div>
                         </div>
-                    </form>
+                    </div>
+
+                    <div class="bottom-nav">
+                        <fieldset>
+                            <button type="button" class="main-button" id="back" style="display: none">Terug</button>
+                            <button type="button" class="main-button" id="next">Volgende</button>
+                            <button type="button" class="main-button" id="finish" style="display: none">Verzenden</button>
+                        </fieldset>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- ***** Welcome Area End ***** -->
 
-<!-- ***** Features Small Start ***** -->
 <section class="section home-feature">
 
 </section>
-<!-- ***** Features Small End ***** -->
-
-<!-- ***** Features Big Item Start ***** -->
