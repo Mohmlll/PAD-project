@@ -107,6 +107,21 @@ app.post('/register', (req, res) => {
     })
 
 })
+app.post('/duplicateCheck', (req, res) => {
+    const email = req.body.email;
+
+    db.handleQuery(connectionPool, {
+        query: "SELECT email FROM user WHERE email = ?",
+        values: [email.toLowerCase()]
+    }, data => {
+        res.json(data);
+
+    }, err => {
+        console.log(err);
+        res.json({message: "F"})
+    })
+
+})
 
 //------- END ROUTES -------
 

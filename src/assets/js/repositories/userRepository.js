@@ -22,16 +22,22 @@ class UserRepository {
      */
     async login(username, password) {
         return await networkManager
-            .doRequest(`${this.route}/login`, {"username": username, "password": password}, "POST");
+            .doRequest(`${this.route}/login`, {"username": username,
+                "password": password}, "POST");
     }
 
     async delete() {
 
     }
 
-
-    async register(username, password) {
-
+    async duplicateCheck(email){
+        return await networkManager.doRequest(`/duplicateCheck`, {email:email}, "POST");
+    }
+    async register(email, password, firstname, lastname, birthdate, schoolName, country) {
+        return await networkManager
+            .doRequest(`/register`, {email: email, password: password,
+                firstname: firstname, lastname: lastname, birthdate: birthdate
+                , schoolName: schoolName, country: country}, "POST");
     }
 
     async update(id, values = {}) {

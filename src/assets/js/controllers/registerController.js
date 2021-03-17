@@ -1,10 +1,65 @@
 class RegisterController {
     constructor() {
+        this.userRepository = new UserRepository();
+
         $.get("views/register.html")
             .then((data) => this.setup(data))
             .catch(() => this.error());
     }
 
+
+    //Called when the home.html has been loaded
+
+    setup(data) {
+        //Load the welcome-content into memory
+        this.registerView = $(data);
+
+        $("#next", this.registerView).on("click", (e) => {
+            const currentStep = $(".tab[data-wizard-state='current']", this.registerView);
+            const nextStep = currentStep.next();
+
+
+            // validate for
+            if (!this.validateStepForm(currentStep))
+                return;
+
+            if (nextStep.length === 1) {
+                currentStep.attr('data-wizard-state', 'done');
+                nextStep.attr('data-wizard-state', 'current');
+            }
+
+            // set buttons
+            this.setWizardButtons(nextStep);
+        });
+
+        $("#back", this.registerView).on("click", (e) => {
+            const currentStep = $(".tab[data-wizard-state='current']", this.registerView);
+            const prevStep = currentStep.prev();
+
+            if (prevStep.length === 1) {
+                currentStep.attr('data-wizard-state', 'pending');
+                prevStep.attr('data-wizard-state', 'current');
+            }
+
+            this.setWizardButtons(prevStep);
+        });
+
+        $("#finish", this.registerView).on("click", (e) => {
+            const currentStep = $(".tab[data-wizard-state='current']", this.registerView);
+
+            //the 'return;' stops when has invalid fields
+            if (!this.validateStepForm(currentStep))
+                return;
+
+            // post user
+            this.onRegister();
+
+        });
+
+        //Empty the content-div and add the resulting view to the page
+        $(".content").empty().append(this.registerView);
+
+    }
 
     async onRegister() {
         let email = $('input[name=email]', this.registerView).val();
@@ -17,20 +72,29 @@ class RegisterController {
         let country = $('input[name=country]', this.registerView).val();
 
 
-            await $.ajax({
-                url: baseUrl + "/register",
-                data: JSON.stringify({
-                    email: email, password: password,
-                    firstname: firstname, lastname: lastname, birthdate: birthdate
-                    , schoolName: schoolName, country: country
-                }),
-                contentType: "application/json",
-                method: "POST"
-            });
 
+
+        try {
+            const user = await this.userRepository.register(email, password, firstname, lastname, birthdate, schoolName, country)
+            console.log(user);
+            
+            const email = await this.userRepository.duplicateCheck(email)
+            console.log(email)
+
+            sessionManager.set("email", user.email);
+            app.loadController(CONTROLLER_HOME);
+        } catch (e) {
+            if (e.code === 401) {
+                this.registerView
+                    .find(".error")
+                    .html(e.reason);
+            } else {
+                console.log(e);
+            }
+        }
     }
 
-    setWizardButtons(currentStep){
+    setWizardButtons(currentStep) {
         const buttons = $(".bottom-nav", this.registerView);
 
         if (currentStep.next().length === 0) {
@@ -69,59 +133,10 @@ class RegisterController {
         return errorCount === 0;
     }
 
-    //Called when the home.html has been loaded
-    setup(data) {
-        //Load the welcome-content into memory
-        this.registerView = $(data);
-
-        $("#next", this.registerView).on("click", (e) => {
-            const currentStep = $(".tab[data-wizard-state='current']", this.registerView);
-            const nextStep = currentStep.next();
-            
-
-            // validate for
-            if (!this.validateStepForm(currentStep))
-                return;
-
-            if (nextStep.length === 1) {
-                currentStep.attr('data-wizard-state', 'done');
-                nextStep.attr('data-wizard-state', 'current');
-            }
-
-            // set buttons
-            this.setWizardButtons(nextStep);
-        });
-
-        $("#back", this.registerView).on("click", (e) => {
-            const currentStep = $(".tab[data-wizard-state='current']", this.registerView);
-            const prevStep = currentStep.prev();
-
-            if (prevStep.length === 1) {
-                currentStep.attr('data-wizard-state', 'pending');
-                prevStep.attr('data-wizard-state', 'current');
-            }
-
-            this.setWizardButtons(prevStep);
-        });
-
-        $("#finish", this.registerView).on("click", (e) => {
-            const currentStep = $(".tab[data-wizard-state='current']", this.registerView);
-
-            //the 'return;' stops when has invalid fields
-            if (!this.validateStepForm(currentStep))
-                return;
-
-            // post user
-            this.onRegister();
-        });
-
-        //Empty the content-div and add the resulting view to the page
-        $(".content").empty().append(this.registerView);
-
-    }
     //Called when the register.html fails to load
     error() {
         $(".content").html("Failed to load content!");
     }
+
 
 }

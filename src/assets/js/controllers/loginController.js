@@ -33,14 +33,15 @@ class LoginController {
         event.preventDefault();
 
         //Find the email and password
-        const email = this.loginView.find("[name='email']").val();
+        const username = this.loginView.find("[name='email']").val();
         let password = this.loginView.find("[name='password']").val();
 
         try{
             //await keyword 'stops' code until data is returned - can only be used in async function
-            const user = await this.userRepository.login(email, password);
 
-            sessionManager.set("email", user.email);
+            const user = await this.userRepository.login(username, password);
+
+            sessionManager.set("username", user.username);
             app.loadController(CONTROLLER_WELCOME);
 
         } catch(e) {
