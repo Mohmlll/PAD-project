@@ -15,15 +15,15 @@ class RegisterController {
         this.registerView = $(data);
 
         $("#next", this.registerView).on("click", async (e) => {
-            //hier email duplicate check
+            //email value from input checked in data base with emailCheck
             let email = $('input[name=email]', this.registerView).val();
             const emailCheck = await this.userRepository.duplicateCheck(email);
-            //password duplicate check
+
+            //password duplicate check values
             let password = $('input[name=password]', this.registerView).val();
             let passwordCheck = $('input[name=passwordCheck]', this.registerView).val();
-            console.log("email", email);
-            console.log("emailCheck", emailCheck);
 
+            //currentStep is the current registration step and nextStep is the next registration step
             const currentStep = $(".tab[data-wizard-state='current']", this.registerView);
             const nextStep = currentStep.next();
             //
@@ -31,15 +31,13 @@ class RegisterController {
             // validate for
             if (!validate)
                 return;
-
+            
             if (nextStep.length === 1) {
                 currentStep.attr('data-wizard-state', 'done');
                 nextStep.attr('data-wizard-state', 'current');
             }
             // set buttons
             this.setWizardButtons(nextStep);
-
-
         });
 
         $("#back", this.registerView).on("click", (e) => {
@@ -50,7 +48,6 @@ class RegisterController {
                 currentStep.attr('data-wizard-state', 'pending');
                 prevStep.attr('data-wizard-state', 'current');
             }
-
             this.setWizardButtons(prevStep);
         });
 
@@ -63,7 +60,6 @@ class RegisterController {
 
             // post user
             this.onRegister();
-
         });
 
         //Empty the content-div and add the resulting view to the page
@@ -80,12 +76,9 @@ class RegisterController {
         let schoolName = $('input[name=schoolName]', this.registerView).val();
         let country = $('input[name=country]', this.registerView).val();
 
-
         try {
             const user = await this.userRepository.register(email, password, firstname, lastname, birthdate, schoolName, country)
             console.log(user);
-
-
             sessionManager.set("email", user.email);
             app.loadController(CONTROLLER_HOME);
         } catch (e) {
