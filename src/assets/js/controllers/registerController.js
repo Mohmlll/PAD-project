@@ -40,7 +40,7 @@ class RegisterController {
             this.setWizardButtons(nextStep);
         });
 
-        $("#back", this.registerView).on("click", (e) => {
+        $("#back", this.registerView).on("click", async (e) => {
             const currentStep = $(".tab[data-wizard-state='current']", this.registerView);
             const prevStep = currentStep.prev();
 
@@ -51,15 +51,19 @@ class RegisterController {
             this.setWizardButtons(prevStep);
         });
 
-        $("#finish", this.registerView).on("click", (e) => {
+        $("#finish", this.registerView).on("click", async (e) => {
             const currentStep = $(".tab[data-wizard-state='current']", this.registerView);
+            let password = $('input[name=password]', this.registerView).val();
+            let passwordCheck = $('input[name=passwordCheck]', this.registerView).val();
+            let email = $('input[name=email]', this.registerView).val();
+            const emailCheck = await this.userRepository.duplicateCheck(email);
 
             //the 'return;' stops when has invalid fields
-            if (!this.validateStepForm(currentStep))
+            if (!this.validateStepForm(currentStep, emailCheck, password, passwordCheck))
                 return;
 
             // post user
-            this.onRegister();
+            await this.onRegister();
         });
 
         //Empty the content-div and add the resulting view to the page
