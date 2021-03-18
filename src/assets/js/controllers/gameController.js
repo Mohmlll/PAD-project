@@ -49,6 +49,8 @@ class GameController {
 
     }
 
+
+
     //Called when the home.html has been loaded
     setup(data) {
         //Load the welcome-content into memory

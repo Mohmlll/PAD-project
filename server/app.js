@@ -138,7 +138,7 @@ app.get('/game', (req, res) => {
 });
 app.get('/material', (req, res) => {
     db.handleQuery(connectionPool, {
-        query: "select * from game_material order by id_game"
+        query: "select * from material"
     }, d => {
         res.json(d);
     }, err => {
@@ -150,7 +150,7 @@ app.get('/material', (req, res) => {
 });
 app.post('/material', (req, res) => {
     db.handleQuery(connectionPool, {
-        query: "insert into game_material(id_game, material, amount) values(?,?,?)",
+        query: "insert into game_has_material(game-id_game, material_id, amount) values(?,?,?)",
         values: [req.body.game, req.body.material, req.body.amount,req.body.difHard]
     }, (data) => {
         res.json({data})

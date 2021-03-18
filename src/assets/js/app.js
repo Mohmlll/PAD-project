@@ -20,7 +20,6 @@ const CONTROLLER_GAME_CREATE = "gameCreate";
 const sessionManager = new SessionManager();
 const networkManager = new NetworkManager();
 const templateManager = new TemplateManager();
-let result;
 class App {
 
 

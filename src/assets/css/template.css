@@ -1653,3 +1653,15 @@ preloader
     margin-top: .5rem;
     margin-bottom: 0;
 }
+.labelMaterials{
+    padding-top: 6px;
+}
+.inputNumber{
+    max-width: 60px;
+    text-align: center;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
