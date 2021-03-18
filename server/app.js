@@ -136,6 +136,29 @@ app.get('/game', (req, res) => {
         })
     });
 });
+app.get('/material', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "select * from game_material order by id_game"
+    }, d => {
+        res.json(d);
+    }, err => {
+        res.status(500);
+        res.json({
+            message: err.message
+        })
+    });
+});
+app.post('/material', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "insert into game_material(id_game, material, amount) values(?,?,?)",
+        values: [req.body.game, req.body.material, req.body.amount,req.body.difHard]
+    }, (data) => {
+        res.json({data})
+    }, (err) => {
+        console.log(err);
+        res.json({message: "F"})
+    });
+});
 
 
 app.post('/game', (req, res) => {

@@ -3,6 +3,7 @@ class GameCreateController {
         $.get("views/gameCreate.html")
             .then((data) => this.setup(data))
             .catch(() => this.error());
+
     }
 
     async onAddGame() {
@@ -29,11 +30,33 @@ class GameCreateController {
                 targetAudience: targetAudience,
                 gameType: gameType,
                 amountStudents: amountStudents,
-                sampleFile: sampleFile
+                sampleFile: sampleFile,
             }),
             contentType: "application/json",
             method: "POST"
         });
+    }
+
+    add() {
+        let input = $('#noOfRoom'),
+            value = input.val();
+
+        input.val(++value);
+
+        if (value > 0) {
+            $('#subs').removeAttr('disabled');
+        }
+    }
+
+    remove() {
+        let input = $('#noOfRoom'),
+            value = input.val();
+
+        if (value > 0) {
+            input.val(--value);
+        } else {
+            $('#subs').attr('disabled', 'disabled');
+        }
     }
 
 
@@ -42,13 +65,26 @@ class GameCreateController {
         //Load the welcome-content into memory
         this.gameView = $(data);
 
+
+        $('#adds', this.gameView).on("click", (e) => {
+            e.preventDefault();
+            this.add()
+
+        });
+        $('#subs', this.gameView).on("click", (e) => {
+            e.preventDefault();
+            this.remove()
+        });
+
         $('#game', this.gameView).on("submit", (e) => {
             e.preventDefault();
             this.onAddGame();
         })
 
+
         //Empty the content-div and add the resulting view to the page
         $(".content").empty().append(this.gameView);
+
     }
 
     //Called when the game.html fails to load

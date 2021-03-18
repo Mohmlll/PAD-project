@@ -44,7 +44,7 @@ class App {
      * @returns {boolean} - successful controller change
      */
     loadController(name, controllerData) {
-        console.log("loadController: " + name);
+        // console.log("loadController: " + name);
 
         if (controllerData) {
             console.log(controllerData);
@@ -154,6 +154,7 @@ class App {
         //go to login screen
         this.loadController(CONTROLLER_LOGIN);
     }
+
 }
 
 const app = new App();
