@@ -18,7 +18,7 @@ class RegisterController {
             //hier email duplicate check
             let email = $('input[name=email]', this.registerView).val();
             const emailCheck = await this.userRepository.duplicateCheck(email);
-            //
+            //password duplicate check
             let password = $('input[name=password]', this.registerView).val();
             let passwordCheck = $('input[name=passwordCheck]', this.registerView).val();
             console.log("email", email);
@@ -26,19 +26,10 @@ class RegisterController {
 
             const currentStep = $(".tab[data-wizard-state='current']", this.registerView);
             const nextStep = currentStep.next();
-
-            if  (password !== passwordCheck) {
-                const passwordInput =  $("#passwordCheckRegister");
-                passwordInput.removeClass('input-success');
-                passwordInput.addClass('input-error');
-            }else{
-                await
-                $("#passwordCheckRegister").removeClass('input-error');
-                $("#passwordCheckRegister").addClass('input-success');
-            }
-
+            //
+            const validate = await this.validateStepForm(currentStep, emailCheck, password, passwordCheck);
             // validate for
-            if (!this.validateStepForm(currentStep, emailCheck))
+            if (!validate)
                 return;
 
             if (nextStep.length === 1) {
@@ -130,17 +121,36 @@ class RegisterController {
     validateStepForm(tab, email, password, passwordCheck) {
         const inputs = tab.find('[required]');
         let errorCount = 0;
+        const passwordInput = $("#passwordCheckRegister");
+        const emailInput = $("#emailRegister");
+
 
         for (const input of inputs) {
             const elem = $(input);
 
-            if (!elem.is(":valid") || email.length !== 0 || password !== passwordCheck ) {
+            if (!elem.is(":valid")) {
                 elem.removeClass('input-success');
                 elem.addClass('input-error');
                 errorCount++;
             } else {
                 elem.removeClass('input-error');
                 elem.addClass('input-success');
+            }
+            if (password !== passwordCheck) {
+                errorCount++
+                passwordInput.removeClass('input-success');
+                passwordInput.addClass('input-error');
+            } else {
+                passwordInput.removeClass('input-error');
+                passwordInput.addClass('input-success');
+            }
+            if (email.length !== 0) {
+                errorCount++
+                emailInput.removeClass('input-success');
+                emailInput.addClass('input-error');
+            } else {
+                emailInput.removeClass('input-error');
+                emailInput.addClass('input-success');
             }
         }
 
