@@ -14,22 +14,41 @@ class RegisterController {
         //Load the welcome-content into memory
         this.registerView = $(data);
 
-        $("#next", this.registerView).on("click", (e) => {
+        $("#next", this.registerView).on("click", async (e) => {
+            //hier email duplicate check
+            let email = $('input[name=email]', this.registerView).val();
+            const emailCheck = await this.userRepository.duplicateCheck(email);
+            //
+            let password = $('input[name=password]', this.registerView).val();
+            let passwordCheck = $('input[name=passwordCheck]', this.registerView).val();
+            console.log("email", email);
+            console.log("emailCheck", emailCheck);
+
             const currentStep = $(".tab[data-wizard-state='current']", this.registerView);
             const nextStep = currentStep.next();
 
+            if  (password !== passwordCheck) {
+                const passwordInput =  $("#passwordCheckRegister");
+                passwordInput.removeClass('input-success');
+                passwordInput.addClass('input-error');
+            }else{
+                await
+                $("#passwordCheckRegister").removeClass('input-error');
+                $("#passwordCheckRegister").addClass('input-success');
+            }
 
             // validate for
-            if (!this.validateStepForm(currentStep))
+            if (!this.validateStepForm(currentStep, emailCheck))
                 return;
 
             if (nextStep.length === 1) {
                 currentStep.attr('data-wizard-state', 'done');
                 nextStep.attr('data-wizard-state', 'current');
             }
-
             // set buttons
             this.setWizardButtons(nextStep);
+
+
         });
 
         $("#back", this.registerView).on("click", (e) => {
@@ -64,7 +83,6 @@ class RegisterController {
     async onRegister() {
         let email = $('input[name=email]', this.registerView).val();
         let password = $('input[name=password]', this.registerView).val();
-        let passwordCheck = $('input[name=passwordCheck]', this.registerView).val();
         let firstname = $('input[name=firstname]', this.registerView).val();
         let lastname = $('input[name=lastname]', this.registerView).val();
         let birthdate = $('input[name=birthdate]', this.registerView).val();
@@ -72,14 +90,10 @@ class RegisterController {
         let country = $('input[name=country]', this.registerView).val();
 
 
-
-
         try {
             const user = await this.userRepository.register(email, password, firstname, lastname, birthdate, schoolName, country)
             console.log(user);
-            
-            const email = await this.userRepository.duplicateCheck(email)
-            console.log(email)
+
 
             sessionManager.set("email", user.email);
             app.loadController(CONTROLLER_HOME);
@@ -113,14 +127,14 @@ class RegisterController {
         }
     }
 
-    validateStepForm(tab) {
+    validateStepForm(tab, email, password, passwordCheck) {
         const inputs = tab.find('[required]');
         let errorCount = 0;
 
         for (const input of inputs) {
             const elem = $(input);
 
-            if (!elem.is(":valid")) {
+            if (!elem.is(":valid") || email.length !== 0 || password !== passwordCheck ) {
                 elem.removeClass('input-success');
                 elem.addClass('input-error');
                 errorCount++;
