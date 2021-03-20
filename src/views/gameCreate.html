@@ -16,15 +16,7 @@
                                            placeholder="Omschrijving" required>
                                 </fieldset>
                             </div>
-                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                <fieldset>
-                                    <input name="materials" type="text" class="form-control"
-                                           placeholder="Materialen" required>
-                                </fieldset>
 
-<!--                                   Materialen: Lintjes,Fluitjes,Pionnen,Hoedjes,Klokje,Bal,Hoepel,Stopwatch-->
-
-                            </div>
                             <div class="col-lg-6 col-md-12 col-sm-12">
                                 <fieldset>
                                     <input name="rules" type="text" class="form-control"
@@ -45,15 +37,27 @@
                             </div>
                             <div class="col-lg-6 col-md-12 col-sm-12">
                                 <fieldset>
-                                    <input name="target-audience" type="text" class="form-control"
-                                           placeholder="Doelgroep" required>
+                                    <label for="target-audience-min">Doelgroep vanaf</label>
+                                    <select name="target-audience-min" id="target-audience-min">
+                                        <div id="audienceviewMin">
+
+                                        </div>
+                                    </select>
+                                    <label for="target-audience-max"> T/M</label>
+                                    <select name="target-audience-max" id="target-audience-max">
+
+                                    </select>
                                 </fieldset>
                             </div>
+
                             <div class="col-lg-6 col-md-12 col-sm-12">
                                 <fieldset>
-                                    <input name="game-type" type="text" class="form-control"
-                                           placeholder="Soort spel" required>
+                                    <label for="gametype">Soort spel</label>
+                                    <select name="gametype" id="gametype">
+
+                                    </select>
                                 </fieldset>
+                                <label for="materialview">Materialen</label>
                                 <div id="materialview">
 
                                 </div>

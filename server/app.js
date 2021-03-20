@@ -148,10 +148,46 @@ app.get('/material', (req, res) => {
         })
     });
 });
-app.post('/material', (req, res) => {
+app.get('/materials', (req, res) => {
     db.handleQuery(connectionPool, {
-        query: "insert into game_has_material(game-id_game, material_id, amount) values(?,?,?)",
-        values: [req.body.game, req.body.material, req.body.amount,req.body.difHard]
+        query: "select * from game_has_material"
+    }, d => {
+        res.json(d);
+    }, err => {
+        res.status(500);
+        res.json({
+            message: err.message
+        })
+    });
+});
+app.get('/audience', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "select * from audience"
+    }, d => {
+        res.json(d);
+    }, err => {
+        res.status(500);
+        res.json({
+            message: err.message
+        })
+    });
+});
+app.get('/gametype', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "select * from type"
+    }, d => {
+        res.json(d);
+    }, err => {
+        res.status(500);
+        res.json({
+            message: err.message
+        })
+    });
+});
+app.post('/materials', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "insert into game_has_material(game_id_game, material_id, amount) values(?,?,?)",
+        values: [req.body.game, req.body.material, req.body.amount]
     }, (data) => {
         res.json({data})
     }, (err) => {
@@ -163,8 +199,8 @@ app.post('/material', (req, res) => {
 
 app.post('/game', (req, res) => {
     db.handleQuery(connectionPool, {
-        query: "insert into game(name, description, rules, target_audience, type, amount_players, differentiates_easy, differentiates_hard) values(?,?,?,?,?,?,?,?)",
-        values: [req.body.name, req.body.description, req.body.rules, req.body.targetAudience, req.body.gameType, req.body.amountStudents, req.body.difEasy, req.body.difHard]
+        query: "insert into game(name, description, rules, target_audience_min, target_audience_max, type, amount_players, differentiates_easy, differentiates_hard) values(?,?,?,?,?,?,?,?,?)",
+        values: [req.body.name, req.body.description, req.body.rules, req.body.audienceMin, req.body.audienceMax, req.body.type, req.body.amountStudents, req.body.difEasy, req.body.difHard]
     }, (data) => {
         res.json({data})
     }, (err) => {

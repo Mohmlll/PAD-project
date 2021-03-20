@@ -1,8 +1,49 @@
 class GameCreateController {
+
     constructor() {
         $.get("views/gameCreate.html")
             .then((data) => this.setup(data))
             .catch(() => this.error());
+    }
+
+
+    async getDropDownDataAudience() {
+        // get data
+        this.dropDownData = await $.ajax({
+            url: baseUrl + "/audience",
+            contentType: "application/json",
+            method: "get"
+        });
+        this.intDropDownData = this.dropDownData.length;
+
+        for (let i = 0; i < this.intDropDownData; i++) {
+            let optionMin = $('<option class="audienceMin"></option>').attr("value", "option value");
+            let optionMax = $('<option class="audienceMax"></option>').attr("value", "option value");
+            optionMin.text(this.dropDownData[i]["audience"])
+            optionMax.text(this.dropDownData[i]["audience"])
+            optionMin.appendTo("#target-audience-min");
+            optionMax.appendTo("#target-audience-max");
+        }
+
+
+    }
+
+    async getDropDownDataGameType() {
+        // get data
+        this.dropDownDataGameType = await $.ajax({
+            url: baseUrl + "/gametype",
+            contentType: "application/json",
+            method: "get"
+        });
+        this.intDropDownDataGameType = this.dropDownDataGameType.length;
+
+        for (let i = 0; i < this.intDropDownDataGameType; i++) {
+            let option = $('<option class="gameType"></option>').attr("value", "option value");
+            option.text(this.dropDownDataGameType[i]["type"])
+            option.appendTo("#gametype");
+        }
+
+
     }
 
     async onAddGame() {
@@ -12,11 +53,11 @@ class GameCreateController {
         let rules = $('input[name=rules]', this.gameView).val();
         let difEasy = $('input[name=dif-easy]', this.gameView).val();
         let difHard = $('input[name=dif-hard]', this.gameView).val();
-        let targetAudience = $('input[name=target-audience]', this.gameView).val();
-        let gameType = $('input[name=game-type]', this.gameView).val();
         let amountStudents = $('input[name=amount-students]', this.gameView).val();
         let sampleFile = $('input[name=sampleFile]', this.gameView).val();
-
+        let type = $("#gametype option:selected").text();
+        let audienceMin = $("#target-audience-min option:selected").text();
+        let audienceMax = $("#target-audience-max option:selected").text();
         await $.ajax({
             url: baseUrl + "/game",
             data: JSON.stringify({
@@ -26,10 +67,11 @@ class GameCreateController {
                 rules: rules,
                 difEasy: difEasy,
                 difHard: difHard,
-                targetAudience: targetAudience,
-                gameType: gameType,
                 amountStudents: amountStudents,
                 sampleFile: sampleFile,
+                type: type,
+                audienceMin: audienceMin,
+                audienceMax: audienceMax,
             }),
             contentType: "application/json",
             method: "POST"
@@ -47,7 +89,7 @@ class GameCreateController {
         // get template
         let materialTemplate = await $.get("views/materialTemplate.html")
 
-        // loop trough available games
+        // loop trough available materials
         for (let i = 0; i < this.result.length; i++) {
             const resultUsable = this.result[i];
 
@@ -65,6 +107,7 @@ class GameCreateController {
         }
 
     }
+
 
     add() {
         for (let i = 1; i <= this.intResult; i++) {
@@ -94,28 +137,62 @@ class GameCreateController {
                     $('#adds' + i).removeAttr('disabled');
                 }
             });
-
         }
     }
 
+
+    async onGetGame() {
+        //TODO Every 5 or 10 seconds refresh.
+        this.games = await $.ajax({
+            url: baseUrl + "/game",
+            contentType: "application/json",
+            method: "get"
+        });
+
+        for (let i = 0; i < this.games.length; i++) {
+            this.game = this.games[i]["id_game"] + 1;
+        }
+    }
+
+    async saveMaterials() {
+        let material;
+        let amount;
+
+        for (let i = 1; i <= this.intResult; i++) {
+            material = i;
+            amount = Number($('#subs' + i).next().val());
+
+            await $.ajax({
+                url: baseUrl + "/materials",
+                data: JSON.stringify({
+                    game: this.game,
+                    material: material,
+                    amount: amount
+                }),
+                contentType: "application/json",
+                method: "POST"
+            });
+        }
+
+    }
 
     //Called when the home.html has been loaded
     async setup(data) {
 
         //Load the welcome-content into memory
         this.gameView = $(data);
+        await this.onGetGame();
 
         $('#game', this.gameView).on("submit", (e) => {
-            e.preventDefault();
             this.onAddGame();
-
+            this.saveMaterials();
         })
 
         //Empty the content-div and add the resulting view to the page
         $(".content").empty().append(this.gameView);
-
+        await this.getDropDownDataAudience();
+        await this.getDropDownDataGameType();
         await this.onGetMaterial();
-
         this.add()
         this.remove()
     }

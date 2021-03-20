@@ -23,7 +23,8 @@ class GameController {
             let gameId = row["id_game"];
             let name = row["name"];
             let description = row["description"];
-            let target_audience = row["target_audience"];
+            let target_audience_min = row["target_audience_min"];
+            let target_audience_max = row["target_audience_max"];
             let type = row["type"];
             let amount_players = row["amount_players"];
             let rules = row["rules"];
@@ -34,7 +35,8 @@ class GameController {
             let gameRowTemplate = $(gameTemplate);
             gameRowTemplate.find(".name").text(name);
             gameRowTemplate.find(".description").text(description);
-            gameRowTemplate.find(".target_audience").text(target_audience);
+            gameRowTemplate.find(".target_audience_min").text(target_audience_min);
+            gameRowTemplate.find(".target_audience_max").text(target_audience_max);
             gameRowTemplate.find(".type").text(type);
             gameRowTemplate.find(".amount_players").text(amount_players);
             gameRowTemplate.find(".rules").text(rules);
@@ -48,7 +50,6 @@ class GameController {
         }
 
     }
-
 
 
     //Called when the home.html has been loaded
