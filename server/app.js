@@ -172,6 +172,7 @@ app.get('/audience', (req, res) => {
         })
     });
 });
+
 app.get('/gametype', (req, res) => {
     db.handleQuery(connectionPool, {
         query: "select * from type"
@@ -184,6 +185,8 @@ app.get('/gametype', (req, res) => {
         })
     });
 });
+
+
 app.post('/materials', (req, res) => {
     db.handleQuery(connectionPool, {
         query: "insert into game_has_material(game_id_game, material_id, amount) values(?,?,?)",

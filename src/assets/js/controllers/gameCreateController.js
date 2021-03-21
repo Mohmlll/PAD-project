@@ -176,6 +176,7 @@ class GameCreateController {
 
     }
 
+
     //Called when the home.html has been loaded
     async setup(data) {
 
@@ -187,6 +188,7 @@ class GameCreateController {
             this.onAddGame();
             this.saveMaterials();
         })
+
 
         //Empty the content-div and add the resulting view to the page
         $(".content").empty().append(this.gameView);
