@@ -1680,7 +1680,7 @@ input::-webkit-inner-spin-button {
     cursor: pointer;
 }
 
-.gameAudienceFilterDropButtonMin, .gameAudienceFilterDropButtonMax  {
+.gameAudienceFilterDropButtonMin, .gameAudienceFilterDropButtonMax {
     background-color: #8261ee;
     color: white;
     padding: 16px;
@@ -1690,7 +1690,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Dropdown button on hover & focus */
-.gameTypeFilterDropButton:hover, .gameTypeFilterDropButton:focus, .gameAudienceFilterDropButtonMin:focus, .gameAudienceFilterDropButtonMin:focus, .gameAudienceFilterDropButtonMax:focus, .gameAudienceFilterDropButtonMax:focus {
+.gameTypeFilterDropButton:hover, .gameTypeFilterDropButton:focus, .gameAudienceFilterDropButtonMin:hover, .gameAudienceFilterDropButtonMin:focus, .gameAudienceFilterDropButtonMax:hover, .gameAudienceFilterDropButtonMax:focus {
     background-color: #ff589e;
 }
 
