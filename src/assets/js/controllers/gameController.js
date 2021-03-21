@@ -24,8 +24,6 @@ class GameController {
         // loop trough available games
         for (let i = 0; i < result.length; i++) {
             const row = result[i];
-            const rowMaterials = this.materials[i];
-
             let gameId = row["id_game"];
             let name = row["name"];
             let description = row["description"];
@@ -116,9 +114,8 @@ class GameController {
 
     filter() {
         for (let j = 0; j < this.games.length; j++) {
-            let input, filter, filter3, a, a2, a3, i, game, txtValue, txtValue2, txtValue3,
-                gametype, gameId, gameAudienceMax,
-                gameAudienceMin;
+            let input, filter, a, i, game, txtValue,
+                gametype, gameId;
 
             input = $('#inputFilter').val();
 
@@ -143,15 +140,45 @@ class GameController {
                 } else {
                     game.hide();
                 }
+
+            }
+        }
+    }
+
+    filter2() {
+        for (let j = 0; j < this.games.length; j++) {
+            let input2, filter2, a2, i, game, txtValue2,
+                gameId, gameAudienceMin;
+            input2 = $('#inputFilter2').val();
+            filter2 = input2.toLowerCase();
+
+            gameId = this.games[j]["id_game"];
+            game = $('#g' + gameId);
+
+            a2 = $('#gameAudienceFilterMin a');
+
+            gameAudienceMin = game.find('.target_audience_min').text().toLowerCase()
+
+            for (i = 0; i < a2.length; i++) {
+                txtValue2 = a2[i].textContent || a2[i].innerText;
+                if (txtValue2.toLowerCase().indexOf(filter2) > -1) {
+                    a2[i].style.display = "";
+                } else {
+                    a2[i].style.display = "none";
+                }
+                if (gameAudienceMin.indexOf(filter2) > -1) {
+                    game.show();
+                } else {
+                    game.hide();
+                }
             }
         }
     }
 
     filter3() {
         for (let j = 0; j < this.games.length; j++) {
-            let input, input2, input3, filter, filter2, filter3, a, a2, a3, i, game, txtValue, txtValue2, txtValue3,
-                gametype, gameId, gameAudienceMax,
-                gameAudienceMin;
+            let input3, filter3, a3, i, game, txtValue3,
+                gameId, gameAudienceMax;
 
             input3 = $('#inputFilter3').val();
 
@@ -172,37 +199,6 @@ class GameController {
                     a3[i].style.display = "none";
                 }
                 if (gameAudienceMax.indexOf(filter3) > -1) {
-                    game.show();
-                } else {
-                    game.hide();
-                }
-            }
-        }
-    }
-
-    filter2() {
-        for (let j = 0; j < this.games.length; j++) {
-            let input, input2, input3, filter, filter2, filter3, a, a2, a3, i, game, txtValue, txtValue2, txtValue3,
-                gametype, gameId, gameAudienceMax,
-                gameAudienceMin;
-            input2 = $('#inputFilter2').val();
-            filter2 = input2.toLowerCase();
-
-            gameId = this.games[j]["id_game"];
-            game = $('#g' + gameId);
-
-            a2 = $('#gameAudienceFilterMin a');
-
-            gameAudienceMin = game.find('.target_audience_min').text().toLowerCase()
-
-            for (i = 0; i < a2.length; i++) {
-                txtValue2 = a2[i].textContent || a2[i].innerText;
-                if (txtValue2.toLowerCase().indexOf(filter2) > -1) {
-                    a2[i].style.display = "";
-                } else {
-                    a2[i].style.display = "none";
-                }
-                if (gameAudienceMin.indexOf(filter2) > -1) {
                     game.show();
                 } else {
                     game.hide();
