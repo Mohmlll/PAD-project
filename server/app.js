@@ -160,6 +160,20 @@ app.get('/materials', (req, res) => {
         })
     });
 });
+app.get('/displayMaterials', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "select * from game_has_material inner join material on game_has_material.material_id = material.id"
+    }, d => {
+        res.json(d);
+    }, err => {
+        res.status(500);
+        res.json({
+            message: err.message
+        })
+    });
+});
+
+
 app.get('/audience', (req, res) => {
     db.handleQuery(connectionPool, {
         query: "select * from audience"

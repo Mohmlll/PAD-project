@@ -1,9 +1,12 @@
+let gameId;
+
 class GameCreateController {
 
     constructor() {
         $.get("views/gameCreate.html")
             .then((data) => this.setup(data))
             .catch(() => this.error());
+
     }
 
 
@@ -49,7 +52,6 @@ class GameCreateController {
     async onAddGame() {
         let name = $('input[name=name]', this.gameView).val();
         let description = $('input[name=description]', this.gameView).val();
-        let materials = $('input[name=materials]', this.gameView).val();
         let rules = $('input[name=rules]', this.gameView).val();
         let difEasy = $('input[name=dif-easy]', this.gameView).val();
         let difHard = $('input[name=dif-hard]', this.gameView).val();
@@ -63,7 +65,6 @@ class GameCreateController {
             data: JSON.stringify({
                 name: name,
                 description: description,
-                materials: materials,
                 rules: rules,
                 difEasy: difEasy,
                 difHard: difHard,
@@ -142,16 +143,21 @@ class GameCreateController {
 
 
     async onGetGame() {
-        //TODO Every 5 or 10 seconds refresh.
-        this.games = await $.ajax({
-            url: baseUrl + "/game",
-            contentType: "application/json",
-            method: "get"
-        });
 
-        for (let i = 0; i < this.games.length; i++) {
-            this.game = this.games[i]["id_game"] + 1;
-        }
+        //this code runs every 4 seconds
+        setInterval(async function () {
+            this.games = await $.ajax({
+                url: baseUrl + "/game",
+                contentType: "application/json",
+                method: "get"
+            });
+
+            for (let i = 0; i < this.games.length; i++) {
+                this.game = this.games[i]["id_game"] + 1;
+            }
+            gameId = this.game;
+        }, 4000);
+
     }
 
     async saveMaterials() {
@@ -165,7 +171,7 @@ class GameCreateController {
             await $.ajax({
                 url: baseUrl + "/materials",
                 data: JSON.stringify({
-                    game: this.game,
+                    game: gameId,
                     material: material,
                     amount: amount
                 }),
@@ -176,17 +182,27 @@ class GameCreateController {
 
     }
 
+    redirectToGames() {
+        setTimeout(function () {
+            window.location.href = "index.html#game";
+            location.reload();
+        }, 1000);
+    }
+
 
     //Called when the home.html has been loaded
     async setup(data) {
 
         //Load the welcome-content into memory
         this.gameView = $(data);
-        await this.onGetGame();
+
+        await this.onGetGame()
 
         $('#game', this.gameView).on("submit", (e) => {
+            e.preventDefault()
             this.onAddGame();
             this.saveMaterials();
+            this.redirectToGames();
         })
 
 

@@ -13,12 +13,18 @@ class GameController {
             method: "get"
         });
         this.games = result;
+        this.materials = await $.ajax({
+            url: baseUrl + "/displaymaterials",
+            contentType: "application/json",
+            method: "get"
+        });
+
         // get template
         let gameTemplate = await $.get("views/templateGame.html")
-
         // loop trough available games
         for (let i = 0; i < result.length; i++) {
             const row = result[i];
+            const rowMaterials = this.materials[i];
 
             let gameId = row["id_game"];
             let name = row["name"];
@@ -35,19 +41,24 @@ class GameController {
             let gameRowTemplate = $(gameTemplate);
             gameRowTemplate.find(".name").text(name);
             gameRowTemplate.find(".description").text(description);
-            gameRowTemplate.find(".target_audience_min").text(target_audience_min);
-            gameRowTemplate.find(".target_audience_max").text(target_audience_max);
+            gameRowTemplate.find(".target_audience_min").text("Vanaf: " + target_audience_min);
+            gameRowTemplate.find(".target_audience_max").text(" T/M: " + target_audience_max);
             gameRowTemplate.find(".type").text(type);
             gameRowTemplate.find(".amount_players").text(amount_players);
             gameRowTemplate.find(".rules").text(rules);
             gameRowTemplate.find(".differentiates_easy").text(differentiates_easy);
             gameRowTemplate.find(".differentiates_hard").text(differentiates_hard);
+            gameRowTemplate.find(".materials").addClass("materials" + gameId).removeClass("materials");
             // gameRowTemplate.find(".game_image").attr("src", "../uploads/" + gameId + ".png");
             gameRowTemplate.find(".game_image").attr("src", "../assets/img/template/blank.jpg");
             gameRowTemplate.find(".collapse").removeClass("collapseSummary").addClass("collapseSummary" + gameId);
             gameRowTemplate.attr("id", "g" + String(gameId))
             gameRowTemplate.find("a[href='.collapseSummary']").attr('href', '.collapseSummary' + gameId);
             gameRowTemplate.appendTo("#gameview");
+        }
+        for (let j = 0; j < this.materials.length; j++) {
+            let gameId = this.materials[j]["game_id_game"];
+            $(".materials" + gameId).append("Soort: " + this.materials[j]["material"] + ", Aantal: " + this.materials[j]["amount"] + "\n\n\n\n\n")
         }
 
     }
@@ -59,6 +70,7 @@ class GameController {
             contentType: "application/json",
             method: "get"
         });
+
         this.intDropDownDataGameTypeFilter = this.dropDownDataGameTypeFilter.length;
 
         for (let i = 0; i < this.intDropDownDataGameTypeFilter; i++) {
@@ -198,6 +210,7 @@ class GameController {
             }
         }
     }
+
 
     //Called when the home.html has been loaded
     async setup(data) {
