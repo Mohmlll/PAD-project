@@ -8,3 +8,12 @@
 .registerPart2, .registerPart3{
     display: none;
 }
+
+.vertical-center {
+    display: flex !important;
+    align-items: center;
+}
+
+.label-small{
+    font-size: 13px;
+}
