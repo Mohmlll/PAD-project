@@ -184,9 +184,9 @@ class GameCreateController {
 
     redirectToGames() {
         setTimeout(function () {
-            window.location.href = "index.html#game";
-            location.reload();
+            app.loadController(CONTROLLER_HOME)
         }, 1000);
+
     }
 
 
