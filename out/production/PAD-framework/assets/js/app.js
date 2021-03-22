@@ -77,7 +77,7 @@ class App {
      * @param fallbackController
      */
     loadControllerFromUrl(fallbackController) {
-        const currentController = this.getCurrentController();
+        const currentController = this.getHash();
 
         if (currentController) {
             if (!this.loadController(currentController)) {
@@ -88,7 +88,7 @@ class App {
         }
     }
 
-    getCurrentController() {
+    getHash() {
         return location.hash.slice(1);
     }
 
