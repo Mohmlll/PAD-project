@@ -48,7 +48,7 @@ class GameController {
             gameRowTemplate.find(".differentiates_hard").text(differentiates_hard);
             gameRowTemplate.find(".materials").addClass("materials" + gameId).removeClass("materials");
             // gameRowTemplate.find(".game_image").attr("src", "../uploads/" + gameId + ".png");
-            gameRowTemplate.find(".game_image").attr("src", "../assets/img/template/blank.jpg");
+            // gameRowTemplate.find(".game_image").attr("src", "../assets/img/template/blank.jpg");
             gameRowTemplate.find(".collapse").removeClass("collapseSummary").addClass("collapseSummary" + gameId);
             gameRowTemplate.attr("id", "g" + String(gameId))
             gameRowTemplate.find("a[href='.collapseSummary']").attr('href', '.collapseSummary' + gameId);
