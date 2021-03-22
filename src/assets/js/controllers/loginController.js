@@ -18,10 +18,31 @@ class LoginController {
         //Load the login-content into memory
         this.loginView = $(data);
 
-        this.loginView.find(".login-form").on("submit", (e) => this.handleLogin(e));
+        $("#login", this.loginView).on("submit", (e) => this.handleLogin(e));
+        $("#forgot", this.loginView).on("submit", (e) => this.handleForgot(e));
 
+        $("#forgot-btn", this.loginView).on("click", (e) => this.setPage(e, 'forgot'));
+        $("#login-btn", this.loginView).on("click", (e) => this.setPage(e, 'login'));
         //Empty the content-div and add the resulting view to the page
         $(".content").empty().append(this.loginView);
+    }
+
+    setPage(event, type){
+        event.preventDefault();
+
+        const login_elements = $("#login, .login-show");
+        const forgot_elements = $("#forgot, .forgot-show");
+
+        switch (type) {
+            case 'forgot':
+                login_elements.hide();
+                forgot_elements.show();
+                break;
+            case 'login':
+                login_elements.show();
+                forgot_elements.hide();
+                break;
+        }
     }
 
     /**
@@ -33,15 +54,37 @@ class LoginController {
         event.preventDefault();
 
         //Find the email and password
-        const email = this.loginView.find("[name='email']").val();
+        const email = this.loginView.find("[name='login_email']").val();
         let password = this.loginView.find("[name='password']").val();
 
         try{
             //await keyword 'stops' code until data is returned - can only be used in async function
-            const user = await this.userRepository.login(email, password);
-
+            const user = await this.userRepository.register(email, password)
             sessionManager.set("email", user.email);
-            app.loadController(CONTROLLER_WELCOME);
+            app.loadController(CONTROLLER_HOME);
+
+        } catch(e) {
+            //if unauthorized error show error to user
+            if(e.code === 401) {
+                this.loginView
+                    .find(".error")
+                    .html(e.reason);
+            } else {
+                console.log(e);
+            }
+        }
+    }
+
+    async handleForgot(event) {
+        //prevent actual submit and page refresh
+        event.preventDefault();
+
+        //Find the email and password
+        const email = this.loginView.find("[name='forgot_email']").val();
+
+        // send email
+        try{
+
 
         } catch(e) {
             //if unauthorized error show error to user
