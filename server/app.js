@@ -34,7 +34,7 @@ const badRequestCode = 400;
 const authorizationErrCode = 401;
 
 app.post("/user/login", (req, res) => {
-    const email = req.body.username;
+    const email = req.body.email;
     let password = cryptoHelper.getHashedPassword(req.body.password);
 
     db.handleQuery(connectionPool, {
@@ -44,7 +44,7 @@ app.post("/user/login", (req, res) => {
         console.log(data);
         if (data.length === 1) {
             //return just the email for now, never send password back!
-            res.status(httpOkCode).json({"email": data[0].username});
+            res.status(httpOkCode).json({"username": data[0].username});
         } else {
             //wrong email
             res.status(authorizationErrCode).json({reason: "Wrong email or password"});
