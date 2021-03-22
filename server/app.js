@@ -34,7 +34,7 @@ const badRequestCode = 400;
 const authorizationErrCode = 401;
 
 app.post("/user/login", (req, res) => {
-    const email = req.body.username;
+    const email = req.body.email;
     let password = cryptoHelper.getHashedPassword(req.body.password);
 
     db.handleQuery(connectionPool, {
@@ -44,7 +44,7 @@ app.post("/user/login", (req, res) => {
         console.log(data);
         if (data.length === 1) {
             //return just the email for now, never send password back!
-            res.status(httpOkCode).json({"email": data[0].username});
+            res.status(httpOkCode).json({"username": data[0].username});
         } else {
             //wrong email
             res.status(authorizationErrCode).json({reason: "Wrong email or password"});
@@ -52,21 +52,6 @@ app.post("/user/login", (req, res) => {
 
     }, (err) => res.status(badRequestCode).json({reason: err}));
 });
-// app.get('/register', (req, res) => {
-//     db.handleQuery(connectionPool, {
-//         query: "INSERT INTO id, email, password FROM user",
-//         values: [id, req.body.emailadres, req.body.passwordRegister]
-//     }, r => {
-//
-//         res.json({});
-//     }, (err) => {
-//         console.log(err);
-//         res.status(500);
-//         res.json({
-//             message: err.message
-//         })
-//     });
-// });
 //dummy data example - rooms
 app.post("/room_example", (req, res) => {
 
@@ -123,6 +108,22 @@ app.post('/register', (req, res) => {
 
 })
 
+app.post('/duplicateCheck', (req, res) => {
+    const email = req.body.email;
+
+    db.handleQuery(connectionPool, {
+        query: "SELECT email FROM user WHERE email = ?",
+        values: [email.toLowerCase()]
+    }, data => {
+        res.json(data);
+
+    }, err => {
+        res.status(500);
+        res.json({
+            message: err.message
+        })
+    });
+});
 
 app.get('/game', (req, res) => {
     db.handleQuery(connectionPool, {
@@ -136,6 +137,7 @@ app.get('/game', (req, res) => {
         })
     });
 });
+
 app.get('/material', (req, res) => {
     db.handleQuery(connectionPool, {
         query: "select * from material"
@@ -229,4 +231,3 @@ app.post('/game', (req, res) => {
 //------- END ROUTES -------
 
 module.exports = app;
-

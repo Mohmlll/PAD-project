@@ -5,7 +5,47 @@
 /*    width: 100%;*/
 /*}*/
 
-.registerPart2, .registerPart3{
+.registerImg{
+    width: 15%;
+}
+input.invalid {
+    background-color: #ffdddd;
+}
+
+.wizard {
+
+}
+
+.wizard .nav{
+
+}
+
+.wizard .nav li{
+
+}
+
+.wizard .bottom-nav{
+
+}
+
+.wizard .bottom-nav button{
+
+}
+
+.wizard .tabs{
+
+}
+
+.wizard .tabs .tab{
+
+}
+
+.wizard .tabs .tab[data-wizard-state="current"] {
+    display: block;
+}
+
+.wizard .tabs .tab[data-wizard-state="pending"],
+.wizard .tabs .tab[data-wizard-state="done"] {
     display: none;
 }
 
@@ -16,4 +56,11 @@
 
 .label-small{
     font-size: 13px;
+}
+
+.input-error{
+    border-color: red !important;
+}
+.input-success{
+    border-color: green !important;
 }

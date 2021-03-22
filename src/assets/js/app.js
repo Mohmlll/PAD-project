@@ -14,14 +14,11 @@ const CONTROLLER_WELCOME = "welcome";
 const CONTROLLER_HOME = "home";
 const CONTROLLER_UPLOAD = "upload";
 const CONTROLLER_REGISTER = "register";
-const CONTROLLER_GAME = "game";
-const CONTROLLER_GAME_CREATE = "gameCreate";
 
 const sessionManager = new SessionManager();
 const networkManager = new NetworkManager();
 const templateManager = new TemplateManager();
 class App {
-
 
     init() {
         //Always load the sidebar
@@ -58,21 +55,21 @@ class App {
 
             case CONTROLLER_HOME:
                 new HomeController();
-                this.setHash(name);
+                this.setCurrentController(name);
                 break;
 
             case CONTROLLER_LOGIN:
-                this.setHash(name);
+                this.setCurrentController(name);
                 this.isLoggedIn(() => new WelcomeController(), () => new LoginController());
                 break;
 
             case CONTROLLER_LOGOUT:
-                this.setHash(name);
+                this.setCurrentController(name);
                 this.handleLogout();
                 break;
 
             case CONTROLLER_WELCOME:
-                this.setHash(name);
+                this.setCurrentController(name);
                 this.isLoggedIn(() => new WelcomeController, () => new LoginController())
                 break;
 
@@ -82,16 +79,7 @@ class App {
 
             case CONTROLLER_REGISTER:
                 new RegisterController();
-                this.setHash(name)
-                break;
-
-            case CONTROLLER_GAME:
-                this.setHash(name);
-                new GameController();
-                break;
-            case CONTROLLER_GAME_CREATE:
-                this.setHash(name);
-                new GameCreateController();
+                this.setCurrentController(name)
                 break;
 
             default:
@@ -104,7 +92,7 @@ class App {
     }
 
     isCurrentController(controller) {
-        return controller === this.getHash();
+        return controller === this.getCurrentController();
     }
 
     /**
@@ -112,7 +100,7 @@ class App {
      * @param fallbackController
      */
     loadControllerFromUrl(fallbackController) {
-        const currentController = this.getHash();
+        const currentController = this.getCurrentController();
 
         if (currentController) {
             if (!this.loadController(currentController)) {
@@ -123,11 +111,11 @@ class App {
         }
     }
 
-    getHash() {
+    getCurrentController() {
         return location.hash.slice(1);
     }
 
-    setHash(name) {
+    setCurrentController(name) {
         location.hash = name;
     }
 
