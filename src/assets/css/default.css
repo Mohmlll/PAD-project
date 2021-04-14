@@ -64,3 +64,55 @@ input.invalid {
 .input-success{
     border-color: green !important;
 }
+#target-audience-max, #target-audience-min{
+
+}
+
+.btn{
+    display:inline-block;
+    border:0.1em solid lightgrey;
+    border-radius:0.12em;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-weight:300;
+    color:#FFFFFF;
+    text-align:center;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.btn i{
+    color:#FFFFFF;
+}
+
+.btn:hover{
+    color:#000000 !important;
+    background-color:#FFFFFF !important;
+}
+
+.btn:hover i{
+    color:#000000 !important;
+}
+
+.btn-default{
+    background-color: #3d6d2e !important;
+}
+
+.no-padding{
+    padding: 0 !important;
+}
+
+.material-input{
+    border-radius:0.12em !important;
+    margin-bottom: 0 !important;
+}
+
+@media (max-width: 991px){
+    .game-container{
+        margin-top: 150px;
+    }
+
+    .game-container > .row > .col-lg-4{
+        margin-top: 25px;
+    }
+}

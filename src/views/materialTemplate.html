@@ -1,6 +1,23 @@
-<div class="col-auto">
-<label class="labelMaterials pull-left"></label>
-<input type="button" value="-" id="subs" class="btn btn-default pull-left" style="margin-right: 2%" />&nbsp;
-<input type="number" min="0" max="99" class="onlyNumber form-control pull-left inputNumber" id="noOfRoom" value="0" name="noOfRoom" />&nbsp;
-<input type="button" value="+" id="adds" class="btn btn-default" />
+<div class="col-md-12 col-sm-12 mt-2">
+    <fieldset>
+        <label class="labelMaterials float-left"></label>
+
+        <div class="row float-right">
+            <div class="col-4 no-padding">
+                <div class="btn btn-default material-minus">
+                    <i class="fas fa-minus"></i>
+                </div>
+            </div>
+
+            <div class="col-4 no-padding">
+                <input type="number" min="0" max="99" value="0" class="form-control material-input center-text"/>
+            </div>
+
+            <div class="col-4 no-padding">
+                <div class="btn btn-default material-plus">
+                    <i class="fas fa-plus"></i>
+                </div>
+            </div>
+        </div>
+    </fieldset>
 </div>
