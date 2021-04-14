@@ -51,13 +51,14 @@ class GameCreateController {
 
     async onAddGame() {
         let name = $('input[name=name]', this.gameView).val();
-        let description = $('input[name=description]', this.gameView).val();
+        let description = $("#game_description", this.gameView).val();
+        // let description = $('input[name=description]', this.gameView).val();
         let rules = $('input[name=rules]', this.gameView).val();
         let difEasy = $('input[name=dif-easy]', this.gameView).val();
         let difHard = $('input[name=dif-hard]', this.gameView).val();
         let amountStudents = $('input[name=amount-students]', this.gameView).val();
         let sampleFile = $('input[name=sampleFile]', this.gameView).val();
-        let type = $("#gametype option:selected").text();
+        let type = $("#game_type option:selected").text();
         let audienceMin = $("#target-audience-min option:selected").text();
         let audienceMax = $("#target-audience-max option:selected").text();
         await $.ajax({
@@ -113,14 +114,15 @@ class GameCreateController {
     add() {
         for (let i = 1; i <= this.intResult; i++) {
             $('#adds' + i, this.gameView).on("click", (e) => {
-                let curr = $('#adds' + i).prev().val();
+                $('#adds' + i).parent().prev().children().val()
+                let curr = $('#adds' + i).parent().prev().children().val()
                 if (curr > 0) {
                     $('#subs' + i).removeAttr('disabled');
                 }
                 if (curr >= 98) {
                     $('#adds' + i).attr('disabled', 'disabled');
                 }
-                $('#adds' + i).prev().val(Number(curr) + 1);
+                $('#adds' + i).parent().prev().children().val(Number(curr) + 1)
             });
         }
     }
@@ -128,11 +130,11 @@ class GameCreateController {
     remove() {
         for (let i = 1; i <= this.intResult; i++) {
             $('#subs' + i, this.gameView).on("click", (e) => {
-                let curr = $('#subs' + i).next().val();
+                let curr = $('#subs' + i).parent().next().children().val();
                 if (curr <= 0) {
                     $('#subs' + i).attr('disabled', 'disabled');
                 } else {
-                    $('#subs' + i).next().val(Number(curr) - 1);
+                    $('#subs' + i).parent().next().children().val(Number(curr) - 1);
                 }
                 if (curr <= 99) {
                     $('#adds' + i).removeAttr('disabled');
@@ -155,6 +157,9 @@ class GameCreateController {
             for (let i = 0; i < this.games.length; i++) {
                 this.game = this.games[i]["id_game"] + 1;
             }
+            if (this.games == null){
+                gameId = 0;
+            }
             gameId = this.game;
         }, 4000);
 
@@ -166,8 +171,7 @@ class GameCreateController {
 
         for (let i = 1; i <= this.intResult; i++) {
             material = i;
-            amount = Number($('#subs' + i).next().val());
-
+            amount = $('#adds' + i).parent().prev().children().val()
             await $.ajax({
                 url: baseUrl + "/materials",
                 data: JSON.stringify({
@@ -198,7 +202,7 @@ class GameCreateController {
 
         await this.onGetGame()
 
-        $('#game', this.gameView).on("submit", (e) => {
+        $('#game', this.gameView).on("click", (e) => {
             e.preventDefault()
             this.onAddGame();
             this.saveMaterials();
