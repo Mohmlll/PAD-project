@@ -417,14 +417,14 @@ header
 
 .header-area .main-nav .nav {
     float: right;
-    margin-top: 27px;
+    margin-top: 0px;
     margin-left: 0px;
     margin-right: 30px;
     -webkit-transition: all 0.3s ease 0s;
     -moz-transition: all 0.3s ease 0s;
     -o-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
-    position: relative;
+    position: fixed;
     z-index: 999;
 }
 
@@ -453,7 +453,7 @@ header
 }
 
 .header-area .main-nav .nav li a:hover {
-    color: #ff589e;
+    color: #4aff00;
 }
 
 .header-area .main-nav .menu-trigger {
@@ -565,7 +565,7 @@ header
 }
 
 .header-area.header-sticky .nav li a.active {
-    color: #ff589e;
+    color: #7eff00;
 }
 
 @media (max-width: 1200px) {

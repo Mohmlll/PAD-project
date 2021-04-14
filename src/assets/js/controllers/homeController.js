@@ -11,10 +11,22 @@ class HomeController {
             .fail(() => this.error());
     }
 
+
+
     //Called when the home.html has been loaded
     setup(data) {
+
         //Load the welcome-content into memory
         this.welcomeView = $(data);
+        this.welcomeView.find("[data-controller]").on("click", NavbarController.handleClickMenuItem);
+
+        $("#gamesButton",this.welcomeView).on("click", (e)=>{
+            app.loadController(CONTROLLER_GAME);
+        });
+
+        $("#registerButton",this.welcomeView).on("click", (e)=>{
+            app.loadController(CONTROLLER_REGISTER);
+        });
 
         //Empty the content-div and add the resulting view to the page
         $(".content").empty().append(this.welcomeView);

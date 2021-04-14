@@ -15,14 +15,21 @@ class WelcomeController {
 
     //Called when the welcome.html has been loaded
     setup(data) {
+
+        console.log("welcomecontroller")
+
+
         //Load the welcome-content into memory
         this.welcomeView = $(data);
 
         //Set the name in the view from the session
         this.welcomeView.find(".name").html(sessionManager.get("username"));
+        this.welcomeView.find("[data-controller]").on("click", NavbarController.handleClickMenuItem);
 
         //Empty the content-div and add the resulting view to the page
         $(".content").empty().append(this.welcomeView);
+
+
 
         this.fetchRooms(1256);
     }

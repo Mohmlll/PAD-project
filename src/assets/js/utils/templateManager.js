@@ -15,6 +15,8 @@ class TemplateManager {
         // Scroll animation init
         window.sr = new scrollReveal();
 
+        $("[data-controller]").on("click", NavbarController.handleClickMenuItem);
+
         // Home seperator
         if($('.home-seperator').length) {
             $('.home-seperator .left-item, .home-seperator .right-item').imgfix();

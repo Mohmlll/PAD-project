@@ -16,7 +16,7 @@ class NavbarController {
         const sidebarView = $(data);
 
         //Find all anchors and set events
-        sidebarView.find("a[data-controller]").on("click", this.handleClickMenuItem);
+        sidebarView.find("[data-controller]").on("click", this.handleClickMenuItem);
 
         //Empty the sidebar-div and add the resulting view to the page
         $(".header-area").empty().append(sidebarView);
@@ -31,6 +31,7 @@ class NavbarController {
         //Pass the action to a new function for further processing
         if (!app.isCurrentController(controller))
             app.loadController(controller);
+
 
         //Return false to prevent reloading the page
         return false;
