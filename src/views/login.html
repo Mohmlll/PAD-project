@@ -1,72 +1,81 @@
-
 <div>
 
 </div>
-<div class="welcome-area" id="welcome">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-7 mb-3">
-                <div class="features-small-item h-100 vertical-center">
-                    <div class="login-show">
-                        <h4>Inloggen</h4>
+    <div class="main-area" id="welcome">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7 mb-3">
+                    <div class="features-small-item h-100 vertical-center">
+                        <div class="login-show">
+                            <h4>Inloggen</h4>
 
-                        <p class="mt-5">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis non tempus sapien. Maecenas
-                            aliquet elementum ex vitae luctus. Fusce pellentesque erat non dolor vehicula, in blandit
-                            arcu mattis. Donec eu euismod nulla, vel mollis eros. Suspendisse et convallis tellus. Donec
-                            at risus est. Vestibulum erat diam, tristique semper laoreet vel, malesuada et metus.
-                        </p>
-                    </div>
-                    <div class="forgot-show" style="display: none">
-                        <h4>Wachtwoord vergeten</h4>
+                            <p class="mt-5">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis non tempus sapien.
+                                Maecenas
+                                aliquet elementum ex vitae luctus. Fusce pellentesque erat non dolor vehicula, in
+                                blandit
+                                arcu mattis. Donec eu euismod nulla, vel mollis eros. Suspendisse et convallis tellus.
+                                Donec
+                                at risus est. Vestibulum erat diam, tristique semper laoreet vel, malesuada et metus.
+                            </p>
+                        </div>
+                        <div class="forgot-show" style="display: none">
+                            <h4>Wachtwoord vergeten</h4>
 
-                        <p class="mt-5">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis non tempus sapien. Maecenas
-                            aliquet elementum ex vitae luctus. Fusce pellentesque erat non dolor vehicula, in blandit
-                            arcu mattis. Donec eu euismod nulla, vel mollis eros. Suspendisse et convallis tellus. Donec
-                            at risus est. Vestibulum erat diam, tristique semper laoreet vel, malesuada et metus.
-                        </p>
+                            <p class="mt-5">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis non tempus sapien.
+                                Maecenas
+                                aliquet elementum ex vitae luctus. Fusce pellentesque erat non dolor vehicula, in
+                                blandit
+                                arcu mattis. Donec eu euismod nulla, vel mollis eros. Suspendisse et convallis tellus.
+                                Donec
+                                at risus est. Vestibulum erat diam, tristique semper laoreet vel, malesuada et metus.
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-5 mb-3">
-                <div class="features-small-item h-100 vertical-center">
-                    <form id="login">
-                        <div class="row">
-                            <div class="col-md-12 col-sm-12 mt-2">
-                                <fieldset>
-                                    <label for="login_email" class="float-left">E-Mail Adres</label>
-                                    <input name="login_email" id="login_email" type="email" class="form-control" required="">
-                                </fieldset>
+                <div class="col-lg-5 mb-3">
+                    <div class="features-small-item h-100 vertical-center">
+                        <form id="login">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 mt-2">
+                                    <fieldset>
+                                        <label for="login_email" class="float-left">E-Mail Adres</label>
+                                        <input name="login_email" id="login_email" type="email" class="form-control"
+                                               required="">
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-12 col-sm-12 mt-2">
+                                    <fieldset>
+                                        <label for="password" class="float-left">Wachtwoord</label>
+                                        <input name="password" id="password" type="password" class="form-control"
+                                               required="">
+                                        <label for="password" id="forgot-btn" class="label-small float-right mt-1"><a
+                                                href="">wachtwoord vergeten?</a></label>
+                                    </fieldset>
+                                </div>
                             </div>
-                            <div class="col-md-12 col-sm-12 mt-2">
-                                <fieldset>
-                                    <label for="password" class="float-left">Wachtwoord</label>
-                                    <input name="password" id="password" type="password" class="form-control" required="">
-                                    <label for="password" id="forgot-btn" class="label-small float-right mt-1"><a href="">wachtwoord vergeten?</a></label>
-                                </fieldset>
+                            <button type="submit" class="main-button mt-2">Inloggen</button>
+                        </form>
+                        <form id="forgot" class="w-100" style="display: none">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 mt-2">
+                                    <fieldset>
+                                        <label for="forgot_email" class="float-left">E-Mail Adres</label>
+                                        <input name="forgot_email" id="forgot_email" type="email" class="form-control"
+                                               required="">
+                                        <label for="forgot_email" class="label-small float-right mt-1" id="login-btn">Al
+                                            een account?&nbsp;<a href="">inloggen</a></label>
+                                    </fieldset>
+                                </div>
                             </div>
-                        </div>
-                        <button type="submit" class="main-button mt-2">Inloggen</button>
-                    </form>
-                    <form id="forgot" class="w-100" style="display: none">
-                        <div class="row">
-                            <div class="col-md-12 col-sm-12 mt-2">
-                                <fieldset>
-                                    <label for="forgot_email" class="float-left">E-Mail Adres</label>
-                                    <input name="forgot_email" id="forgot_email" type="email" class="form-control" required="">
-                                    <label for="forgot_email" class="label-small float-right mt-1" id="login-btn">Al een account?&nbsp;<a href="">inloggen</a></label>
-                                </fieldset>
-                            </div>
-                        </div>
-                        <button type="submit" class="main-button mt-2">E-mail verzenden</button>
-                    </form>
+                            <button type="submit" class="main-button mt-2">E-mail verzenden</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
 <section class="section home-feature">
 
 </section>
