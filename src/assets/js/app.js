@@ -16,6 +16,7 @@ const CONTROLLER_UPLOAD = "upload";
 const CONTROLLER_REGISTER = "register";
 const CONTROLLER_GAME = "game";
 const CONTROLLER_GAME_CREATE = "gameCreate";
+const CONTROLLER_GAME_INFO = "gameInfo";
 const sessionManager = new SessionManager();
 const networkManager = new NetworkManager();
 const templateManager = new TemplateManager();
@@ -77,6 +78,10 @@ class App {
             case CONTROLLER_GAME_CREATE:
                 this.setHash(name);
                 new GameCreateController();
+                break;
+            case CONTROLLER_GAME_INFO:
+                this.setHash(name);
+                new GameInfoController();
                 break;
             default:
                 return false;
