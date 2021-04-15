@@ -4,7 +4,6 @@
 /*    bottom: 0;*/
 /*    width: 100%;*/
 /*}*/
-
 .registerImg{
     width: 15%;
 }
@@ -115,4 +114,9 @@ input.invalid {
     .game-container > .row > .col-lg-4{
         margin-top: 25px;
     }
+}
+
+.page-container{
+    margin-top: 150px;
+    margin-bottom: 100px;
 }
