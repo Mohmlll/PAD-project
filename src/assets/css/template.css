@@ -798,6 +798,33 @@ welcome
 }
 
 
+
+/*
+---------------------------------------------
+images
+---------------------------------------------
+ */
+
+.main-area{
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-image: url(../img/template/webpage-nocurve.jpg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+.main-pageimg{
+    background-image: url(../img/template/surinaamse-vlag.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
 /* 
 ---------------------------------------------
 features
@@ -1394,7 +1421,7 @@ blog
     border-radius: 10px;
     position: relative;
     height: 200px;
-    background-color: #808080
+
 }
 
 .blog-post-thumb .blog-content {
