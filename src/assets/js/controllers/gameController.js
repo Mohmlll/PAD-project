@@ -37,7 +37,7 @@ class GameController {
             // let game_image = row["image_url"];
 
             let gameRowTemplate = $(gameTemplate);
-            gameRowTemplate.find(".name").text(name);
+            gameRowTemplate.find(".game-name").text(name);
             gameRowTemplate.find(".description").text(description);
             gameRowTemplate.find(".target_audience_min").text("Vanaf: " + target_audience_min);
             gameRowTemplate.find(".target_audience_max").text(" T/M: " + target_audience_max);
@@ -51,6 +51,9 @@ class GameController {
             // gameRowTemplate.find(".game_image").attr("src", "../assets/img/template/blank.jpg");
             gameRowTemplate.find(".collapse").removeClass("collapseSummary").addClass("collapseSummary" + gameId);
             gameRowTemplate.attr("id", "g" + String(gameId))
+            gameRowTemplate.find("id", "g" + String(gameId)).on("click", () => {
+                this.navigateToGame(gameId)
+            })
             gameRowTemplate.find("a[href='.collapseSummary']").attr('href', '.collapseSummary' + gameId);
             gameRowTemplate.appendTo("#gameview");
         }
@@ -60,7 +63,12 @@ class GameController {
         }
 
     }
+    async navigateToGame(id) {
+        let gameTemplate = await $.get("views/templateGame.html")
+        $.get(baseUrl + "/game/" + id).then(r => {
 
+        });
+    }
     async getDropDownDataGameTypeFilter() {
         // get data
         this.dropDownDataGameTypeFilter = await $.ajax({
@@ -98,6 +106,10 @@ class GameController {
 
         }
 
+    }
+
+    filterToggleType(){
+        $(".filter-options").toggleClass("show", "show");
     }
 
     dropdownToggleType() {
@@ -212,6 +224,11 @@ class GameController {
     async setup(data) {
         //Load the welcome-content into memory
         this.gameView = $(data);
+
+
+        $("#filter-button", this.gameView ).on("click", () =>{
+            this.filterToggleType()
+        });
 
         $('#inputFilter', this.gameView).on("keyup", () => {
             this.filter()

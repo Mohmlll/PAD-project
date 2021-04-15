@@ -1,0 +1,60 @@
+.game-img {
+
+}
+
+.game-name {
+    background-color: #3d6d2e;
+    opacity: 0.5;
+    color: white;
+    height: 10%;
+    font-size: 20px;
+    text-align: center;
+    margin: auto;
+}
+
+.game-img {
+    cursor: pointer;
+    background-image: url("https://i.imgur.com/a7JlOZQ.png");
+    overflow: hidden;
+    border-radius: 10px;
+    position: relative;
+    height: 350px;
+}
+
+.game-img:hover {
+    background-color: white;
+    opacity: 0.5;
+}
+
+.filter-button {
+    background-color: #3d6d2e;
+    color: white;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    text-align: center;
+    height: 50px;
+    font-size: 20px;
+}
+
+.filter-button:hover {
+    background-color: white;
+    color: black;
+    cursor: pointer;
+}
+
+.game-top-menu {
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    background-color: white;
+    padding: 30px;
+    display: block;
+    position: relative;
+}
+.filter-options{
+    background-color: white;
+    display: none;
+}
+.show{
+    display: block;
+}
+
