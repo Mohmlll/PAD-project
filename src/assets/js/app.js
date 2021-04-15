@@ -35,6 +35,8 @@ class App {
      * @returns {boolean} - successful controller change
      */
     loadController(name, controllerData) {
+        // templateManager.stopPage();
+
         // console.log("loadController: " + name);
         if (controllerData) {
             console.log(controllerData);
