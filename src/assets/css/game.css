@@ -42,14 +42,6 @@
     cursor: pointer;
 }
 
-.game-top-menu {
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
-    background-color: white;
-    padding: 30px;
-    display: block;
-    position: relative;
-}
 .filter-options{
     background-color: white;
     display: none;
