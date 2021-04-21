@@ -648,6 +648,11 @@ header
     }
 }
 
+.img{
+    background-image:url(../img/template/background-page.jpg);
+    background-repeat: no-repeat;
+    background-position: center center;
+}
 /* 
 ---------------------------------------------
 welcome
