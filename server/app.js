@@ -82,9 +82,20 @@ app.post("/upload", function (req, res) {
     });
 });
 
-app.get("/rooms", (req, res) => {
+app.post("/gameInfo", (req, res) => {
     db.handleQuery(connectionPool, {
-        query: "select * from room_example"
+        query: "SELECT * FROM game WHERE id_game = ?",
+        values: [req.body.id_game]
+    }, data => {
+        res.json(data);
+    }, err => {
+        res.json({message: "noooope"})
+    })
+})
+app.post("/gameInfoMaterials", (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "SELECT * FROM game_has_material WHERE game_id_game = ?",
+        values: [req.body.game_id_game]
     }, data => {
         res.json(data);
     }, err => {

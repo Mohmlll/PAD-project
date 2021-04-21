@@ -21,6 +21,7 @@ class GameController {
 
         // get template
         let gameTemplate = await $.get("views/templateGame.html")
+
         // loop trough available games
         for (let i = 0; i < result.length; i++) {
             const row = result[i];
@@ -51,8 +52,9 @@ class GameController {
             // gameRowTemplate.find(".game_image").attr("src", "../assets/img/template/blank.jpg");
             gameRowTemplate.find(".collapse").removeClass("collapseSummary").addClass("collapseSummary" + gameId);
             gameRowTemplate.attr("id", "g" + String(gameId))
-            gameRowTemplate.find("id", "g" + String(gameId)).on("click", () => {
-                this.navigateToGame(gameId)
+
+            gameRowTemplate.on("click", () =>{
+                this.navigateTo(gameId);
             })
             gameRowTemplate.find("a[href='.collapseSummary']").attr('href', '.collapseSummary' + gameId);
             gameRowTemplate.appendTo("#gameview");
@@ -63,12 +65,14 @@ class GameController {
         }
 
     }
-    async navigateToGame(id) {
-        let gameTemplate = await $.get("views/templateGame.html")
-        $.get(baseUrl + "/game/" + id).then(r => {
 
-        });
+    navigateTo(gameId) {
+        let url = window.location.href;
+        app.loadController(CONTROLLER_GAME_INFO);
+        location.replace(url + gameId);
     }
+
+
     async getDropDownDataGameTypeFilter() {
         // get data
         this.dropDownDataGameTypeFilter = await $.ajax({
@@ -108,7 +112,7 @@ class GameController {
 
     }
 
-    filterToggleType(){
+    filterToggleType() {
         $(".filter-options").toggleClass("show", "show");
     }
 
@@ -226,7 +230,7 @@ class GameController {
         this.gameView = $(data);
 
 
-        $("#filter-button", this.gameView ).on("click", () =>{
+        $("#filter-button", this.gameView).on("click", () => {
             this.filterToggleType()
         });
 
@@ -253,7 +257,7 @@ class GameController {
         $(".content").empty().append(this.gameView);
         await this.getDropDownDataGameTypeFilter()
         await this.getDropDownDataGameAudienceFilter()
-        this.onGetGame();
+        await this.onGetGame();
     }
 
     //Called when the game.html fails to load
