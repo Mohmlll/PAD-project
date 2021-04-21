@@ -55,7 +55,6 @@ class GameInfoController {
         gameInfoRowTemplate.find(".game-info-type").text(type);
 
         for (let j = 0; j < materials.length; j++) {
-            console.log(materials[j])
             gameInfoRowTemplate.find(".game-info-materials").append("Soort: " + materials[j]["material_id"] + ", Aantal: " + materials[j]["amount"]+"\n")
         }
         gameInfoRowTemplate.appendTo("#game-info-view");
@@ -71,6 +70,9 @@ class GameInfoController {
         $(".content").empty().append(this.gameView);
 
         await this.onGetGame();
+        // window.onhashchange = function() {
+        //     app.loadController(CONTROLLER_GAME)
+        // }
     }
 
     //Called when the gameInfo.html fails to load

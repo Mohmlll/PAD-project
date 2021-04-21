@@ -258,6 +258,7 @@ class GameController {
         await this.getDropDownDataGameTypeFilter()
         await this.getDropDownDataGameAudienceFilter()
         await this.onGetGame();
+
     }
 
     //Called when the game.html fails to load
