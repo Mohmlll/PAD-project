@@ -648,11 +648,23 @@ header
     }
 }
 
-.img{
+#blog:before{
     background-image:url(../img/template/background-page.jpg);
     background-repeat: no-repeat;
     background-position: center center;
+    background-size: cover;
+    opacity: 0.3;
+    z-index: 0;
+    content: " ";
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
 }
+
+
 /* 
 ---------------------------------------------
 welcome
@@ -834,6 +846,11 @@ images
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
+}
+
+.full-opacity{
+    opacity: 1;
+    z-index: 2;
 }
 
 /* 
