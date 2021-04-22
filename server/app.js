@@ -66,19 +66,30 @@ app.post("/room_example", (req, res) => {
 
 });
 
-app.post("/upload", function (req, res) {
+app.post("/game", function (req, res) {
     if (!req.files || Object.keys(req.files).length === 0) {
         return res.status(badRequestCode).json({reason: "No files were uploaded."});
     }
 
     let sampleFile = req.files.sampleFile;
+    let extension = sampleFile.split(".").pop();
+    let fileName = req.body.gameId;
+    let path = wwwrootPath + "/uploads/"+ fileName + "." + extension;
 
-    sampleFile.mv(wwwrootPath + "/uploads/test.jpg", function (err) {
+    sampleFile.mv(path, function (err) {
         if (err) {
             return res.status(badRequestCode).json({reason: err});
         }
 
-        return res.status(httpOkCode).json("OK");
+        db.handleQuery(connectionPool, {
+            query: "insert into game(name, description, rules, target_audience_min, target_audience_max, type, amount_players, differentiates_easy, differentiates_hard) values(?,?,?,?,?,?,?,?,?)",
+            values: [req.body.name, req.body.description, req.body.rules, req.body.audienceMin, req.body.audienceMax, req.body.type, req.body.amountStudents, req.body.difEasy, req.body.difHard]
+        }, (data) => {
+            res.json({data})
+        }, (err) => {
+            console.log(err);
+            res.json({message: "F"})
+        });
     });
 });
 
@@ -239,17 +250,17 @@ app.post('/materials', (req, res) => {
 });
 
 
-app.post('/game', (req, res) => {
-    db.handleQuery(connectionPool, {
-        query: "insert into game(name, description, rules, target_audience_min, target_audience_max, type, amount_players, differentiates_easy, differentiates_hard) values(?,?,?,?,?,?,?,?,?)",
-        values: [req.body.name, req.body.description, req.body.rules, req.body.audienceMin, req.body.audienceMax, req.body.type, req.body.amountStudents, req.body.difEasy, req.body.difHard]
-    }, (data) => {
-        res.json({data})
-    }, (err) => {
-        console.log(err);
-        res.json({message: "F"})
-    });
-});
+// app.post('/game', (req, res) => {
+//         db.handleQuery(connectionPool, {
+//         query: "insert into game(name, description, rules, target_audience_min, target_audience_max, type, amount_players, differentiates_easy, differentiates_hard) values(?,?,?,?,?,?,?,?,?)",
+//         values: [req.body.name, req.body.description, req.body.rules, req.body.audienceMin, req.body.audienceMax, req.body.type, req.body.amountStudents, req.body.difEasy, req.body.difHard]
+//     }, (data) => {
+//         res.json({data})
+//     }, (err) => {
+//         console.log(err);
+//         res.json({message: "F"})
+//     });
+// });
 
 //------- END ROUTES -------
 

@@ -3,6 +3,7 @@ let gameId;
 class GameCreateController {
 
     constructor() {
+        this.uploadController = new UploadController();
         $.get("views/gameCreate.html")
             .then((data) => this.setup(data))
             .catch(() => this.error());
@@ -52,7 +53,6 @@ class GameCreateController {
     async onAddGame() {
         let name = $('input[name=name]', this.gameView).val();
         let description = $("#game_description", this.gameView).val();
-        // let description = $('input[name=description]', this.gameView).val();
         let rules = $('input[name=rules]', this.gameView).val();
         let difEasy = $('input[name=dif-easy]', this.gameView).val();
         let difHard = $('input[name=dif-hard]', this.gameView).val();
@@ -64,6 +64,7 @@ class GameCreateController {
         await $.ajax({
             url: baseUrl + "/game",
             data: JSON.stringify({
+                gameId: gameId,
                 name: name,
                 description: description,
                 rules: rules,
@@ -185,6 +186,9 @@ class GameCreateController {
         }
 
     }
+    async uploadPicture() {
+
+    }
 
     redirectToGames() {
         setTimeout(function () {
@@ -201,12 +205,18 @@ class GameCreateController {
         this.gameView = $(data);
 
         await this.onGetGame()
+        //File upload
 
-        $('#game', this.gameView).on("click", (e) => {
+        $('#upload', this.gameView).on("click", (e) => {
             e.preventDefault()
             this.onAddGame();
             this.saveMaterials();
             this.redirectToGames();
+            //Set the proper action url
+            $(this).closest("form").attr("action", `${baseUrl}/gameCreate`);
+
+            //Submit the form
+            $(this).submit();
         })
 
 
