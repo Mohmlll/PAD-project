@@ -53,7 +53,7 @@ class GameController {
             gameRowTemplate.find(".collapse").removeClass("collapseSummary").addClass("collapseSummary" + gameId);
             gameRowTemplate.attr("id", "g" + String(gameId))
 
-            gameRowTemplate.on("click", () =>{
+            gameRowTemplate.on("click", () => {
                 this.navigateTo(gameId);
             })
             gameRowTemplate.find("a[href='.collapseSummary']").attr('href', '.collapseSummary' + gameId);
@@ -83,10 +83,14 @@ class GameController {
 
         this.intDropDownDataGameTypeFilter = this.dropDownDataGameTypeFilter.length;
 
+        // for (let i = 0; i < this.intDropDownDataGameTypeFilter; i++) {
+        //     let a = $('<a class="gametypeFilterGames"></a>').attr("value", this.dropDownDataGameTypeFilter[i]["type"]);
+        //     a.text(this.dropDownDataGameTypeFilter[i]["type"])
+        //     a.appendTo("#gameTypeFilter");
+        // }
         for (let i = 0; i < this.intDropDownDataGameTypeFilter; i++) {
-            let a = $('<a class="gametypeFilterGames"></a>').attr("value", this.dropDownDataGameTypeFilter[i]["type"]);
-            a.text(this.dropDownDataGameTypeFilter[i]["type"])
-            a.appendTo("#gameTypeFilter");
+            $('#game-type-filter').append(`<option value="${this.dropDownDataGameTypeFilter[i]["type"]}">
+            ${this.dropDownDataGameTypeFilter[i]["type"]} </option>`)
         }
 
     }
@@ -100,16 +104,34 @@ class GameController {
         });
         this.intDropDownDataGameAudienceFilter = this.dropDownDataGameAudienceFilter.length;
 
+        // for (let i = 0; i < this.intDropDownDataGameAudienceFilter; i++) {
+        //     let a = $('<a class="gameAudienceFilterGamesMin"></a>').attr("value", this.dropDownDataGameAudienceFilter[i]["audience"]);
+        //     let b = $('<a class="gameAudienceFilterGamesMax"></a>').attr("value", this.dropDownDataGameAudienceFilter[i]["audience"]);
+        //     a.text(this.dropDownDataGameAudienceFilter[i]["audience"])
+        //     b.text(this.dropDownDataGameAudienceFilter[i]["audience"])
+        //     a.appendTo("#gameAudienceFilterMin");
+        //     b.appendTo("#gameAudienceFilterMax");
+        //
+        // }
         for (let i = 0; i < this.intDropDownDataGameAudienceFilter; i++) {
-            let a = $('<a class="gameAudienceFilterGamesMin"></a>').attr("value", this.dropDownDataGameAudienceFilter[i]["audience"]);
-            let b = $('<a class="gameAudienceFilterGamesMax"></a>').attr("value", this.dropDownDataGameAudienceFilter[i]["audience"]);
-            a.text(this.dropDownDataGameAudienceFilter[i]["audience"])
-            b.text(this.dropDownDataGameAudienceFilter[i]["audience"])
-            a.appendTo("#gameAudienceFilterMin");
-            b.appendTo("#gameAudienceFilterMax");
-
+            $('#game-target-audience-min').append(`<option value="${this.dropDownDataGameAudienceFilter[i]["audience"]}">
+            ${this.dropDownDataGameAudienceFilter[i]["audience"]}</option>`)
+            $('#game-target-audience-max').append(`<option value="${this.dropDownDataGameAudienceFilter[i]["audience"]}">
+            ${this.dropDownDataGameAudienceFilter[i]["audience"]}</option>`)
         }
-
+    }
+    async getDropDownGameMaterialFilter(){
+        // get data
+        this.dropDownDataGameMaterialFilter = await $.ajax({
+            url: baseUrl + "/material",
+            contentType: "application/json",
+            method: "get"
+        });
+        this.intDropDownDataGameMaterialFilter = this.dropDownDataGameMaterialFilter.length;
+        for (let i = 0; i < this.intDropDownDataGameMaterialFilter; i++) {
+            $('#game-material-filter').append(`<option value="${this.dropDownDataGameMaterialFilter[i]["material"]}">
+            ${this.dropDownDataGameMaterialFilter[i]["material"]}</option>`)
+        }
     }
 
     filterToggleType() {
@@ -257,6 +279,7 @@ class GameController {
         $(".content").empty().append(this.gameView);
         await this.getDropDownDataGameTypeFilter()
         await this.getDropDownDataGameAudienceFilter()
+        await this.getDropDownGameMaterialFilter()
         await this.onGetGame();
 
     }
