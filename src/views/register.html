@@ -1,7 +1,7 @@
 <div>
 
 </div>
-    <div class="main-area" id="welcome">
+<div class="main-area" id="welcome">
     <div class="container">
         <div class="row">
             <div class="col-lg-5 mb-3">
@@ -21,7 +21,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-7 mb-3 center-text" >
+            <div class="col-lg-7 mb-3 center-text">
                 <div class="features-small-item h-100 wizard">
                     <div class="tabs">
                         <div class="tab" data-wizard-state="current" id="account-field">
@@ -30,26 +30,28 @@
                             <div class="row">
                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                     <fieldset>
-                                        <label for="emailRegister" class="float-left">E-mail Adres</label>
-                                        <input name="email" type="email" class="form-control" id="emailRegister"
+                                        <label class="float-left" for="emailRegister">E-mail Adres</label>
+                                        <input class="form-control" id="emailRegister" name="email" pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}"
                                                placeholder="E-Mail Adres"
-                                               required pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}">
+                                               required type="email">
                                     </fieldset>
                                 </div>
                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                     <fieldset>
-                                        <label for="passwordRegister" class="float-left">Wachtwoord</label>
-                                        <input name="password" type="password" id="passwordRegister"
-                                               class="form-control"
-                                               placeholder="Wachtwoord" required pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,32}$">
+                                        <label class="float-left" for="passwordRegister">Wachtwoord</label>
+                                        <input class="form-control" id="passwordRegister" name="password"
+                                               pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,32}$"
+                                               placeholder="Wachtwoord" required
+                                               type="password">
                                     </fieldset>
                                 </div>
                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                     <fieldset>
-                                        <label for="passwordCheckRegister" class="float-left">Wachtwoord herhalen</label>
-                                        <input name="passwordCheck" type="password" id="passwordCheckRegister"
-                                               class="form-control"
-                                               placeholder="Wachtwoord herhalen" required>
+                                        <label class="float-left" for="passwordCheckRegister">Wachtwoord
+                                            herhalen</label>
+                                        <input class="form-control" id="passwordCheckRegister" name="passwordCheck"
+                                               placeholder="Wachtwoord herhalen"
+                                               required type="password">
                                     </fieldset>
                                 </div>
                                 <div class="col-lg-12">
@@ -64,26 +66,26 @@
                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                     <fieldset>
                                         <label for="firstnameRegister">Voornaam</label>
-                                        <input name="firstname" type="text" class="form-control"
-                                               id="firstnameRegister"
+                                        <input class="form-control" id="firstnameRegister" name="firstname"
                                                placeholder="Voornaam"
-                                               required>
+                                               required
+                                               type="text">
                                     </fieldset>
                                 </div>
                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                     <fieldset>
                                         <label for="lastnameRegister">Achternaam</label>
-                                        <input name="lastname" type="text" id="lastnameRegister"
-                                               class="form-control"
-                                               placeholder="Achternaam" required>
+                                        <input class="form-control" id="lastnameRegister" name="lastname"
+                                               placeholder="Achternaam"
+                                               required type="text">
                                     </fieldset>
                                 </div>
                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                     <fieldset>
                                         <label for="birthdateRegister">Geboortedatum</label>
-                                        <input name="birthdate" type="date" id="birthdateRegister"
-                                               class="form-control"
-                                               placeholder="Geboortedatum" required>
+                                        <input class="form-control" id="birthdateRegister" name="birthdate"
+                                               placeholder="Geboortedatum"
+                                               required type="date">
                                     </fieldset>
                                 </div>
                                 <div class="col-lg-12">
@@ -91,24 +93,24 @@
                             </div>
                         </div>
                         <div class="tab" data-wizard-state="pending" id="school-field">
-                            <img class="registerImg"
-                                 src="https://pics.freeicons.io/uploads/icons/png/9293099951595156175-512.png"
-                                 alt="test">
+                            <img alt="test"
+                                 class="registerImg"
+                                 src="https://pics.freeicons.io/uploads/icons/png/9293099951595156175-512.png">
                             <div class="row">
 
                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                     <fieldset>
                                         <label for="schoolNameRegister">Naam van school</label>
-                                        <input name="schoolName" type="text" id="schoolNameRegister"
-                                               class="form-control"
-                                               placeholder="Naam school" required>
+                                        <input class="form-control" id="schoolNameRegister" name="schoolName"
+                                               placeholder="Naam school"
+                                               required type="text">
                                     </fieldset>
                                 </div>
                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                     <fieldset>
                                         <label for="countryRegister">Land van school</label>
-                                        <input name="country" type="text" id="countryRegister" class="form-control"
-                                               placeholder="Land" required>
+                                        <input class="form-control" id="countryRegister" name="country" placeholder="Land"
+                                               required type="text">
                                     </fieldset>
                                 </div>
                                 <div class="col-lg-12">
@@ -119,29 +121,17 @@
 
                     <div class="bottom-nav h-100 align-content-center padding-top-20">
                         <fieldset>
-                            <button type="button" class="main-button" id="next">Volgende</button>
-                            <button type="button" class="main-button" id="back" style="display: none">Terug</button>
-                            <button type="button" class="main-button" id="finish" style="display: none">Verzenden</button>
+                            <button class="main-button" id="next" type="button">Volgende</button>
+                            <button class="main-button" id="back" style="display: none" type="button">Terug</button>
+                            <button class="main-button" id="finish" style="display: none" type="button">Verzenden
+                            </button>
                         </fieldset>
                     </div>
                 </div>
-                    <div class="features-small-item no-padding h-100 vertical-center">
-                        <div class="col-md-12 col-sm-12 mt-2">
-                            <div class="bottom-nav margin-top-15">
-                                <fieldset>
-                                    <button type="button" class="main-button" id="next">Volgende</button>
-                                    <button type="button" class="main-button" id="back" style="display: none">Terug</button>
-                                    <button type="button" class="main-button" id="finish" style="display: none">Verzenden</button>
-                                </fieldset>
-                            </div>
-                            <div class="margin-top-15"></div>
-                        </div>
-                    </div>
             </div>
         </div>
     </div>
-    </div>
 
-<section class="section home-feature">
+    <section class="section home-feature">
 
-</section>
+    </section>

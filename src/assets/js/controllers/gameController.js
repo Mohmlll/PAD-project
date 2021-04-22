@@ -53,7 +53,7 @@ class GameController {
             gameRowTemplate.find(".collapse").removeClass("collapseSummary").addClass("collapseSummary" + gameId);
             gameRowTemplate.attr("id", "g" + String(gameId))
 
-            gameRowTemplate.on("click", () =>{
+            gameRowTemplate.on("click", () => {
                 this.navigateTo(gameId);
             })
             gameRowTemplate.find("a[href='.collapseSummary']").attr('href', '.collapseSummary' + gameId);

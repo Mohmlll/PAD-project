@@ -157,7 +157,7 @@ class GameCreateController {
             for (let i = 0; i < this.games.length; i++) {
                 this.game = this.games[i]["id_game"] + 1;
             }
-            if (this.games == null){
+            if (this.games == null) {
                 gameId = 0;
             }
             gameId = this.game;

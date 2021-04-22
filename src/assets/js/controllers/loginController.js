@@ -27,7 +27,7 @@ class LoginController {
         $(".content").empty().append(this.loginView);
     }
 
-    setPage(event, type){
+    setPage(event, type) {
         event.preventDefault();
 
         const login_elements = $("#login, .login-show");
@@ -57,15 +57,15 @@ class LoginController {
         const email = this.loginView.find("[name='login_email']").val();
         let password = this.loginView.find("[name='password']").val();
 
-        try{
+        try {
             //await keyword 'stops' code until data is returned - can only be used in async function
             const user = await this.userRepository.register(email, password)
             sessionManager.set("email", user.email);
             app.loadController(CONTROLLER_HOME);
 
-        } catch(e) {
+        } catch (e) {
             //if unauthorized error show error to user
-            if(e.code === 401) {
+            if (e.code === 401) {
                 this.loginView
                     .find(".error")
                     .html(e.reason);
@@ -83,12 +83,12 @@ class LoginController {
         const email = this.loginView.find("[name='forgot_email']").val();
 
         // send email
-        try{
+        try {
 
 
-        } catch(e) {
+        } catch (e) {
             //if unauthorized error show error to user
-            if(e.code === 401) {
+            if (e.code === 401) {
                 this.loginView
                     .find(".error")
                     .html(e.reason);

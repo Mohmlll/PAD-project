@@ -12,7 +12,6 @@ class HomeController {
     }
 
 
-
     //Called when the home.html has been loaded
     setup(data) {
 
@@ -20,11 +19,11 @@ class HomeController {
         this.welcomeView = $(data);
         this.welcomeView.find("[data-controller]").on("click", NavbarController.handleClickMenuItem);
 
-        $("#gamesButton",this.welcomeView).on("click", (e)=>{
+        $("#gamesButton", this.welcomeView).on("click", (e) => {
             app.loadController(CONTROLLER_GAME);
         });
 
-        $("#registerButton",this.welcomeView).on("click", (e)=>{
+        $("#registerButton", this.welcomeView).on("click", (e) => {
             app.loadController(CONTROLLER_REGISTER);
         });
 
