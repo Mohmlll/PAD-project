@@ -55,6 +55,10 @@ class UserRepository {
             .doRequest(`/gameInfoMaterials`, {game_id_game: gameId}, "POST");
     }
 
+    async materialType(){
+        return await networkManager
+            .doRequest('/material', null, "GET")
+    }
     async update(id, values = {}) {
 
     }
