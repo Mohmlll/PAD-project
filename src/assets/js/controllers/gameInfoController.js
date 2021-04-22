@@ -83,7 +83,7 @@ class GameInfoController {
         $(".content").empty().append(this.gameView);
 
         await this.onGetGame();
-        
+
         window.onhashchange = function() {
             app.loadController(CONTROLLER_GAME)
             location.reload()
