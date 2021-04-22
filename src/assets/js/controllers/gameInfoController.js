@@ -68,7 +68,9 @@ class GameInfoController {
         for (let j = 0; j < materials.length; j++) {
             let materialType = materialData[j]["material"];
             let materialAmount = materials[j]["amount"];
-            gameInfoRowTemplate.find(".game-info-materials").append("Soort: " + materialType + ", Aantal: " + materialAmount + "\n")
+            if (materialAmount !== 0) {
+                gameInfoRowTemplate.find(".game-info-materials").append("Soort: " + materialType + ", Aantal: " + materialAmount + "\n")
+            }
         }
         gameInfoRowTemplate.appendTo("#game-info-view");
     }
@@ -83,8 +85,8 @@ class GameInfoController {
         $(".content").empty().append(this.gameView);
 
         await this.onGetGame();
-        
-        window.onhashchange = function() {
+
+        window.onhashchange = function () {
             app.loadController(CONTROLLER_GAME)
             location.reload()
         }
