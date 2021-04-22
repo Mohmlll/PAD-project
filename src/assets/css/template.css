@@ -648,8 +648,8 @@ header
     }
 }
 
-#blog:before{
-    background-image:url(../img/template/background-page.jpg);
+#blog:before {
+    background-image: url(../img/template/background-page.jpg);
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -815,14 +815,13 @@ welcome
 }
 
 
-
 /*
 ---------------------------------------------
 images
 ---------------------------------------------
  */
 
-.game-background{
+.game-background {
     overflow: hidden;
     position: relative;
     display: flex;
@@ -835,7 +834,7 @@ images
     background-size: cover;
 }
 
-.main-area{
+.main-area {
     overflow: hidden;
     position: relative;
     display: flex;
@@ -848,7 +847,7 @@ images
     background-size: cover;
 }
 
-.full-opacity{
+.full-opacity {
     opacity: 1;
     z-index: 2;
 }
@@ -1791,6 +1790,10 @@ input::-webkit-inner-spin-button {
 
 .padding-top-games {
     padding-top: 150px;
+}
+
+#navbar-img {
+    margin-top: -0.4em;
 }
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
