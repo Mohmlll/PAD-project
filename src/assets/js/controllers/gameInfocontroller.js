@@ -11,6 +11,7 @@ class GameInfoController {
         let gameId = parseInt(window.location.hash.replace("#game", ""));
         let game;
         let materials;
+        let materialData;
         try {
             game = await this.userRepository.game(gameId)
         } catch (e) {
@@ -34,7 +35,17 @@ class GameInfoController {
                 console.log(e);
             }
         }
-
+        try {
+            materialData = await this.userRepository.materialType()
+        } catch (e) {
+            if (e.code === 401) {
+                this.gameView
+                    .find(".error")
+                    .html(e.reason);
+            } else {
+                console.log(e);
+            }
+        }
 
         // get template
         let gameInfoTemplate = await $.get("views/templateGameInfo.html")
@@ -55,7 +66,9 @@ class GameInfoController {
         gameInfoRowTemplate.find(".game-info-type").text(type);
 
         for (let j = 0; j < materials.length; j++) {
-            gameInfoRowTemplate.find(".game-info-materials").append("Soort: " + materials[j]["material_id"] + ", Aantal: " + materials[j]["amount"]+"\n")
+            let materialType = materialData[j]["material"];
+            let materialAmount = materials[j]["amount"];
+            gameInfoRowTemplate.find(".game-info-materials").append("Soort: " + materialType + ", Aantal: " + materialAmount + "\n")
         }
         gameInfoRowTemplate.appendTo("#game-info-view");
     }
@@ -70,9 +83,11 @@ class GameInfoController {
         $(".content").empty().append(this.gameView);
 
         await this.onGetGame();
-        // window.onhashchange = function() {
-        //     app.loadController(CONTROLLER_GAME)
-        // }
+        
+        window.onhashchange = function() {
+            app.loadController(CONTROLLER_GAME)
+            location.reload()
+        }
     }
 
     //Called when the gameInfo.html fails to load
