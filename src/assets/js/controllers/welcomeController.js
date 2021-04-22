@@ -30,7 +30,6 @@ class WelcomeController {
         $(".content").empty().append(this.welcomeView);
 
 
-
         this.fetchRooms(1256);
     }
 

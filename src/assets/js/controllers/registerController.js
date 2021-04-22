@@ -31,7 +31,7 @@ class RegisterController {
             // validate for
             if (!validate)
                 return;
-            
+
             if (nextStep.length === 1) {
                 currentStep.attr('data-wizard-state', 'done');
                 nextStep.attr('data-wizard-state', 'current');
