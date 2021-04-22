@@ -7,6 +7,7 @@ class GameController {
 
     async onGetGame() {
         // get data
+
         const result = await $.ajax({
             url: baseUrl + "/game",
             contentType: "application/json",

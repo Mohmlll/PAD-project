@@ -148,6 +148,18 @@ app.get('/game', (req, res) => {
         })
     });
 });
+app.get('/newGameListLimit3', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "select * from game order by id_game desc limit 3"
+    }, d => {
+        res.json(d);
+    }, err => {
+        res.status(500);
+        res.json({
+            message: err.message
+        })
+    });
+});
 
 app.get('/material', (req, res) => {
     db.handleQuery(connectionPool, {
