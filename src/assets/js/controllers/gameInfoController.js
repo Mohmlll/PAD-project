@@ -34,7 +34,12 @@ class GameInfoController {
                 console.log(e);
             }
         }
-
+        // get data
+        const materialData = await $.ajax({
+            url: baseUrl + "/material",
+            contentType: "application/json",
+            method: "get"
+        });
 
         // get template
         let gameInfoTemplate = await $.get("views/templateGameInfo.html")
@@ -55,7 +60,9 @@ class GameInfoController {
         gameInfoRowTemplate.find(".game-info-type").text(type);
 
         for (let j = 0; j < materials.length; j++) {
-            gameInfoRowTemplate.find(".game-info-materials").append("Soort: " + materials[j]["material_id"] + ", Aantal: " + materials[j]["amount"]+"\n")
+            let materialType = materialData[j]["material"];
+            let materialAmount = materials[j]["amount"];
+            gameInfoRowTemplate.find(".game-info-materials").append("Soort: " + materialType + ", Aantal: " + materialAmount + "\n")
         }
         gameInfoRowTemplate.appendTo("#game-info-view");
     }
