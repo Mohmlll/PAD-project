@@ -43,7 +43,7 @@ class HomeController {
             gameRowTemplate.on("click", () => {
                 this.navigateTo(gameId);
             })
-            gameRowTemplate.appendTo("#newGameListLimit3");
+            gameRowTemplate.appendTo(".newGameListLimit3");
         }
 
     }
