@@ -42,11 +42,12 @@
     cursor: pointer;
 }
 
-.filter-options{
+.filter-options {
     background-color: white;
     display: none;
 }
-.show{
+
+.show {
     display: block;
 }
 

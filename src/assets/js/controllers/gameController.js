@@ -121,7 +121,8 @@ class GameController {
             ${this.dropDownDataGameAudienceFilter[i]["audience"]}</option>`)
         }
     }
-    async getDropDownGameMaterialFilter(){
+
+    async getDropDownGameMaterialFilter() {
         // get data
         this.dropDownDataGameMaterialFilter = await $.ajax({
             url: baseUrl + "/material",
