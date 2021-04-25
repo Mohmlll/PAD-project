@@ -80,7 +80,7 @@ class GameInfoController {
             if (errorCounter === materials.length) {
                 gameInfoRowTemplate.find(".game-info-materials").text("Geen materialen gevonden.")
             }
-            if (loopCount === materials.length) {
+            if (loopCount === materials.length && errorCounter === 0) {
                 gameInfoRowTemplate.find(".game-info-materials").append(materialType + ": " + materialAmount)
             }
         }
