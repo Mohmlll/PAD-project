@@ -12,6 +12,8 @@ class GameInfoController {
         let game;
         let materials;
         let materialData;
+        let errorCounter = 0;
+        let loopCount = 0;
         try {
             game = await this.userRepository.game(gameId)
         } catch (e) {
@@ -61,17 +63,28 @@ class GameInfoController {
 
         gameInfoRowTemplate.find(".game-info-name").text(name);
         gameInfoRowTemplate.find(".game-info-description").text(description);
-        gameInfoRowTemplate.find(".game-info-target-audience-min").text("Vanaf: " + target_audience_min);
-        gameInfoRowTemplate.find(".game-info-target-audience-max").text(" T/M: " + target_audience_max);
-        gameInfoRowTemplate.find(".game-info-type").text(type);
+        gameInfoRowTemplate.find(".game-info-target-audience-min").text("‎ " + target_audience_min);
+        gameInfoRowTemplate.find(".game-info-target-audience-max").text("‎ " + target_audience_max);
+        gameInfoRowTemplate.find(".game-info-type").text("‎ " + type);
 
         for (let j = 0; j < materials.length; j++) {
+            loopCount++
             let materialType = materialData[j]["material"];
             let materialAmount = materials[j]["amount"];
-            if (materialAmount !== 0) {
-                gameInfoRowTemplate.find(".game-info-materials").append("Soort: " + materialType + ", Aantal: " + materialAmount + "\n")
+
+            if (materialAmount !== 0 && loopCount < materials.length) {
+                gameInfoRowTemplate.find(".game-info-materials").append(materialType + ": " + materialAmount + ",\n")
+            } else {
+                errorCounter++
+            }
+            if (errorCounter === materials.length) {
+                gameInfoRowTemplate.find(".game-info-materials").text("Geen materialen gevonden.")
+            }
+            if (loopCount === materials.length && errorCounter === 0) {
+                gameInfoRowTemplate.find(".game-info-materials").append(materialType + ": " + materialAmount)
             }
         }
+
         gameInfoRowTemplate.appendTo("#game-info-view");
     }
 
