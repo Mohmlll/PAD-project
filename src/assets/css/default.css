@@ -126,3 +126,17 @@ input.invalid {
     box-shadow: 4px 9px 19px -8px rgba(0,0,0,0.75);
 
 }
+
+.white-box{
+    display: block;
+    background: #FFFFFF;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    padding: 30px;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    position: relative;
+    box-shadow: 0 2px 48px 0 rgb(0 0 0 / 10%);
+}
