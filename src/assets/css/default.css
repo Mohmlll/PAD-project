@@ -4,9 +4,10 @@
 /*    bottom: 0;*/
 /*    width: 100%;*/
 /*}*/
-.registerImg{
+.registerImg {
     width: 15%;
 }
+
 input.invalid {
     background-color: #ffdddd;
 }
@@ -15,27 +16,27 @@ input.invalid {
 
 }
 
-.wizard .nav{
+.wizard .nav {
 
 }
 
-.wizard .nav li{
+.wizard .nav li {
 
 }
 
-.wizard .bottom-nav{
+.wizard .bottom-nav {
 
 }
 
-.wizard .bottom-nav button{
+.wizard .bottom-nav button {
 
 }
 
-.wizard .tabs{
+.wizard .tabs {
 
 }
 
-.wizard .tabs .tab{
+.wizard .tabs .tab {
 
 }
 
@@ -53,81 +54,84 @@ input.invalid {
     align-items: center;
 }
 
-.label-small{
+.label-small {
     font-size: 13px;
 }
 
-.input-error{
+.input-error {
     border-color: red !important;
 }
-.input-success{
+
+.input-success {
     border-color: green !important;
 }
-#target-audience-max, #target-audience-min{
+
+#target-audience-max, #target-audience-min {
 
 }
 
-.btn{
-    display:inline-block;
-    border:0.1em solid lightgrey;
-    border-radius:0.12em;
+.btn {
+    display: inline-block;
+    border: 0.1em solid lightgrey;
+    border-radius: 0.12em;
     box-sizing: border-box;
-    text-decoration:none;
-    font-weight:300;
-    color:#FFFFFF;
-    text-align:center;
+    text-decoration: none;
+    font-weight: 300;
+    color: #FFFFFF;
+    text-align: center;
     transition: all 0.2s;
     cursor: pointer;
 }
 
-.btn i{
-    color:#FFFFFF;
+.btn i {
+    color: #FFFFFF;
 }
 
-.btn:hover{
-    color:#000000 !important;
-    background-color:#FFFFFF !important;
+.btn:hover {
+    color: #000000 !important;
+    background-color: #FFFFFF !important;
 }
 
-.btn:hover i{
-    color:#000000 !important;
+.btn:hover i {
+    color: #000000 !important;
 }
 
-.btn-default{
+.btn-default {
     background-color: #3d6d2e !important;
 }
 
-.no-padding{
+.no-padding {
     padding: 0 !important;
 }
 
-.material-input{
-    border-radius:0.12em !important;
+.material-input {
+    border-radius: 0.12em !important;
     margin-bottom: 0 !important;
 }
 
-@media (max-width: 991px){
-    .game-container{
+@media (max-width: 991px) {
+    .game-container {
         margin-top: 150px;
     }
 
-    .game-container > .row > .col-lg-4{
+    .game-container > .row > .col-lg-4 {
         margin-top: 25px;
     }
 }
 
-.page-container{
+.page-container {
     margin-top: 150px;
     margin-bottom: 100px;
 }
-.box-shadow{
-    -webkit-box-shadow: 4px 9px 19px -8px rgba(0,0,0,0.75);
-    -moz-box-shadow: 4px 9px 19px -8px rgba(0,0,0,0.75);
-    box-shadow: 4px 9px 19px -8px rgba(0,0,0,0.75);
+
+.box-shadow {
+    -webkit-box-shadow: 4px 9px 19px -8px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 4px 9px 19px -8px rgba(0, 0, 0, 0.75);
+    box-shadow: 4px 9px 19px -8px rgba(0, 0, 0, 0.75);
 
 }
 
-.white-box{
+.white-box {
     display: block;
     background: #FFFFFF;
     margin-bottom: 20px;
