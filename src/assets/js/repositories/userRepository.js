@@ -16,15 +16,15 @@ class UserRepository {
 
     /**
      * async function that handles a Promise from the networkmanager
-     * @param username
+     * @param email
      * @param password
-     * @returns {Promise<user>}
+     * @returns {Promise<unknown>}
      */
-    async login(username, password) {
+    async login(email, password) {
         return await networkManager
             .doRequest(`${this.route}/login`, {
-                "username": username,
-                "password": password
+                email: email,
+                password: password,
             }, "POST");
     }
 

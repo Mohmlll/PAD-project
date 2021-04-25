@@ -59,7 +59,7 @@ class LoginController {
 
         try {
             //await keyword 'stops' code until data is returned - can only be used in async function
-            const user = await this.userRepository.register(email, password)
+            const user = await this.userRepository.login(email, password)
             sessionManager.set("email", user.email);
             app.loadController(CONTROLLER_HOME);
 
@@ -69,8 +69,10 @@ class LoginController {
                 this.loginView
                     .find(".error")
                     .html(e.reason);
+
             } else {
                 console.log(e);
+
             }
         }
     }
