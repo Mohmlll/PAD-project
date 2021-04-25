@@ -85,7 +85,7 @@ class GameInfoController {
                 materialStringReplaced = materialString.replace(/,(?=[^,]*$)/, '')
             }
             gameInfoRowTemplate.find(".game-info-materials").append(materialStringReplaced)
-            
+
         }
 
 
