@@ -44,7 +44,7 @@ app.post("/user/login", (req, res) => {
         console.log(data);
         if (data.length === 1) {
             //return just the email for now, never send password back!
-            res.status(httpOkCode).json({"username": data[0].username});
+            res.status(httpOkCode).json({"email": data[0].email});
         } else {
             //wrong email
             res.status(authorizationErrCode).json({reason: "Wrong email or password"});
