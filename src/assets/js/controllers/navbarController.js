@@ -15,6 +15,10 @@ class NavbarController {
         //Load the sidebar-content into memory
         const sidebarView = $(data);
 
+        $("#logout", sidebarView).on('click', function (){
+            sessionManager.clear();
+            app.loadController(CONTROLLER_HOME);
+        });
         //Empty the sidebar-div and add the resulting view to the page
         $(".header-area").empty().append(sidebarView);
 
