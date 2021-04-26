@@ -402,13 +402,15 @@ header
 }
 
 .header-area .main-nav .logo {
-    float: left;
-    margin-top: 37px;
     -webkit-transition: all 0.3s ease 0s;
     -moz-transition: all 0.3s ease 0s;
     -o-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
-    margin-left: 30px;
+
+    left: 25px;
+    top: 42px;
+    position: absolute;
+    transform: translateY(-50%);
 }
 
 .header-area .main-nav .logo img {
@@ -427,7 +429,6 @@ header
     -moz-transition: all 0.3s ease 0s;
     -o-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
-    position: fixed;
     z-index: 999;
 }
 
@@ -555,10 +556,6 @@ header
     min-height: 80px;
 }
 
-.header-area.header-sticky .logo {
-    margin-top: 25px;
-}
-
 .header-area.header-sticky .nav {
     margin-top: 20px !important;
 }
@@ -594,10 +591,6 @@ header
         padding: 0;
     }
 
-    .header-area .logo {
-        margin-top: 27px !important;
-        margin-left: 30px;
-    }
 
     .header-area .menu-trigger {
         display: block !important;
