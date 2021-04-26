@@ -217,6 +217,9 @@ class GameCreateController {
         await this.onGetMaterial();
         this.add()
         this.remove()
+
+        // listen for redirects
+        templateManager.listen();
     }
 
     //Called when the game.html fails to load

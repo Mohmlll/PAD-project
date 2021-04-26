@@ -15,26 +15,10 @@ class NavbarController {
         //Load the sidebar-content into memory
         const sidebarView = $(data);
 
-        //Find all anchors and set events
-        sidebarView.find("[data-controller]").on("click", this.handleClickMenuItem);
-
         //Empty the sidebar-div and add the resulting view to the page
         $(".header-area").empty().append(sidebarView);
 
         templateManager.initSideBar()
-    }
-
-    handleClickMenuItem() {
-        //Get the data-controller from the clicked element (this)
-        const controller = $(this).attr("data-controller");
-
-        //Pass the action to a new function for further processing
-        if (!app.isCurrentController(controller))
-            app.loadController(controller);
-
-
-        //Return false to prevent reloading the page
-        return false;
     }
 
     //Called when the login.html failed to load

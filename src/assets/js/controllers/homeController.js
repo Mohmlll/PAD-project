@@ -74,6 +74,8 @@ class HomeController {
         //Empty the content-div and add the resulting view to the page
         $(".content").empty().append(this.welcomeView);
         await this.onGetGame()
+        // listen for redirects
+        templateManager.listen();
     }
 
     //Called when the home.html fails to load

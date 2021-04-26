@@ -15,8 +15,6 @@ class TemplateManager {
         // Scroll animation init
         window.sr = new scrollReveal();
 
-        $("[data-controller]").on("click", NavbarController.handleClickMenuItem);
-
         // Home seperator
         if($('.home-seperator').length) {
             $('.home-seperator .left-item, .home-seperator .right-item').imgfix();
@@ -29,7 +27,6 @@ class TemplateManager {
         //         time: 1000
         //     });
         // }
-
 
         // Page loading animation
         $(window).on('load', function() {
@@ -57,8 +54,42 @@ class TemplateManager {
                 }
             })
         });
+    }
+
+    listen(){
+        $("[data-controller]").on("click", function (){
+            templateManager.handleClickMenuItem(this);
+        });
 
 
+        // todo aparte util van maken + upgrades
+        // show-login='true' => alleen als je ingelogd bent
+        // show-login='false' => alleen als je niet ingelogd bent
+
+        const email = sessionManager.get('email');
+
+        if (email && email.length > 0){
+            $("[show-login='true']").show();
+            $("[show-login='false']").hide();
+        } else {
+            $("[show-login='true']").hide();
+            $("[show-login='false']").show();
+        }
+    }
+
+    handleClickMenuItem(event) {
+        console.log('click');
+
+        //Get the data-controller from the clicked element (this)
+        const controller = $(event).attr("data-controller");
+
+        //Pass the action to a new function for further processing
+        if (!app.isCurrentController(controller))
+            app.loadController(controller);
+
+
+        //Return false to prevent reloading the page
+        return false;
     }
 
     scrollTo(target, button){

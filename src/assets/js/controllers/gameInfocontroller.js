@@ -107,6 +107,8 @@ class GameInfoController {
             app.loadController(CONTROLLER_GAME)
             location.reload()
         }
+
+        templateManager.listen();
     }
 
     //Called when the gameInfo.html fails to load

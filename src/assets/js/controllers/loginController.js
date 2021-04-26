@@ -23,8 +23,12 @@ class LoginController {
 
         $("#forgot-btn", this.loginView).on("click", (e) => this.setPage(e, 'forgot'));
         $("#login-btn", this.loginView).on("click", (e) => this.setPage(e, 'login'));
+
         //Empty the content-div and add the resulting view to the page
         $(".content").empty().append(this.loginView);
+
+        // listen for redirects
+        templateManager.listen();
     }
 
     setPage(event, type) {
@@ -59,11 +63,10 @@ class LoginController {
 
         try {
             //await keyword 'stops' code until data is returned - can only be used in async function
-            const user = await this.userRepository.login(email, password)
-            sessionManager.set("email", user.email);
+            const result = await this.userRepository.login(email, password)
+            sessionManager.set("email", result.email);
             app.loadController(CONTROLLER_HOME);
-
-        } catch (e) {
+        } catch(e) {
             //if unauthorized error show error to user
             if (e.code === 401) {
                 this.loginView

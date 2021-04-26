@@ -38,6 +38,8 @@ class RegisterController {
             }
             // set buttons
             this.setWizardButtons(nextStep);
+
+
         });
 
         $("#back", this.registerView).on("click", async (e) => {
@@ -69,6 +71,8 @@ class RegisterController {
         //Empty the content-div and add the resulting view to the page
         $(".content").empty().append(this.registerView);
 
+        // listen for redirects
+        templateManager.listen();
     }
 
     async onRegister() {

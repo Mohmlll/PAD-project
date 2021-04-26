@@ -24,7 +24,7 @@ class UserRepository {
         return await networkManager
             .doRequest(`${this.route}/login`, {
                 email: email,
-                password: password,
+                password: password
             }, "POST");
     }
 

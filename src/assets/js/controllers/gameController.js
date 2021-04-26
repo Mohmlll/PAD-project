@@ -284,6 +284,8 @@ class GameController {
         await this.getDropDownGameMaterialFilter()
         await this.onGetGame();
 
+        // listen for redirects
+        templateManager.listen();
     }
 
     //Called when the game.html fails to load
