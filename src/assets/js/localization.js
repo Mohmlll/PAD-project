@@ -16,6 +16,7 @@ FYSCloud.Localization = (function ($) {
     };
     var localization;
     var activeLanguage;
+
     /**
      * @memberof FYSCloud.Localization
      *
@@ -25,6 +26,7 @@ FYSCloud.Localization = (function ($) {
     function setTranslations(translations) {
         localization = translations;
     }
+
     /**
      * @memberof FYSCloud.Localization
      *
@@ -35,6 +37,7 @@ FYSCloud.Localization = (function ($) {
         activeLanguage = language;
         translate(true);
     }
+
     /**
      * @memberof FYSCloud.Localization
      *
@@ -64,5 +67,6 @@ FYSCloud.Localization = (function ($) {
                 );
         });
     }
+
     return exports;
 })(jQuery);

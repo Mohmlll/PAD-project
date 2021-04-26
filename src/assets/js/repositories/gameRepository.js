@@ -1,7 +1,7 @@
 /**
  * @author team-6
  */
-class GameRepository{
+class GameRepository {
 
     constructor() {
         this.route = "/game"

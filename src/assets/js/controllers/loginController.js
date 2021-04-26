@@ -66,7 +66,7 @@ class LoginController {
             const result = await this.userRepository.login(email, password)
             sessionManager.set("email", result.email);
             app.loadController(CONTROLLER_HOME);
-        } catch(e) {
+        } catch (e) {
             //if unauthorized error show error to user
             if (e.code === 401) {
                 this.loginView

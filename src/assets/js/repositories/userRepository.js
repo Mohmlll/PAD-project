@@ -55,14 +55,16 @@ class UserRepository {
             .doRequest(`/gameInfoMaterials`, {game_id_game: gameId}, "POST");
     }
 
-    async materialType(){
+    async materialType() {
         return await networkManager
             .doRequest('/material', null, "GET")
     }
-    async newGameListLimit3(){
+
+    async newGameListLimit3() {
         return await networkManager
             .doRequest('/newGameListLimit3', null, "GET")
     }
+
     async update(id, values = {}) {
 
     }

@@ -20,6 +20,7 @@ const CONTROLLER_GAME_INFO = "gameInfo";
 const sessionManager = new SessionManager();
 const networkManager = new NetworkManager();
 const templateManager = new TemplateManager();
+
 class App {
     init() {
         //Always load the sidebar
@@ -29,6 +30,7 @@ class App {
         // init template js
         templateManager.initPage();
     }
+
     /**
      * Loads a controller
      * @param name - name of controller - see constants
@@ -89,9 +91,11 @@ class App {
         templateManager.setActiveState();
         return true;
     }
+
     isCurrentController(controller) {
         return controller === this.getHash();
     }
+
     /**
      * Alternative way of loading controller by url
      * @param fallbackController
@@ -106,12 +110,15 @@ class App {
             this.loadController(fallbackController);
         }
     }
+
     getHash() {
         return location.hash.slice(1);
     }
+
     setHash(name) {
         location.hash = name;
     }
+
     /**
      * Convenience functions to handle logged-in states
      * @param whenYes - function to execute when user is logged in
@@ -124,6 +131,7 @@ class App {
             whenNo();
         }
     }
+
     /**
      * Removes username via sessionManager and loads the login screen
      */
@@ -133,6 +141,7 @@ class App {
         this.loadController(CONTROLLER_LOGIN);
     }
 }
+
 const app = new App();
 //When the DOM is ready, kick off our application.
 $(function () {
