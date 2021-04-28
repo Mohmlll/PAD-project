@@ -15,78 +15,80 @@
 
                 </div>
             </div>
-            <div class="col-lg-4">
-                <div class="features-small-item h-100 vertical-center">
-                    <div class="row">
-                        <form method="post" encType="multipart/form-data">
-                        <div class="col-md-12 col-sm-12 mt-2">
-                            <fieldset>
-                                <label class="float-left" for="game-plan">Plattegrond</label>
-                                <input class="form-control" id="game-plan" name="sampleFile" required type="file">
-                            </fieldset>
-                        </div>
-                            <button class="main-button btn btn-default float-right" id="game" type="submit" value="Upload!">Aanmaken
-                            </button>
-                        </form>
-                        <div class="col-md-12 col-sm-12 mt-2">
-                            <fieldset>
-                                <label class="float-left" for="game_name">Spelnaam</label>
-                                <input class="form-control" id="game_name" name="name" required type="text">
-                            </fieldset>
-                        </div>
-                        <div class="col-md-12 col-sm-12 mt-2">
-                            <fieldset>
-                                <label class="float-left" for="game_description">Beschrijving</label>
-                                <textarea class="form-control" id="game_description" name="description" required
-                                          type="text"></textarea>
+            <form method="post" encType="multipart/form-data">
+                <div class="col-lg-4">
+                    <div class="features-small-item h-100 vertical-center">
+                        <div class="row">
 
-                            </fieldset>
-                        </div>
-                        <div class="col-md-12 col-sm-12 mt-2">
-                            <fieldset>
-                                <label class="float-left" for="game_type">Soort spel</label>
-                                <select class="form-control" id="game_type" name="game_type">
+                            <div class="col-md-12 col-sm-12 mt-2">
+                                <fieldset>
+                                    <label class="float-left" for="game-plan">Plattegrond</label>
+                                    <input class="form-control" id="game-plan" name="sampleFile" required type="file">
+                                </fieldset>
+                            </div>
 
-                                </select>
-                            </fieldset>
-                        </div>
-                        <div class="col-md-12 col-sm-12 mt-2">
-                            <fieldset>
-                                <label class="float-left" for="target-audience-min">Doelgroep vanaf</label>
-                                <select class="form-control" id="target-audience-min"
-                                        name="target-audience-min"></select>
-                            </fieldset>
-                        </div>
-                        <div class="col-md-12 col-sm-12 mt-2">
-                            <fieldset>
-                                <label class="float-left" for="target-audience-max"> T/M</label>
-                                <select class="form-control" id="target-audience-max"
-                                        name="target-audience-max"></select>
-                            </fieldset>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="features-small-item h-100 vertical-center">
-                    <div class="row w-100">
-                        <div class="col-md-12 col-sm-12 mt-2">
-                            <h4>Materialen</h4>
-                            <br>
-                            <div id="materialview">
+                            <div class="col-md-12 col-sm-12 mt-2">
+                                <fieldset>
+                                    <label class="float-left" for="game_name">Spelnaam</label>
+                                    <input class="form-control" id="game_name" name="name" required type="text">
+                                </fieldset>
+                            </div>
+                            <div class="col-md-12 col-sm-12 mt-2">
+                                <fieldset>
+                                    <label class="float-left" for="game_description">Beschrijving</label>
+                                    <textarea class="form-control" id="game_description" name="description" required
+                                              type="text"></textarea>
 
+                                </fieldset>
+                            </div>
+                            <div class="col-md-12 col-sm-12 mt-2">
+                                <fieldset>
+                                    <label class="float-left" for="game_type">Soort spel</label>
+                                    <select class="form-control" id="game_type" name="game_type">
+
+                                    </select>
+                                </fieldset>
+                            </div>
+                            <div class="col-md-12 col-sm-12 mt-2">
+                                <fieldset>
+                                    <label class="float-left" for="target-audience-min">Doelgroep vanaf</label>
+                                    <select class="form-control" id="target-audience-min"
+                                            name="target-audience-min"></select>
+                                </fieldset>
+                            </div>
+                            <div class="col-md-12 col-sm-12 mt-2">
+                                <fieldset>
+                                    <label class="float-left" for="target-audience-max"> T/M</label>
+                                    <select class="form-control" id="target-audience-max"
+                                            name="target-audience-max"></select>
+                                </fieldset>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-12 mt-4">
-                <div class="features-small-item no-padding h-100 vertical-center">
-                    <div class="col-md-12 col-sm-12 mt-2">
+                <div class="col-lg-4">
+                    <div class="features-small-item h-100 vertical-center">
+                        <div class="row w-100">
+                            <div class="col-md-12 col-sm-12 mt-2">
+                                <h4>Materialen</h4>
+                                <br>
+                                <div id="materialview">
 
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+                <div class="col-lg-12 mt-4">
+                    <div class="features-small-item no-padding h-100 vertical-center">
+                        <div class="col-md-12 col-sm-12 mt-2">
+                            <button class="main-button btn btn-default float-right" id="game" type="submit"
+                                    value="Upload!">Aanmaken
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
