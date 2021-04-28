@@ -42,6 +42,7 @@ app.post("/user/login", (req, res) => {
         values: [email, password]
     }, (data) => {
         console.log(data);
+        console.log(data);
         if (data.length === 1) {
             //return just the email for now, never send password back!
             res.status(httpOkCode).json({email: data[0].email});
@@ -68,16 +69,20 @@ app.post("/room_example", (req, res) => {
 
 app.post("/upload", function (req, res) {
     if (!req.files || Object.keys(req.files).length === 0) {
-        return res.status(badRequestCode).json({reason: "No files were uploaded."});
+        return res.status(badRequestCode).json({ reason: "No files were uploaded." });
     }
-
     let sampleFile = req.files.sampleFile;
+    let filename = sampleFile.name;
+    let extension = filename.split(".").pop();
+    let picName = req.body.game_id_game;
+    let path = wwwrootPathUpload + "uploads/"+ picName + "." + extension;
 
-    sampleFile.mv(wwwrootPath + "/uploads/test.jpg", function (err) {
+    // return res.status(badRequestCode).json({  request: path });
+
+    sampleFile.mv(path, function (err) {
         if (err) {
-            return res.status(badRequestCode).json({reason: err});
+            return res.status(badRequestCode).json({ reason: err });
         }
-
         return res.status(httpOkCode).json("OK");
     });
 });

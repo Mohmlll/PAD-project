@@ -20,6 +20,7 @@ global.serverConfigFile = SERVER_CONFIG_FILE;
 global.serverConfig = SERVER_CONFIG;
 global.appPath = process.env.APP || "./";
 global.wwwrootPath = process.env.WWWROOT || "../src/";
+global.wwwrootPathUpload = process.env.WWWROOT || "./src/";
 
 const app = require('./app');
 
