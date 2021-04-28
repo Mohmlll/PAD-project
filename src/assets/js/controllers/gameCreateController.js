@@ -193,14 +193,6 @@ class GameCreateController {
 
     }
 
-    fileUpload() {
-        //Set the proper action url
-        $(this).closest("form").attr("action", `${baseUrl}/upload`);
-
-        //Submit the forms
-        $(this).submit();
-    }
-
     //Called when the home.html has been loaded
     async setup(data) {
 
@@ -214,12 +206,16 @@ class GameCreateController {
             this.onAddGame();
             this.saveMaterials();
             this.redirectToGames();
-            this.fileUpload();
+            //File upload
+            this.gameView.find("#game").on("click", function () {
+                //Set the proper action url
+                $(this).closest("form").attr("action", `${baseUrl}/game`);
+
+                //Submit the forms
+                $(this).submit();
+            });
         })
-        // //File upload
-        // this.gameView.find("#game").on("click", function () {
-        //
-        // });
+
 
         //Empty the content-div and add the resulting view to the page
         $(".content").empty().append(this.gameView);

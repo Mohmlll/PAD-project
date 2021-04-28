@@ -67,23 +67,31 @@ app.post("/room_example", (req, res) => {
 
 });
 
-app.post("/upload", function (req, res) {
+app.post("/game", function (req, res) {
     if (!req.files || Object.keys(req.files).length === 0) {
         return res.status(badRequestCode).json({ reason: "No files were uploaded." });
     }
     let sampleFile = req.files.sampleFile;
     let filename = sampleFile.name;
     let extension = filename.split(".").pop();
-    let picName = req.body.game_id_game;
+    let picName = req.body.id_game;
     let path = wwwrootPathUpload + "uploads/"+ picName + "." + extension;
 
     // return res.status(badRequestCode).json({  request: path });
 
     sampleFile.mv(path, function (err) {
         if (err) {
-            return res.status(badRequestCode).json({ reason: err });
+            return res.status(badRequestCode).json({reason: err});
         }
-        return res.status(httpOkCode).json("OK");
+        db.handleQuery(connectionPool, {
+            query: "insert into game(name, description, rules, target_audience_min, target_audience_max, type, amount_players, differentiates_easy, differentiates_hard) values(?,?,?,?,?,?,?,?,?)",
+            values: [req.body.name, req.body.description, req.body.rules, req.body.audienceMin, req.body.audienceMax, req.body.type, req.body.amountStudents, req.body.difEasy, req.body.difHard]
+        }, (data) => {
+            res.json({data})
+        }, (err) => {
+            console.log(err);
+            res.json({message: "F"})
+        });
     });
 });
 
@@ -244,17 +252,17 @@ app.post('/materials', (req, res) => {
 });
 
 
-app.post('/game', (req, res) => {
-    db.handleQuery(connectionPool, {
-        query: "insert into game(name, description, rules, target_audience_min, target_audience_max, type, amount_players, differentiates_easy, differentiates_hard) values(?,?,?,?,?,?,?,?,?)",
-        values: [req.body.name, req.body.description, req.body.rules, req.body.audienceMin, req.body.audienceMax, req.body.type, req.body.amountStudents, req.body.difEasy, req.body.difHard]
-    }, (data) => {
-        res.json({data})
-    }, (err) => {
-        console.log(err);
-        res.json({message: "F"})
-    });
-});
+// app.post('/game', (req, res) => {
+//     db.handleQuery(connectionPool, {
+//         query: "insert into game(name, description, rules, target_audience_min, target_audience_max, type, amount_players, differentiates_easy, differentiates_hard) values(?,?,?,?,?,?,?,?,?)",
+//         values: [req.body.name, req.body.description, req.body.rules, req.body.audienceMin, req.body.audienceMax, req.body.type, req.body.amountStudents, req.body.difEasy, req.body.difHard]
+//     }, (data) => {
+//         res.json({data})
+//     }, (err) => {
+//         console.log(err);
+//         res.json({message: "F"})
+//     });
+// });
 
 //------- END ROUTES -------
 
