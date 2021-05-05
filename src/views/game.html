@@ -19,14 +19,14 @@
             <div class="row center-text align-content-center ">
                 <div class="col-md-2 col-sm-12 mt-2">
                     <fieldset>
-                        <label class="float-left" for=""><b>Zoeken</b></label>
-                        <input class="form-control" id="" name="" required=""
+                        <label class="float-left" for="search-filter"><b>Zoeken</b></label>
+                        <input class="form-control" id="search-filter" name="" required=""
                                type="text">
                     </fieldset>
                 </div>
                 <div class="col-md-2 col-sm-12 mt-2">
                     <fieldset>
-                        <label class="float-left" for=""><b>Type Spel</b></label>
+                        <label class="float-left" for="game-type-filter"><b>Type Spel</b></label>
                         <select aria-label="Default select example" class="form-control" id="game-type-filter">
                             <option selected>Alle soorten</option>
                         </select>
@@ -34,7 +34,7 @@
                 </div>
                 <div class="col-md-2 col-sm-12 mt-2">
                     <fieldset>
-                        <label class="float-left" for=""><b>Vanaf leerjaar</b></label>
+                        <label class="float-left" for="game-target-audience-min"><b>Vanaf leerjaar</b></label>
                         <select aria-label="Default select example" class="form-control" id="game-target-audience-min">
 
                         </select>
@@ -42,7 +42,7 @@
                 </div>
                 <div class="col-md-2 col-sm-12 mt-2">
                     <fieldset>
-                        <label class="float-left" for=""><b>Tot leerjaar</b></label>
+                        <label class="float-left" for="game-target-audience-max"><b>Tot leerjaar</b></label>
                         <select aria-label="Default select example" class="form-control" id="game-target-audience-max">
 
                         </select>
@@ -50,7 +50,7 @@
                 </div>
                 <div class="col-md-2 col-sm-12 mt-2">
                     <fieldset>
-                        <label class="float-left" for="game-filter"><b>Materiaal</b></label>
+                        <label class="float-left" for="game-material-filter"><b>Materiaal</b></label>
                         <select class="form-control" id="game-material-filter" name="game-filter">
                             <option selected>Alle materialen</option>
                         </select>
@@ -73,6 +73,9 @@
 
         <div class="row" id="gameview">
 
+        </div>
+        <div class="no-result-alert features-small-item h-100">
+            geen zoek resultaten
         </div>
     </div>
 </section>

@@ -1,69 +1,53 @@
 class GameController {
     constructor() {
+        this.userRepository = new UserRepository();
+
         $.get("views/game.html")
             .then((data) => this.setup(data))
             .catch(() => this.error());
     }
 
-    async onGetGame() {
+    async onGetGame(games) {
+        $("#gameview").empty();
         // get data
-
-        const result = await $.ajax({
-            url: baseUrl + "/game",
-            contentType: "application/json",
-            method: "get"
-        });
-        this.games = result;
-        this.materials = await $.ajax({
-            url: baseUrl + "/displaymaterials",
-            contentType: "application/json",
-            method: "get"
-        });
-
+        this.game = await this.userRepository.getGames();
         // get template
-        let gameTemplate = await $.get("views/templateGame.html")
+        let gameTemplate = await $.get("views/templateGame.html");
+        let gameId, name;
 
-        // loop trough available games
-        for (let i = 0; i < result.length; i++) {
-            const row = result[i];
-            let gameId = row["id_game"];
-            let name = row["name"];
-            let description = row["description"];
-            let target_audience_min = row["target_audience_min"];
-            let target_audience_max = row["target_audience_max"];
-            let type = row["type"];
-            let amount_players = row["amount_players"];
-            let rules = row["rules"];
-            let differentiates_easy = row["differentiates_easy"];
-            let differentiates_hard = row["differentiates_hard"];
-            // let game_image = row["image_url"];
-
-            let gameRowTemplate = $(gameTemplate);
-            gameRowTemplate.find(".game-name").text(name);
-            gameRowTemplate.find(".description").text(description);
-            gameRowTemplate.find(".target_audience_min").text("Vanaf: " + target_audience_min);
-            gameRowTemplate.find(".target_audience_max").text(" T/M: " + target_audience_max);
-            gameRowTemplate.find(".type").text(type);
-            gameRowTemplate.find(".amount_players").text(amount_players);
-            gameRowTemplate.find(".rules").text(rules);
-            gameRowTemplate.find(".differentiates_easy").text(differentiates_easy);
-            gameRowTemplate.find(".differentiates_hard").text(differentiates_hard);
-            gameRowTemplate.find(".materials").addClass("materials" + gameId).removeClass("materials");
-            // gameRowTemplate.find(".game_image").attr("src", "../uploads/" + gameId + ".png");
-            // gameRowTemplate.find(".game_image").attr("src", "../assets/img/template/blank.jpg");
-            gameRowTemplate.find(".collapse").removeClass("collapseSummary").addClass("collapseSummary" + gameId);
-            gameRowTemplate.attr("id", "g" + String(gameId))
-
-            gameRowTemplate.on("click", () => {
-                this.navigateTo(gameId);
-            })
-            gameRowTemplate.find("a[href='.collapseSummary']").attr('href', '.collapseSummary' + gameId);
-            gameRowTemplate.appendTo("#gameview");
+        if (games == null) {
+            games = this.game;
+            // loop trough available games
+            for (let i = 0; i < games.length; i++) {
+                const row = games[i];
+                gameId = row["id_game"];
+                name = row["name"];
+                this.fillTemplate(gameTemplate, name, gameId);
+            }
+        } else {
+            for (let i = 0; i < games.length; i++) {
+                const row = games[i];
+                gameId = row.id_game;
+                name = row.name;
+                this.fillTemplate(gameTemplate, name, gameId);
+            }
         }
-        for (let j = 0; j < this.materials.length; j++) {
-            let gameId = this.materials[j]["game_id_game"];
-            $(".materials" + gameId).append("Soort: " + this.materials[j]["material"] + ", Aantal: " + this.materials[j]["amount"] + "\n\n\n\n\n")
-        }
+
+
+
+    }
+
+    fillTemplate(gameTemplate, name, gameId){
+        let gameRowTemplate = $(gameTemplate);
+        gameRowTemplate.find(".game-name").text(name);
+        // gameRowTemplate.find(".game_image").attr("src", "../uploads/" + gameId + ".png");
+
+        gameRowTemplate.on("click", () => {
+            this.navigateTo(gameId);
+        })
+        gameRowTemplate.find("a[href='.collapseSummary']").attr('href', '.collapseSummary' + gameId);
+        gameRowTemplate.appendTo("#gameview");
+
 
     }
 
@@ -84,11 +68,6 @@ class GameController {
 
         this.intDropDownDataGameTypeFilter = this.dropDownDataGameTypeFilter.length;
 
-        // for (let i = 0; i < this.intDropDownDataGameTypeFilter; i++) {
-        //     let a = $('<a class="gametypeFilterGames"></a>').attr("value", this.dropDownDataGameTypeFilter[i]["type"]);
-        //     a.text(this.dropDownDataGameTypeFilter[i]["type"])
-        //     a.appendTo("#gameTypeFilter");
-        // }
         for (let i = 0; i < this.intDropDownDataGameTypeFilter; i++) {
             $('#game-type-filter').append(`<option value="${this.dropDownDataGameTypeFilter[i]["type"]}">
             ${this.dropDownDataGameTypeFilter[i]["type"]} </option>`)
@@ -105,15 +84,6 @@ class GameController {
         });
         this.intDropDownDataGameAudienceFilter = this.dropDownDataGameAudienceFilter.length;
 
-        // for (let i = 0; i < this.intDropDownDataGameAudienceFilter; i++) {
-        //     let a = $('<a class="gameAudienceFilterGamesMin"></a>').attr("value", this.dropDownDataGameAudienceFilter[i]["audience"]);
-        //     let b = $('<a class="gameAudienceFilterGamesMax"></a>').attr("value", this.dropDownDataGameAudienceFilter[i]["audience"]);
-        //     a.text(this.dropDownDataGameAudienceFilter[i]["audience"])
-        //     b.text(this.dropDownDataGameAudienceFilter[i]["audience"])
-        //     a.appendTo("#gameAudienceFilterMin");
-        //     b.appendTo("#gameAudienceFilterMax");
-        //
-        // }
         for (let i = 0; i < this.intDropDownDataGameAudienceFilter; i++) {
             $('#game-target-audience-min').append(`<option value="${this.dropDownDataGameAudienceFilter[i]["audience"]}">
             ${this.dropDownDataGameAudienceFilter[i]["audience"]}</option>`)
@@ -152,8 +122,9 @@ class GameController {
         $("#gameAudienceFilterMax").toggleClass("show", "show");
     }
 
+
     filter() {
-        for (let j = 0; j < this.games.length; j++) {
+        for (let j = 0; j < this.game.length; j++) {
             let input, filter, a, i, game, txtValue,
                 gametype, gameId;
 
@@ -161,10 +132,10 @@ class GameController {
 
             filter = input.toLowerCase();
 
-            gameId = this.games[j]["id_game"];
+            gameId = this.game[j]["id_game"];
             game = $('#g' + gameId);
 
-            a = $('#gameTypeFilter a');
+            a = $('#game-type-filter a');
 
             gametype = game.find('.type').text().toLowerCase()
 
@@ -192,7 +163,7 @@ class GameController {
             input2 = $('#inputFilter2').val();
             filter2 = input2.toLowerCase();
 
-            gameId = this.games[j]["id_game"];
+            gameId = this.game[j]["id_game"];
             game = $('#g' + gameId);
 
             a2 = $('#gameAudienceFilterMin a');
@@ -216,7 +187,7 @@ class GameController {
     }
 
     filter3() {
-        for (let j = 0; j < this.games.length; j++) {
+        for (let j = 0; j < this.game.length; j++) {
             let input3, filter3, a3, i, game, txtValue3,
                 gameId, gameAudienceMax;
 
@@ -224,7 +195,7 @@ class GameController {
 
             filter3 = input3.toLowerCase();
 
-            gameId = this.games[j]["id_game"];
+            gameId = this.game[j]["id_game"];
             game = $('#g' + gameId);
 
             a3 = $('#gameAudienceFilterMax a');
@@ -253,6 +224,23 @@ class GameController {
         //Load the welcome-content into memory
         this.gameView = $(data);
 
+        $('#search-filter', this.gameView).on("keyup", async (e) => {
+            const searchString = e.target.value.toLowerCase();
+
+            const filteredGames = this.game.filter((game) => {
+                return (
+                    game.name.toLowerCase().includes(searchString)
+                );
+            });
+            console.log(filteredGames);
+            await this.onGetGame(filteredGames);
+            if (filteredGames.length === 0){
+                $('.no-result-alert').show();
+            }else{
+                $('.no-result-alert').hide();
+            }
+
+        });
 
         $("#filter-button", this.gameView).on("click", () => {
             this.filterToggleType()

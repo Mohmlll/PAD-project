@@ -68,4 +68,8 @@ class UserRepository {
     async update(id, values = {}) {
 
     }
+    async getGames(){
+        return await networkManager
+            .doRequest('/game', null,  "GET")
+    }
 }
