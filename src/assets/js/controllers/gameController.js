@@ -32,12 +32,9 @@ class GameController {
                 this.fillTemplate(gameTemplate, name, gameId);
             }
         }
-
-
-
     }
 
-    fillTemplate(gameTemplate, name, gameId){
+    fillTemplate(gameTemplate, name, gameId) {
         let gameRowTemplate = $(gameTemplate);
         gameRowTemplate.find(".game-name").text(name);
         // gameRowTemplate.find(".game_image").attr("src", "../uploads/" + gameId + ".png");
@@ -234,9 +231,9 @@ class GameController {
             });
             console.log(filteredGames);
             await this.onGetGame(filteredGames);
-            if (filteredGames.length === 0){
+            if (filteredGames.length === 0) {
                 $('.no-result-alert').show();
-            }else{
+            } else {
                 $('.no-result-alert').hide();
             }
 
