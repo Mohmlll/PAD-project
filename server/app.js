@@ -264,7 +264,7 @@ app.post('/rating', (req, res) => {
 });
 app.post('/ratingCheck', (req, res) => {
     db.handleQuery(connectionPool, {
-        query: "select * from rating where id_game = ? ,id_user = ? values(?,?)",
+        query: "select rating from rating where id_game = ? ,id_user = ? values(?,?)",
         values: [req.body.id_game, req.body.id_user]
     }, (data) => {
         res.json({data})
