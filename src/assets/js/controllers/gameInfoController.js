@@ -103,9 +103,13 @@ class GameInfoController {
 
         await this.onGetGame();
 
-        window.onhashchange = function () {
-            app.loadController(CONTROLLER_GAME)
-            location.reload()
+        if (window.history && window.history.pushState) {
+            
+            $(window).on('popstate', function() {
+                app.loadController(CONTROLLER_GAME)
+                location.reload()
+            });
+
         }
 
         templateManager.listen();
