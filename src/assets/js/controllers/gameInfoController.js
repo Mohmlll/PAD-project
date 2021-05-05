@@ -107,8 +107,52 @@ class GameInfoController {
     }
 
     async postRating(userId, gameId, rating) {
+        let alreadyReviewed;
+
         try {
-            await this.userRepository.rating(userId, gameId, rating)
+            const game = await this.userRepository.ratingCheck(userId, gameId)
+
+            alreadyReviewed = game.length !== 0;
+        } catch (e) {
+            if (e.code === 401) {
+                this.gameView
+                    .find(".error")
+                    .html(e.reason);
+            } else {
+                console.log(e);
+            }
+        }
+        if (alreadyReviewed) {
+            console.log("heeft al een rating")
+            //Update statement werkt niet helemaal correct :/
+            try {
+                await this.userRepository.getSpecificRatingForEachUser(rating, userId, gameId)
+            } catch (e) {
+                if (e.code === 401) {
+                    this.gameView
+                        .find(".error")
+                        .html(e.reason);
+                } else {
+                    console.log(e);
+                }
+            }
+        } else {
+            console.log("heeft nog geen rating")
+            try {
+                await this.userRepository.rating(userId, gameId, rating)
+            } catch (e) {
+                if (e.code === 401) {
+                    this.gameView
+                        .find(".error")
+                        .html(e.reason);
+                } else {
+                    console.log(e);
+                }
+            }
+        }
+
+        try {
+            await this.userRepository.getSpecificRatingForEachGame(userId, gameId)
         } catch (e) {
             if (e.code === 401) {
                 this.gameView
