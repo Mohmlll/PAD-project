@@ -38,14 +38,14 @@ app.post("/user/login", (req, res) => {
     const password = cryptoHelper.getHashedPassword(req.body.password);
 
     db.handleQuery(connectionPool, {
-        query: "SELECT email, password FROM user WHERE email = ? AND password = ?",
+        query: "SELECT id, email, password FROM user WHERE email = ? AND password = ?",
         values: [email, password]
     }, (data) => {
         console.log(data);
         console.log(data);
         if (data.length === 1) {
             //return just the email for now, never send password back!
-            res.status(httpOkCode).json({email: data[0].email});
+            res.status(httpOkCode).json({email: data[0].email, id: data[0].id});
         } else {
             //wrong email
             res.status(authorizationErrCode).json({reason: "Wrong email or password", values:[password, email]});
@@ -243,6 +243,18 @@ app.post('/materials', (req, res) => {
     db.handleQuery(connectionPool, {
         query: "insert into game_has_material(game_id_game, material_id, amount) values(?,?,?)",
         values: [req.body.game, req.body.material, req.body.amount]
+    }, (data) => {
+        res.json({data})
+    }, (err) => {
+        console.log(err);
+        res.json({message: "F"})
+    });
+});
+
+app.post('/rating', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "insert into rating(id_user, id_game, rating) values(?,?,?)",
+        values: [req.body.id_user, req.body.id_game, req.body.rating]
     }, (data) => {
         res.json({data})
     }, (err) => {

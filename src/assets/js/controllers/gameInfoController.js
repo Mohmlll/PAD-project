@@ -92,6 +92,32 @@ class GameInfoController {
         gameInfoRowTemplate.appendTo("#game-info-view");
     }
 
+    async getRating() {
+        let userId;
+        let gameId;
+        let rating;
+        let gameRating;
+
+        $("#rating_game").on("click", "input", async function() {
+            rating = $(this).val();
+            gameId = parseInt(window.location.hash.replace("#game", ""));
+            userId = sessionManager.get("id");
+            console.log(rating, gameId, userId)
+            try {
+                gameRating = await this.userRepository.rating(userId, gameId, rating)
+            } catch (e) {
+                if (e.code === 401) {
+                    this.gameView
+                        .find(".error")
+                        .html(e.reason);
+                } else {
+                    console.log(e);
+                }
+            }
+        });
+
+    }
+
 
     //Called when the home.html has been loaded
     async setup(data) {
@@ -102,14 +128,12 @@ class GameInfoController {
         $(".content").empty().append(this.gameView);
 
         await this.onGetGame();
-
+        await this.getRating();
+        //Reload page when back button is pressed
         if (window.history && window.history.pushState) {
-            
-            $(window).on('popstate', function() {
-                app.loadController(CONTROLLER_GAME)
+            $(window).on('popstate', () => {
                 location.reload()
             });
-
         }
 
         templateManager.listen();
@@ -119,4 +143,6 @@ class GameInfoController {
     error() {
         $(".content").html("Failed to load content!");
     }
+
+
 }

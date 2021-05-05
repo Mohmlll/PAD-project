@@ -64,8 +64,13 @@ class UserRepository {
         return await networkManager
             .doRequest('/newGameListLimit3', null, "GET")
     }
+    async rating(userId, gameId, rating) {
+        return await networkManager
+            .doRequest('/rating', {id_user: userId, id_game: gameId, rating: rating}, "POST")
+    }
 
     async update(id, values = {}) {
 
     }
+
 }
