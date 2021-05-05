@@ -88,7 +88,6 @@ class GameInfoController {
 
         }
 
-
         gameInfoRowTemplate.appendTo("#game-info-view");
     }
 
@@ -96,26 +95,29 @@ class GameInfoController {
         let userId;
         let gameId;
         let rating;
-        let gameRating;
 
-        $("#rating_game").on("click", "input", async function() {
-            rating = $(this).val();
+        $("#rating_game input").on("click", (event) => {
+            rating = $(event.target).val();
             gameId = parseInt(window.location.hash.replace("#game", ""));
             userId = sessionManager.get("id");
             console.log(rating, gameId, userId)
-            try {
-                gameRating = await this.userRepository.rating(userId, gameId, rating)
-            } catch (e) {
-                if (e.code === 401) {
-                    this.gameView
-                        .find(".error")
-                        .html(e.reason);
-                } else {
-                    console.log(e);
-                }
-            }
+            this.postRating(userId, gameId, rating)
         });
 
+    }
+
+    async postRating(userId, gameId, rating) {
+        try {
+            await this.userRepository.rating(userId, gameId, rating)
+        } catch (e) {
+            if (e.code === 401) {
+                this.gameView
+                    .find(".error")
+                    .html(e.reason);
+            } else {
+                console.log(e);
+            }
+        }
     }
 
 
@@ -129,6 +131,10 @@ class GameInfoController {
 
         await this.onGetGame();
         await this.getRating();
+
+        // $("#rating_game", this.gameView).on("click", "input", () => {
+        //     this.getRating();
+        // })
         //Reload page when back button is pressed
         if (window.history && window.history.pushState) {
             $(window).on('popstate', () => {
