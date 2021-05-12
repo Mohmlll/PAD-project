@@ -8,14 +8,14 @@
                 <!-- ***** Logo End ***** -->
                 <!-- ***** Menu Start ***** -->
                 <ul class="nav">
-                    <li><a data-controller="home" href="#home">Home</a></li>
+                    <!-- ***** Dont use href="{hash}" ***** -->
+                    <li><a data-controller="home">Home</a></li>
+                    <li><a data-controller="game">Spellen</a></li>
 
-                    <li><a data-controller="game" href="#game">Spellen</a></li>
-                    <li show-login="true"><a data-controller="gameCreate" href="#">Spellen aanmaken</a></li>
-
-                    <li show-login="false"><a data-controller="login" href="#">Inloggen</a></li>
-                    <li show-login="false"><a href="#" data-controller="register">Registreren</a></li>
-                    <li show-login="true"><a href="#" id="logout">Uitloggen</a></li>
+                    <li show-login="true"><a data-controller="gameCreate">Spellen aanmaken</a></li>
+                    <li show-login="false"><a data-controller="login">Inloggen</a></li>
+                    <li show-login="false"><a data-controller="register">Registreren</a></li>
+                    <li show-login="true"><a id="logout">Uitloggen</a></li>
                 </ul>
                 <a class='menu-trigger'>
                     <span>Menu</span>

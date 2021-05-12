@@ -42,10 +42,13 @@ class App {
 
         // console.log("loadController: " + name);
         if (controllerData) {
-            console.log(controllerData);
+            // console.log(controllerData);
         } else {
             controllerData = {};
         }
+
+        console.log('Load controller', name, controllerData)
+
         switch (name) {
             case CONTROLLER_SIDEBAR:
                 new NavbarController();
@@ -70,8 +73,8 @@ class App {
                 new UploadController();
                 break;
             case CONTROLLER_REGISTER:
-                new RegisterController();
                 this.setHash(name)
+                new RegisterController();
                 break;
             case CONTROLLER_GAME:
                 this.setHash(name);
@@ -116,6 +119,7 @@ class App {
     }
 
     setHash(name) {
+        // als dit niet werkt staat er waarschijnlijk href="#" in je link..
         location.hash = name;
     }
 
