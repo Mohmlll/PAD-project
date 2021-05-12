@@ -91,7 +91,6 @@ class LoginController {
         // send email
         try {
 
-
         } catch (e) {
             //if unauthorized error show error to user
             if (e.code === 401) {

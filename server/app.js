@@ -53,9 +53,9 @@ app.post("/user/login", (req, res) => {
 
     }, (err) => res.status(badRequestCode).json({reason: err}));
 });
+
 //dummy data example - rooms
 app.post("/room_example", (req, res) => {
-
     db.handleQuery(connectionPool, {
             query: "SELECT id, surface FROM room_example WHERE id = ?",
             values: [req.body.id]
@@ -105,6 +105,7 @@ app.post("/gameInfo", (req, res) => {
         res.json({message: "noooope"})
     })
 })
+
 app.post("/gameInfoMaterials", (req, res) => {
     db.handleQuery(connectionPool, {
         query: "SELECT * FROM game_has_material WHERE game_id_game = ?",
@@ -161,6 +162,7 @@ app.get('/game', (req, res) => {
         })
     });
 });
+
 app.get('/newGameListLimit3', (req, res) => {
     db.handleQuery(connectionPool, {
         query: "select * from game order by id_game desc limit 3"
@@ -186,6 +188,7 @@ app.get('/material', (req, res) => {
         })
     });
 });
+
 app.get('/materials', (req, res) => {
     db.handleQuery(connectionPool, {
         query: "select * from game_has_material"
@@ -198,6 +201,7 @@ app.get('/materials', (req, res) => {
         })
     });
 });
+
 app.get('/displayMaterials', (req, res) => {
     db.handleQuery(connectionPool, {
         query: "select * from game_has_material inner join material on game_has_material.material_id = material.id"
@@ -210,7 +214,6 @@ app.get('/displayMaterials', (req, res) => {
         })
     });
 });
-
 
 app.get('/audience', (req, res) => {
     db.handleQuery(connectionPool, {
@@ -237,7 +240,6 @@ app.get('/gametype', (req, res) => {
         })
     });
 });
-
 
 app.post('/materials', (req, res) => {
     db.handleQuery(connectionPool, {
@@ -298,6 +300,24 @@ app.post('/ratings', (req, res) => {
     });
 });
 
+app.post('/reset', (req, res) => {
+    const email = {
+        "from": {
+            "name": "Group",
+            "address": "group@hbo-ict.cloud"
+        },
+        "to": [
+            {
+                "name": "Lennard Fonteijn",
+                "address": "l.c.j.fonteijn@hva.nl"
+            }
+        ],
+        "subject": "Just a test!",
+        "html": "Hello Lennard!This is an email :)"
+    };
+
+    // $.post('')
+});
 
 
 // app.post('/game', (req, res) => {
