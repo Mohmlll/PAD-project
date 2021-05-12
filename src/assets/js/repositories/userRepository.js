@@ -81,7 +81,7 @@ class UserRepository {
 
     async getAvgRatingForSpecifiedGame(gameId) {
         return await networkManager
-            .doRequest('/ratings', {id_game: gameId}, "GET")
+            .doRequest('/ratings', {id_game: gameId}, "POST")
     }
 
     async update(id, values = {}) {

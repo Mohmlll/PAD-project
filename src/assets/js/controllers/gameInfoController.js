@@ -87,38 +87,34 @@ class GameInfoController {
             gameInfoRowTemplate.find(".game-info-materials").append(materialStringReplaced)
 
         }
+        let avgRating = await this.getAvgRating(gameId)
+        let countRating = await this.getCountRating(gameId)
+        gameInfoRowTemplate.find("#avg_rating").append(avgRating + "(" + countRating + ")");
 
         gameInfoRowTemplate.appendTo("#game-info-view");
     }
 
-    async getAvgRatingForSpecifiedGame(gameId) {
-        try {
-            await this.userRepository.getAvgRatingForSpecifiedGame(gameId)
-        } catch (e) {
-            if (e.code === 401) {
-                this.gameView
-                    .find(".error")
-                    .html(e.reason);
-            } else {
-                console.log(e);
-            }
-        }
+    async getAvgRating(gameId) {
+        let avgRatingCall = await this.userRepository.getAvgRatingForSpecifiedGame(gameId)
+        return avgRatingCall.data[0]["average"];
     }
 
+    async getCountRating(gameId) {
+        let countCall = await this.userRepository.getAvgRatingForSpecifiedGame(gameId)
+        return countCall.data[0]["total"];
+    }
+
+
     async getRating() {
-        let userId;
-        let gameId;
+        let gameId = parseInt(window.location.hash.replace("#game", ""));
+        let userId = sessionManager.get("id");
         let rating;
 
-        await this.getAvgRatingForSpecifiedGame(userId, gameId)
-        
         $("#rating_game input").on("click", (event) => {
             rating = $(event.target).val();
-            gameId = parseInt(window.location.hash.replace("#game", ""));
-            userId = sessionManager.get("id");
             this.postRating(userId, gameId, rating);
-
-        });
+            this.getAvgRating(gameId)
+        })
 
     }
 

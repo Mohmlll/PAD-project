@@ -285,9 +285,9 @@ app.post('/ratingUpdate', (req, res) => {
         res.json({message: "/ratingupdate doesnt work"})
     });
 });
-app.get('/ratings', (req, res) => {
+app.post('/ratings', (req, res) => {
     db.handleQuery(connectionPool, {
-        query: "select avg(rating) from rating where id_game = ?",
+        query: "select avg(rating) as average, count(*) as total from rating where id_game = ?",
         values: [req.body.id_game]
     }, (data) => {
             console.log("Query success")
