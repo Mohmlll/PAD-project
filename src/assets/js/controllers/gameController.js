@@ -125,31 +125,10 @@ class GameController {
             let input, filter, a, i, game, txtValue,
                 gametype, gameId;
 
-            input = $('#inputFilter').val();
+            input = $('#game-type-filter');
+            let selOption = input.option[input.selectedIndex]
 
-            filter = input.toLowerCase();
 
-            gameId = this.game[j]["id_game"];
-            game = $('#g' + gameId);
-
-            a = $('#game-type-filter a');
-
-            gametype = game.find('.type').text().toLowerCase()
-
-            for (i = 0; i < a.length; i++) {
-                txtValue = a[i].textContent || a[i].innerText;
-                if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                    a[i].style.display = "";
-                } else {
-                    a[i].style.display = "none";
-                }
-                if (gametype.indexOf(filter) > -1) {
-                    game.show();
-                } else {
-                    game.hide();
-                }
-
-            }
         }
     }
 
