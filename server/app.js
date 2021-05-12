@@ -259,42 +259,44 @@ app.post('/rating', (req, res) => {
         res.json({data})
     }, (err) => {
         console.log(err);
-        res.json({message: "F"})
+        res.json({message: "/rating doesnt work"})
     });
 });
-// app.post('/ratingCheck', (req, res) => {
-//     db.handleQuery(connectionPool, {
-//         query: "select rating from rating where id_game = ? ,id_user = ? values(?,?)",
-//         values: [req.body.id_game, req.body.id_user]
-//     }, (data) => {
-//         res.json({data})
-//     }, (err) => {
-//         console.log(err);
-//         res.json({message: "F"})
-//     });
-// });
-// app.post('/ratingUpdate', (req, res) => {
-//     db.handleQuery(connectionPool, {
-//         query: "update rating set rating = ? where id_game = ? ,id_user = ? values(?,?,?)",
-//         values: [req.body.rating, req.body.id_game, req.body.id_user]
-//     }, (data) => {
-//         res.json({data})
-//     }, (err) => {
-//         console.log(err);
-//         res.json({message: "F"})
-//     });
-// });
-// app.get('/ratings', (req, res) => {
-//     db.handleQuery(connectionPool, {
-//         query: "select avg(rating) from rating where id_game = ? values(?)",
-//         values: [req.body.id_game]
-//     }, (data) => {
-//         res.json({data})
-//     }, (err) => {
-//         console.log(err);
-//         res.json({message: "F"})
-//     });
-// });
+app.post('/ratingCheck', (req, res) => {
+    console.log("/ratings doesnt work")
+    db.handleQuery(connectionPool, {
+        query: "select rating from rating where id_game = ? AND id_user = ?",
+        values: [req.body.id_game, req.body.id_user]
+    }, (data) => {
+        res.json({data})
+    }, (err) => {
+        console.log(err);
+        res.json({message: "/ratingCheck doesnt work"})
+    });
+});
+app.post('/ratingUpdate', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "update rating set rating = ? where id_game = ? AND id_user = ?",
+        values: [req.body.rating, req.body.id_game, req.body.id_user]
+    }, (data) => {
+        res.json({data})
+    }, (err) => {
+        console.log(err);
+        res.json({message: "/ratingupdate doesnt work"})
+    });
+});
+app.get('/ratings', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "select avg(rating) from rating where id_game = ?",
+        values: [req.body.id_game]
+    }, (data) => {
+            console.log("Query success")
+        res.json({data})
+    }, (err) => {
+        console.log(err);
+        res.json({message: "/ratings doesnt work"})
+    });
+});
 
 
 

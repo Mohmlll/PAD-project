@@ -111,7 +111,7 @@ class GameInfoController {
 
         try {
             const game = await this.userRepository.ratingCheck(userId, gameId)
-
+            console.log("problem ratingCheck")
             alreadyReviewed = game.length !== 0;
         } catch (e) {
             if (e.code === 401) {
@@ -127,6 +127,7 @@ class GameInfoController {
             //Update statement werkt niet helemaal correct :/
             try {
                 await this.userRepository.getSpecificRatingForEachUser(rating, userId, gameId)
+                console.log("problem getSpecificRatingForEachUser")
             } catch (e) {
                 if (e.code === 401) {
                     this.gameView
