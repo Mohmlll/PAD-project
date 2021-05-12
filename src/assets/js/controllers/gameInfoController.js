@@ -101,17 +101,17 @@ class GameInfoController {
             gameId = parseInt(window.location.hash.replace("#game", ""));
             userId = sessionManager.get("id");
             console.log(rating, gameId, userId)
-            this.postRating(userId, gameId, rating)
+            this.postRating(userId,gameId,rating)
+            this.postRatingCheck(userId, gameId, rating)
         });
 
     }
 
-    async postRating(userId, gameId, rating) {
+    async postRatingCheck(userId, gameId, rating) {
         let alreadyReviewed;
 
         try {
             const game = await this.userRepository.ratingCheck(userId, gameId)
-            console.log("problem ratingCheck")
             alreadyReviewed = game.length !== 0;
         } catch (e) {
             if (e.code === 401) {
@@ -123,24 +123,10 @@ class GameInfoController {
             }
         }
         if (alreadyReviewed) {
-            console.log("heeft al een rating")
+            console.log("ReviewCheck")
             //Update statement werkt niet helemaal correct :/
             try {
                 await this.userRepository.getSpecificRatingForEachUser(rating, userId, gameId)
-                console.log("problem getSpecificRatingForEachUser")
-            } catch (e) {
-                if (e.code === 401) {
-                    this.gameView
-                        .find(".error")
-                        .html(e.reason);
-                } else {
-                    console.log(e);
-                }
-            }
-        } else {
-            console.log("heeft nog geen rating")
-            try {
-                await this.userRepository.rating(userId, gameId, rating)
             } catch (e) {
                 if (e.code === 401) {
                     this.gameView
@@ -151,9 +137,23 @@ class GameInfoController {
                 }
             }
         }
-
         try {
             await this.userRepository.getSpecificRatingForEachGame(userId, gameId)
+        } catch (e) {
+            if (e.code === 401) {
+                this.gameView
+                    .find(".error")
+                    .html(e.reason);
+            } else {
+                console.log(e);
+            }
+        }
+    }
+
+    async postRating(userId,gameId,rating){
+        try {
+            console.log("Rating posted")
+            await this.userRepository.rating(userId, gameId, rating)
         } catch (e) {
             if (e.code === 401) {
                 this.gameView
