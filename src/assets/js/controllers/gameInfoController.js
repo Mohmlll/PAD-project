@@ -91,28 +91,9 @@ class GameInfoController {
         gameInfoRowTemplate.appendTo("#game-info-view");
     }
 
-    async getRating() {
-        let userId;
-        let gameId;
-        let rating;
-
-        $("#rating_game input").on("click", (event) => {
-            rating = $(event.target).val();
-            gameId = parseInt(window.location.hash.replace("#game", ""));
-            userId = sessionManager.get("id");
-            console.log(rating, gameId, userId)
-            this.postRating(userId,gameId,rating)
-            this.postRatingCheck(userId, gameId, rating)
-        });
-
-    }
-
-    async postRatingCheck(userId, gameId, rating) {
-        let alreadyReviewed;
-
+    async getAvgRatingForSpecifiedGame(gameId) {
         try {
-            const game = await this.userRepository.ratingCheck(userId, gameId)
-            alreadyReviewed = game.length !== 0;
+            await this.userRepository.getAvgRatingForSpecifiedGame(gameId)
         } catch (e) {
             if (e.code === 401) {
                 this.gameView
@@ -122,9 +103,41 @@ class GameInfoController {
                 console.log(e);
             }
         }
-        if (alreadyReviewed) {
-            console.log("ReviewCheck")
-            //Update statement werkt niet helemaal correct :/
+    }
+
+    async getRating() {
+        let userId;
+        let gameId;
+        let rating;
+
+        await this.getAvgRatingForSpecifiedGame(userId, gameId)
+        
+        $("#rating_game input").on("click", (event) => {
+            rating = $(event.target).val();
+            gameId = parseInt(window.location.hash.replace("#game", ""));
+            userId = sessionManager.get("id");
+            this.postRating(userId, gameId, rating);
+
+        });
+
+    }
+
+    async postRating(userId, gameId, rating) {
+        let hasRating;
+
+        try {
+            let game = await this.userRepository.ratingCheck(userId, gameId);
+            hasRating = game.data.length !== 0;
+        } catch (e) {
+            if (e.code === 401) {
+                this.gameView
+                    .find(".error")
+                    .html(e.reason);
+            } else {
+                console.log(e);
+            }
+        }
+        if (hasRating) {
             try {
                 await this.userRepository.getSpecificRatingForEachUser(rating, userId, gameId)
             } catch (e) {
@@ -136,31 +149,17 @@ class GameInfoController {
                     console.log(e);
                 }
             }
-        }
-        try {
-            await this.userRepository.getSpecificRatingForEachGame(userId, gameId)
-        } catch (e) {
-            if (e.code === 401) {
-                this.gameView
-                    .find(".error")
-                    .html(e.reason);
-            } else {
-                console.log(e);
-            }
-        }
-    }
-
-    async postRating(userId,gameId,rating){
-        try {
-            console.log("Rating posted")
-            await this.userRepository.rating(userId, gameId, rating)
-        } catch (e) {
-            if (e.code === 401) {
-                this.gameView
-                    .find(".error")
-                    .html(e.reason);
-            } else {
-                console.log(e);
+        } else {
+            try {
+                await this.userRepository.rating(userId, gameId, rating)
+            } catch (e) {
+                if (e.code === 401) {
+                    this.gameView
+                        .find(".error")
+                        .html(e.reason);
+                } else {
+                    console.log(e);
+                }
             }
         }
     }
