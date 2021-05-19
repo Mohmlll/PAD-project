@@ -6,6 +6,7 @@
     "version": "1.0.0",
     "devDependencies": {
         "cypress": "4.4.0",
+        "jspdf": "^2.3.1",
         "nodemon": "2.0.2"
     },
     "dependencies": {
