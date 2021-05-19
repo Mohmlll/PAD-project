@@ -9,11 +9,12 @@ class GameController {
 
     async onGetGame(games) {
         $("#gameview").empty();
+
         // get data
         this.game = await this.userRepository.getGames();
         // get template
         let gameTemplate = await $.get("views/templateGame.html");
-        let gameId, name;
+        let gameId, name, gameType;
 
         if (games == null) {
             games = this.game;
@@ -22,6 +23,7 @@ class GameController {
                 const row = games[i];
                 gameId = row["id_game"];
                 name = row["name"];
+                gameType = row["type"];
                 this.fillTemplate(gameTemplate, name, gameId);
             }
         } else {
@@ -29,6 +31,7 @@ class GameController {
                 const row = games[i];
                 gameId = row.id_game;
                 name = row.name;
+                gameType = row.type;
                 this.fillTemplate(gameTemplate, name, gameId);
             }
         }
@@ -122,10 +125,21 @@ class GameController {
 
     filter() {
         for (let j = 0; j < this.game.length; j++) {
-            let input, filter, a, i, game, txtValue,
-                gametype, gameId;
+            let input, gameId, gameType, gameName;
 
-            input = $('#game-type-filter');
+            input = $('#game-type-filter').val;
+
+            for (let i = 0; i < games.length; i++) {
+                const row = games[i];
+                if (row.type === input ){
+                    gameId = row.id_game;
+                    gameName = row.name;
+                    gameType = row.type;
+
+                    this.fillTemplate(gameTemplate, gameName, gameId);
+                }
+
+            }
             let selOption = input.option[input.selectedIndex]
 
 
