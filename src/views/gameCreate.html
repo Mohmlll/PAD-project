@@ -1,27 +1,27 @@
 <div class="main-area" id="welcome">
     <div class="container game-container page-container">
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="features-small-item h-100 vertical-center">
-                    <div class="login-show">
-                        <h4>Spel aanmaken</h4>
+        <form method="post" encType="multipart/form-data">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="features-small-item h-100 vertical-center">
+                        <div class="login-show">
+                            <h4>Spel aanmaken</h4>
 
-                        <p class="mt-5">
-                            Hier kun je een spel aanmaken, de benodigde materialen aangeven en een beschrijving bij
-                            schrijven. Vergeet ook niet om een foto toe te voegen bij je spel! Je spel komt te staan bij
-                            de Spellen pagina, maar ook op de home pagina onder ''Nieuwste spellen''.
-                        </p>
+                            <p class="mt-5">
+                                Hier kun je een spel aanmaken, de benodigde materialen aangeven en een beschrijving bij
+                                schrijven. Vergeet ook niet om een foto toe te voegen bij je spel! Je spel komt te staan
+                                bij
+                                de Spellen pagina, maar ook op de home pagina onder ''Nieuwste spellen''.
+                            </p>
+                        </div>
                     </div>
-
                 </div>
-            </div>
-            <form encType="multipart/form-data" method="post">
                 <div class="col-lg-4">
                     <div class="features-small-item h-100 vertical-center">
                         <div class="row">
 
                             <div class="col-md-12 col-sm-12 mt-2">
-                                <fieldset>
+                                <fieldset class="file-wrapper">
                                     <label class="float-left" for="game-plan">Plattegrond</label>
                                     <input class="form-control" id="game-plan" name="sampleFile" required type="file">
                                 </fieldset>
@@ -88,8 +88,8 @@
                         </div>
                     </div>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 </div>
 <section class="section home-feature">

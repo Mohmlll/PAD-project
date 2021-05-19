@@ -87,9 +87,77 @@ class GameInfoController {
             gameInfoRowTemplate.find(".game-info-materials").append(materialStringReplaced)
 
         }
-
+        let avgRating = await this.getAvgRating(gameId)
+        let countRating = await this.getCountRating(gameId)
+        gameInfoRowTemplate.find("#avg_rating").append(avgRating + "(" + countRating + ")");
 
         gameInfoRowTemplate.appendTo("#game-info-view");
+    }
+
+    async getAvgRating(gameId) {
+        let avgRatingCall = await this.userRepository.getAvgRatingForSpecifiedGame(gameId)
+        return avgRatingCall.data[0]["average"];
+    }
+
+    async getCountRating(gameId) {
+        let countCall = await this.userRepository.getAvgRatingForSpecifiedGame(gameId)
+        return countCall.data[0]["total"];
+    }
+
+
+    async getRating() {
+        let gameId = parseInt(window.location.hash.replace("#game", ""));
+        let userId = sessionManager.get("id");
+        let rating;
+
+        $("#rating_game input").on("click", (event) => {
+            rating = $(event.target).val();
+            this.postRating(userId, gameId, rating);
+            this.getAvgRating(gameId)
+        })
+
+    }
+
+    async postRating(userId, gameId, rating) {
+        let hasRating;
+
+        try {
+            let game = await this.userRepository.ratingCheck(userId, gameId);
+            hasRating = game.data.length !== 0;
+        } catch (e) {
+            if (e.code === 401) {
+                this.gameView
+                    .find(".error")
+                    .html(e.reason);
+            } else {
+                console.log(e);
+            }
+        }
+        if (hasRating) {
+            try {
+                await this.userRepository.getSpecificRatingForEachUser(rating, userId, gameId)
+            } catch (e) {
+                if (e.code === 401) {
+                    this.gameView
+                        .find(".error")
+                        .html(e.reason);
+                } else {
+                    console.log(e);
+                }
+            }
+        } else {
+            try {
+                await this.userRepository.rating(userId, gameId, rating)
+            } catch (e) {
+                if (e.code === 401) {
+                    this.gameView
+                        .find(".error")
+                        .html(e.reason);
+                } else {
+                    console.log(e);
+                }
+            }
+        }
     }
 
 
@@ -102,10 +170,16 @@ class GameInfoController {
         $(".content").empty().append(this.gameView);
 
         await this.onGetGame();
+        await this.getRating();
 
-        window.onhashchange = function () {
-            app.loadController(CONTROLLER_GAME)
-            location.reload()
+        // $("#rating_game", this.gameView).on("click", "input", () => {
+        //     this.getRating();
+        // })
+        //Reload page when back button is pressed
+        if (window.history && window.history.pushState) {
+            $(window).on('popstate', () => {
+                location.reload()
+            });
         }
 
         templateManager.listen();
@@ -115,4 +189,6 @@ class GameInfoController {
     error() {
         $(".content").html("Failed to load content!");
     }
+
+
 }

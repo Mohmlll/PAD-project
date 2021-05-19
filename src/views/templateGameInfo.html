@@ -1,7 +1,20 @@
 <div class="welcome-area" id="welcome" xmlns="http://www.w3.org/1999/html">
     <div class="container game-container page-container ">
         <div class="white-box w-100">
-            <h2 class="game-info-name"></h2>
+            <h2 class="game-info-name">
+            </h2>
+            <!--Rating begin-->
+            <label for="rating_game" class="rating" id="avg_rating">Gemiddelde beoordeling: </label>
+            <div class="rating" id="rating_game">
+                <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+                <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+            </div>
+
+            <!--Rating end-->
+
         </div>
         <div class="row">
             <div class="col-lg-5">
@@ -49,26 +62,24 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-5 w-100">
-                    <div class="white-box h-100 w-100">
-                        <fieldset>
-                            <h4 class="float-left">Beschrijving</h4>
-                            <br>
-                            <p class="float-left game-info-description">
-                            </p>
-                        </fieldset>
-                    </div>
+            <div class="col-lg-5 w-100">
+                <div class="white-box h-100 w-100">
+                    <fieldset>
+                        <h4 class="float-left">Beschrijving</h4>
+                        <br>
+                        <p class="float-left game-info-description">
+                        </p>
+                    </fieldset>
                 </div>
-                <div class="col-lg-7">
-                    <div class="white-box h-100 w-100">
-                        <fieldset>
-                            <h4 class="float-left">Regels</h4>
-                            <br>
-                            <p class="float-left game-info-description">
-                            </p>
-                        </fieldset>
-                    </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="white-box h-100 w-100">
+                    <fieldset>
+                        <h4 class="float-left">Regels</h4>
+                        <br>
+                        <p class="float-left game-info-description">
+                        </p>
+                    </fieldset>
                 </div>
             </div>
         </div>

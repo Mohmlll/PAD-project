@@ -54,6 +54,7 @@ class GameController {
     navigateTo(gameId) {
         let url = window.location.href;
         app.loadController(CONTROLLER_GAME_INFO);
+        // location.replace(url + "game" + gameId);
         location.replace(url + gameId);
     }
 

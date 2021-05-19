@@ -38,14 +38,14 @@ app.post("/user/login", (req, res) => {
     const password = cryptoHelper.getHashedPassword(req.body.password);
 
     db.handleQuery(connectionPool, {
-        query: "SELECT email, password FROM user WHERE email = ? AND password = ?",
+        query: "SELECT id, email, password FROM user WHERE email = ? AND password = ?",
         values: [email, password]
     }, (data) => {
         console.log(data);
         console.log(data);
         if (data.length === 1) {
             //return just the email for now, never send password back!
-            res.status(httpOkCode).json({email: data[0].email});
+            res.status(httpOkCode).json({email: data[0].email, id: data[0].id});
         } else {
             //wrong email
             res.status(authorizationErrCode).json({reason: "Wrong email or password", values:[password, email]});
@@ -53,9 +53,9 @@ app.post("/user/login", (req, res) => {
 
     }, (err) => res.status(badRequestCode).json({reason: err}));
 });
+
 //dummy data example - rooms
 app.post("/room_example", (req, res) => {
-
     db.handleQuery(connectionPool, {
             query: "SELECT id, surface FROM room_example WHERE id = ?",
             values: [req.body.id]
@@ -105,6 +105,7 @@ app.post("/gameInfo", (req, res) => {
         res.json({message: "noooope"})
     })
 })
+
 app.post("/gameInfoMaterials", (req, res) => {
     db.handleQuery(connectionPool, {
         query: "SELECT * FROM game_has_material WHERE game_id_game = ?",
@@ -161,6 +162,7 @@ app.get('/game', (req, res) => {
         })
     });
 });
+
 app.get('/newGameListLimit3', (req, res) => {
     db.handleQuery(connectionPool, {
         query: "select * from game order by id_game desc limit 3"
@@ -186,6 +188,7 @@ app.get('/material', (req, res) => {
         })
     });
 });
+
 app.get('/materials', (req, res) => {
     db.handleQuery(connectionPool, {
         query: "select * from game_has_material"
@@ -198,6 +201,7 @@ app.get('/materials', (req, res) => {
         })
     });
 });
+
 app.get('/displayMaterials', (req, res) => {
     db.handleQuery(connectionPool, {
         query: "select * from game_has_material inner join material on game_has_material.material_id = material.id"
@@ -210,7 +214,6 @@ app.get('/displayMaterials', (req, res) => {
         })
     });
 });
-
 
 app.get('/audience', (req, res) => {
     db.handleQuery(connectionPool, {
@@ -238,7 +241,6 @@ app.get('/gametype', (req, res) => {
     });
 });
 
-
 app.post('/materials', (req, res) => {
     db.handleQuery(connectionPool, {
         query: "insert into game_has_material(game_id_game, material_id, amount) values(?,?,?)",
@@ -249,6 +251,72 @@ app.post('/materials', (req, res) => {
         console.log(err);
         res.json({message: "F"})
     });
+});
+
+app.post('/rating', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "insert into rating(id_user, id_game, rating) values(?,?,?)",
+        values: [req.body.id_user, req.body.id_game, req.body.rating]
+    }, (data) => {
+        res.json({data})
+    }, (err) => {
+        console.log(err);
+        res.json({message: "/rating doesnt work"})
+    });
+});
+app.post('/ratingCheck', (req, res) => {
+    console.log("/ratings doesnt work")
+    db.handleQuery(connectionPool, {
+        query: "select rating from rating where id_game = ? AND id_user = ?",
+        values: [req.body.id_game, req.body.id_user]
+    }, (data) => {
+        res.json({data})
+    }, (err) => {
+        console.log(err);
+        res.json({message: "/ratingCheck doesnt work"})
+    });
+});
+app.post('/ratingUpdate', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "update rating set rating = ? where id_game = ? AND id_user = ?",
+        values: [req.body.rating, req.body.id_game, req.body.id_user]
+    }, (data) => {
+        res.json({data})
+    }, (err) => {
+        console.log(err);
+        res.json({message: "/ratingupdate doesnt work"})
+    });
+});
+app.post('/ratings', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "select avg(rating) as average, count(*) as total from rating where id_game = ?",
+        values: [req.body.id_game]
+    }, (data) => {
+            console.log("Query success")
+        res.json({data})
+    }, (err) => {
+        console.log(err);
+        res.json({message: "/ratings doesnt work"})
+    });
+});
+
+app.post('/reset', (req, res) => {
+    const email = {
+        "from": {
+            "name": "Group",
+            "address": "group@hbo-ict.cloud"
+        },
+        "to": [
+            {
+                "name": "Lennard Fonteijn",
+                "address": "l.c.j.fonteijn@hva.nl"
+            }
+        ],
+        "subject": "Just a test!",
+        "html": "Hello Lennard!This is an email :)"
+    };
+
+    // $.post('')
 });
 
 
