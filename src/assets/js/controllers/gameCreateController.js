@@ -88,6 +88,7 @@ class GameCreateController {
             method: "get"
         });
         this.intResult = this.result.length;
+
         // get template
         let materialTemplate = await $.get("views/materialTemplate.html")
 

@@ -50,14 +50,6 @@
                 </div>
                 <div class="col-md-2 col-sm-12 mt-2">
                     <fieldset>
-                        <label class="float-left" for="game-material-filter"><b>Materiaal</b></label>
-                        <select class="form-control" id="game-material-filter" name="game-filter">
-                            <option selected>Alle materialen</option>
-                        </select>
-                    </fieldset>
-                </div>
-                <div class="col-md-2 col-sm-12 mt-2">
-                    <fieldset>
                         <label class="float-left" for="game-filter"><b>Sorteren</b></label>
                         <select class="form-control" id="game-filter" name="game-filter">
                             <option>Nieuw</option>
@@ -66,13 +58,19 @@
                         </select>
                     </fieldset>
                 </div>
+                <div class="col-md-2 col-sm-12 mt-2">
+                    <fieldset>
+                        <label class="float-left" for="materialview"><b>Materiaal</b></label>
+                        <br>
+                        <div id="materialview">
+                        </div>
+                    </fieldset>
+                </div>
             </div>
             <div class="col-md-12 col-sm-12 mt-2">
-                <h4>Materialen</h4>
-                <br>
-                <div id="materialview">
-
-                </div>
+                <button class="main-button btn btn-default float-right" id="filter-button" type="submit"
+                        value="Upload!">Zoeken
+                </button>
             </div>
         </div>
         <div class="padding-top-20"></div>

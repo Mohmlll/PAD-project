@@ -9,12 +9,35 @@ class GameController {
 
     async onGetGame(games) {
         $("#gameview").empty();
+        this.result = await $.ajax({
+            url: baseUrl + "/material",
+            contentType: "application/json",
+            method: "get"
+        });
+        this.intResult = this.result.length;
 
         // get data
         this.game = await this.userRepository.getGames();
         // get template
+        let materialTemplate = await $.get("views/materialTemplate.html")
         let gameTemplate = await $.get("views/templateGame.html");
         let gameId, name, gameType;
+        // loop trough available materials
+        for (let i = 0; i < this.result.length; i++) {
+            const resultUsable = this.result[i];
+
+            let material_id = resultUsable["id"]
+            let material = resultUsable["material"]
+
+            let materialTemplateUsable = $(materialTemplate);
+
+            materialTemplateUsable.find(".labelMaterials").text(material);
+            materialTemplateUsable.find(".material-input").attr("id", "noOfRoom" + material_id);
+            materialTemplateUsable.find(".material-plus").attr("id", "adds" + material_id);
+            materialTemplateUsable.find(".material-minus").attr("id", "subs" + material_id);
+            materialTemplateUsable.appendTo("#materialview");
+
+        }
 
         if (games == null) {
             games = this.game;
@@ -36,6 +59,39 @@ class GameController {
             }
         }
     }
+
+    add() {
+        for (let i = 1; i <= this.intResult; i++) {
+            $('#adds' + i, this.gameView).on("click", (e) => {
+                $('#adds' + i).parent().prev().children().val()
+                let curr = $('#adds' + i).parent().prev().children().val()
+                if (curr > 0) {
+                    $('#subs' + i).removeAttr('disabled');
+                }
+                if (curr >= 98) {
+                    $('#adds' + i).attr('disabled', 'disabled');
+                }
+                $('#adds' + i).parent().prev().children().val(Number(curr) + 1)
+            });
+        }
+    }
+
+    remove() {
+        for (let i = 1; i <= this.intResult; i++) {
+            $('#subs' + i, this.gameView).on("click", (e) => {
+                let curr = $('#subs' + i).parent().next().children().val();
+                if (curr <= 0) {
+                    $('#subs' + i).attr('disabled', 'disabled');
+                } else {
+                    $('#subs' + i).parent().next().children().val(Number(curr) - 1);
+                }
+                if (curr <= 99) {
+                    $('#adds' + i).removeAttr('disabled');
+                }
+            });
+        }
+    }
+
 
     fillTemplate(gameTemplate, name, gameId) {
         let gameRowTemplate = $(gameTemplate);
@@ -125,26 +181,49 @@ class GameController {
 
 
     filter() {
-        for (let j = 0; j < this.game.length; j++) {
-            let input, gameId, gameType, gameName;
+        let gameType, vanafLeerjaar, totLeerjaar;
+        let filteredTypeGames;
+        let game = this.game;
 
-            input = $('#game-type-filter').val;
-
-            for (let i = 0; i < games.length; i++) {
-                const row = games[i];
-                if (row.type === input ){
-                    gameId = row.id_game;
-                    gameName = row.name;
-                    gameType = row.type;
-
-                    this.fillTemplate(gameTemplate, gameName, gameId);
-                }
-
-            }
-            let selOption = input.option[input.selectedIndex]
-
-
+        gameType = $("#game-type-filter").val();
+        if (gameType !== "Alle soorten") {
+            filteredTypeGames = game.filter(game => game.type === gameType);
+        }else{
+            filteredTypeGames = game;
         }
+
+        vanafLeerjaar = $("#game-target-audience-min").val();
+        let filteredMinGames = game.filter(game => game["target_audience_min"] === vanafLeerjaar);
+
+        totLeerjaar = $("#game-target-audience-max").val();
+        let filteredMaxGames = game.filter(game => game["target_audience_max"] === totLeerjaar);
+
+       let filteredGames = this.findCommonElements3(filteredTypeGames, filteredMinGames);
+
+
+        console.log(filteredGames);
+    }
+
+    findCommonElements3(a1, a2) {
+        var a = [], diff = [];
+
+        for (var i = 0; i < a1.length; i++) {
+            a[a1[i]] = true;
+        }
+
+        for (var i = 0; i < a2.length; i++) {
+            if (a[a2[i]]) {
+                delete a[a2[i]];
+            } else {
+                a[a2[i]] = true;
+            }
+        }
+
+        for (var k in a) {
+            diff.push(k);
+        }
+
+        return diff;
     }
 
     filter2() {
@@ -234,27 +313,9 @@ class GameController {
         });
 
         $("#filter-button", this.gameView).on("click", () => {
-            this.filterToggleType()
+            this.filter()
         });
 
-        $('#inputFilter', this.gameView).on("keyup", () => {
-            this.filter()
-        })
-        $('#inputFilter2', this.gameView).on("keyup", () => {
-            this.filter2()
-        })
-        $('#inputFilter3', this.gameView).on("keyup", () => {
-            this.filter3()
-        })
-        $('.gameTypeFilterDropButton', this.gameView).on("click", () => {
-            this.dropdownToggleType()
-        })
-        $('.gameAudienceFilterDropButtonMin', this.gameView).on("click", () => {
-            this.dropdownToggleAudienceMin()
-        })
-        $('.gameAudienceFilterDropButtonMax', this.gameView).on("click", () => {
-            this.dropdownToggleAudienceMax()
-        })
 
         //Empty the content-div and add the resulting view to the page
         $(".content").empty().append(this.gameView);
@@ -262,6 +323,8 @@ class GameController {
         await this.getDropDownDataGameAudienceFilter()
         await this.getDropDownGameMaterialFilter()
         await this.onGetGame();
+        this.add()
+        this.remove()
 
         // listen for redirects
         templateManager.listen();
