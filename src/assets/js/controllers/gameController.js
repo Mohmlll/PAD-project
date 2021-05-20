@@ -36,6 +36,7 @@ class GameController {
             let rules = row["rules"];
             let differentiates_easy = row["differentiates_easy"];
             let differentiates_hard = row["differentiates_hard"];
+
             // let game_image = row["image_url"];
 
             let gameRowTemplate = $(gameTemplate);

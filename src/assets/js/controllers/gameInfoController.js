@@ -9,6 +9,7 @@ class GameInfoController {
     async onGetGame() {
         // get data
         let gameId = parseInt(window.location.hash.replace("#game", ""));
+        this.gameId = gameId;
         let game;
         let materials;
         let materialData;
@@ -63,6 +64,12 @@ class GameInfoController {
         let gameInfoRowTemplate = $(gameInfoTemplate);
 
         gameInfoRowTemplate.find(".game-info-name").text(name);
+        // gameInfoRowTemplate.find(".game-info-name").append("<i class='fas fa-file-pdf fa-pull-right'></i>")
+        // gameInfoRowTemplate.find(".game-info-name").append("<i class='fas fa-file-download fa-pull-right cursor-pointer'></i>").children().attr("id", "game-download-" + gameId)
+        gameInfoRowTemplate.find(".game-info-name").append("<i class='fas fa-file-download fa-pull-right cursor-pointer'></i>").children().attr("id", "game-download").children()
+        gameInfoRowTemplate.find(".game-info-name").append("<h3 class='fa-pull-right cursor'>Download</h3>")
+
+
         gameInfoRowTemplate.find(".game-info-description").text(description);
         gameInfoRowTemplate.find(".game-info-target-audience-min").text("‎ " + target_audience_min);
         gameInfoRowTemplate.find(".game-info-target-audience-max").text("‎ " + target_audience_max);
@@ -160,6 +167,47 @@ class GameInfoController {
         }
     }
 
+    download() {
+        $("#game-download", this.gameView).on("click", () => {
+            let pdf, outStr = ""
+
+            pdf = new jsPDF();
+            pdf.setFont("courier");
+            pdf.setFontType("normal");
+
+            for (let i = 0; i < 1111; i++) {
+                outStr += ' ' + [i];
+                //every tenth word, add a new-line. Change this to '<br/>' if you want html.
+                if ((i + 1) % 10 === 0) {
+                    outStr += "\n";
+                }
+            }
+            outStr = "Test"
+            let lines = outStr.split("\n");
+            let flag = 0
+            for (let i = 0; i < lines.length; i++) {
+                if (i == 0) {
+                    if ((i + 1) % 25 == 0) {
+                        pdf.addPage()
+                    }
+                } else {
+                    if (i % 25 == 0) {
+                        pdf.addPage()
+                        flag = 0
+                    }
+                }
+                if (i == 0) {
+                    pdf.text(lines[i], 10, 10)
+                } else {
+                    pdf.text(lines[i], 10, 10 * flag)
+                }
+                flag = flag + 1
+            }
+            pdf.save("game" + this.gameId + ".pdf")
+        })
+
+    }
+
 
     //Called when the home.html has been loaded
     async setup(data) {
@@ -172,9 +220,8 @@ class GameInfoController {
         await this.onGetGame();
         await this.getRating();
 
-        // $("#rating_game", this.gameView).on("click", "input", () => {
-        //     this.getRating();
-        // })
+        this.download()
+
         //Reload page when back button is pressed
         if (window.history && window.history.pushState) {
             $(window).on('popstate', () => {
