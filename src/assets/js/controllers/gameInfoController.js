@@ -175,22 +175,19 @@ class GameInfoController {
 
     download() {
         $("#game-download", this.gameView).on("click", () => {
-            let pdf, materialString, materialStringReplaced = "";
+            let pdf;
 
             pdf = new jsPDF();
             pdf.setFont("arial");
             pdf.setFontType("normal");
 
             pdf.text(20, 20, this.name);
-            let splitTitle = pdf.splitTextToSize(this.description, 180);
-            pdf.text(20, 30, splitTitle);
+            let splitDescription = pdf.splitTextToSize(this.description, 180);
+            pdf.text(20, 30, splitDescription);
 
             pdf.text(20, 80, "Doelgroep: " + this.target_audience_min + " - " + this.target_audience_max);
             pdf.text(20, 90, "Soort spel: " + this.type);
-
-
             pdf.text(20, 100, "Materialen:\n" + this.materialStringReplaced);
-
 
             pdf.save("game" + this.gameId + ".pdf")
         })
