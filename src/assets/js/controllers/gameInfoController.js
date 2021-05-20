@@ -56,10 +56,15 @@ class GameInfoController {
         let row = game[0]
 
         let name = row["name"];
+        this.name = name;
         let description = row["description"];
+        this.description = description;
         let target_audience_min = row["target_audience_min"];
+        this.target_audience_min = target_audience_min;
         let target_audience_max = row["target_audience_max"];
+        this.target_audience_max = target_audience_max;
         let type = row["type"];
+        this.type = type;
 
         let gameInfoRowTemplate = $(gameInfoTemplate);
 
@@ -90,6 +95,7 @@ class GameInfoController {
             }
             if (loopCount === materials.length) {
                 materialStringReplaced = materialString.replace(/,(?=[^,]*$)/, '')
+                this.materialStringReplaced = materialStringReplaced;
             }
             gameInfoRowTemplate.find(".game-info-materials").append(materialStringReplaced)
 
@@ -169,43 +175,25 @@ class GameInfoController {
 
     download() {
         $("#game-download", this.gameView).on("click", () => {
-            let pdf, outStr = ""
+            let pdf, materialString, materialStringReplaced = "";
 
             pdf = new jsPDF();
-            pdf.setFont("courier");
+            pdf.setFont("arial");
             pdf.setFontType("normal");
 
-            for (let i = 0; i < 1111; i++) {
-                outStr += ' ' + [i];
-                //every tenth word, add a new-line. Change this to '<br/>' if you want html.
-                if ((i + 1) % 10 === 0) {
-                    outStr += "\n";
-                }
-            }
-            outStr = "Test"
-            let lines = outStr.split("\n");
-            let flag = 0
-            for (let i = 0; i < lines.length; i++) {
-                if (i == 0) {
-                    if ((i + 1) % 25 == 0) {
-                        pdf.addPage()
-                    }
-                } else {
-                    if (i % 25 == 0) {
-                        pdf.addPage()
-                        flag = 0
-                    }
-                }
-                if (i == 0) {
-                    pdf.text(lines[i], 10, 10)
-                } else {
-                    pdf.text(lines[i], 10, 10 * flag)
-                }
-                flag = flag + 1
-            }
+            pdf.text(20, 20, this.name);
+            let splitTitle = pdf.splitTextToSize(this.description, 180);
+            pdf.text(20, 30, splitTitle);
+
+            pdf.text(20, 80, "Doelgroep: " + this.target_audience_min + " - " + this.target_audience_max);
+            pdf.text(20, 90, "Soort spel: " + this.type);
+
+
+            pdf.text(20, 100, "Materialen:\n" + this.materialStringReplaced);
+
+
             pdf.save("game" + this.gameId + ".pdf")
         })
-
     }
 
 
