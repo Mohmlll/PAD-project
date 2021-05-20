@@ -139,13 +139,21 @@ class GameController {
             contentType: "application/json",
             method: "get"
         });
-        this.intDropDownDataGameAudienceFilter = this.dropDownDataGameAudienceFilter.length;
+        let optionMinS
+        for (let i = 0; i <  this.dropDownDataGameAudienceFilter.length; i++) {
+            if (this.dropDownDataGameAudienceFilter[i]["audience"] === 0) {
+                optionMinS = "Alle jaarlagen";
+            } else {
+                optionMinS = "Groep " + this.dropDownDataGameAudienceFilter[i]["audience"];
+            }
 
-        for (let i = 0; i < this.intDropDownDataGameAudienceFilter; i++) {
-            $('#game-target-audience-min').append(`<option value="${this.dropDownDataGameAudienceFilter[i]["audience"]}">
-            ${this.dropDownDataGameAudienceFilter[i]["audience"]}</option>`)
-            $('#game-target-audience-max').append(`<option value="${this.dropDownDataGameAudienceFilter[i]["audience"]}">
-            ${this.dropDownDataGameAudienceFilter[i]["audience"]}</option>`)
+            let optionMin = $('<option class="audienceMin"></option>').attr("value", this.dropDownDataGameAudienceFilter[i]["audience"]);
+            let optionMax = $('<option class="audienceMax"></option>').attr("value", this.dropDownDataGameAudienceFilter[i]["audience"]);
+
+            optionMin.text(optionMinS);
+            optionMax.text(optionMinS);
+            optionMin.appendTo("#game-target-audience-min");
+            optionMax.appendTo("#game-target-audience-max");
         }
     }
 
@@ -202,90 +210,6 @@ class GameController {
 
 
         console.log(filteredGames);
-    }
-
-    findCommonElements3(a1, a2) {
-        var a = [], diff = [];
-
-        for (var i = 0; i < a1.length; i++) {
-            a[a1[i]] = true;
-        }
-
-        for (var i = 0; i < a2.length; i++) {
-            if (a[a2[i]]) {
-                delete a[a2[i]];
-            } else {
-                a[a2[i]] = true;
-            }
-        }
-
-        for (var k in a) {
-            diff.push(k);
-        }
-
-        return diff;
-    }
-
-    filter2() {
-        for (let j = 0; j < this.games.length; j++) {
-            let input2, filter2, a2, i, game, txtValue2,
-                gameId, gameAudienceMin;
-            input2 = $('#inputFilter2').val();
-            filter2 = input2.toLowerCase();
-
-            gameId = this.game[j]["id_game"];
-            game = $('#g' + gameId);
-
-            a2 = $('#gameAudienceFilterMin a');
-
-            gameAudienceMin = game.find('.target_audience_min').text().toLowerCase()
-
-            for (i = 0; i < a2.length; i++) {
-                txtValue2 = a2[i].textContent || a2[i].innerText;
-                if (txtValue2.toLowerCase().indexOf(filter2) > -1) {
-                    a2[i].style.display = "";
-                } else {
-                    a2[i].style.display = "none";
-                }
-                if (gameAudienceMin.indexOf(filter2) > -1) {
-                    game.show();
-                } else {
-                    game.hide();
-                }
-            }
-        }
-    }
-
-    filter3() {
-        for (let j = 0; j < this.game.length; j++) {
-            let input3, filter3, a3, i, game, txtValue3,
-                gameId, gameAudienceMax;
-
-            input3 = $('#inputFilter3').val();
-
-            filter3 = input3.toLowerCase();
-
-            gameId = this.game[j]["id_game"];
-            game = $('#g' + gameId);
-
-            a3 = $('#gameAudienceFilterMax a');
-
-            gameAudienceMax = game.find('.target_audience_max').text().toLowerCase()
-
-            for (i = 0; i < a3.length; i++) {
-                txtValue3 = a3[i].textContent || a3[i].innerText;
-                if (txtValue3.toLowerCase().indexOf(filter3) > -1) {
-                    a3[i].style.display = "";
-                } else {
-                    a3[i].style.display = "none";
-                }
-                if (gameAudienceMax.indexOf(filter3) > -1) {
-                    game.show();
-                } else {
-                    game.hide();
-                }
-            }
-        }
     }
 
 

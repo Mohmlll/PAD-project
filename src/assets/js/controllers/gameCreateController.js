@@ -9,7 +9,6 @@ class GameCreateController {
 
     }
 
-
     async getDropDownDataAudience() {
         // get data
         this.dropDownData = await $.ajax({
@@ -17,19 +16,23 @@ class GameCreateController {
             contentType: "application/json",
             method: "get"
         });
+            for (let i = 0; i < this.dropDownData.length; i++) {
+                let optionMinS;
 
-        this.intDropDownData = this.dropDownData.length;
+                if (this.dropDownData[i]["audience"] === 0) {
+                    optionMinS = "Alle jaarlagen";
+                } else {
+                    optionMinS = "Groep " + this.dropDownData[i]["audience"];
+                }
 
-        for (let i = 0; i < this.intDropDownData; i++) {
-            let optionMin = $('<option class="audienceMin"></option>').attr("value", "option value");
-            let optionMax = $('<option class="audienceMax"></option>').attr("value", "option value");
-            optionMin.text(this.dropDownData[i]["audience"])
-            optionMax.text(this.dropDownData[i]["audience"])
-            optionMin.appendTo("#target-audience-min");
-            optionMax.appendTo("#target-audience-max");
-        }
+                let optionMin = $('<option class="audienceMin"></option>').attr("value", this.dropDownData[i]["audience"]);
+                let optionMax = $('<option class="audienceMax"></option>').attr("value", this.dropDownData[i]["audience"]);
 
-
+                optionMin.text(optionMinS);
+                optionMax.text(optionMinS);
+                optionMin.appendTo("#target-audience-min");
+                optionMax.appendTo("#target-audience-max");
+            }
     }
 
     async getDropDownDataGameType() {
@@ -59,8 +62,12 @@ class GameCreateController {
         let amountStudents = $('input[name=amount-students]', this.gameView).val();
         let sampleFile = $('input[name=sampleFile]', this.gameView).val();
         let type = $("#game_type option:selected").text();
-        let audienceMin = $("#target-audience-min option:selected").text();
-        let audienceMax = $("#target-audience-max option:selected").text();
+
+        let audienceMin = $("#target-audience-min").val();
+        let audienceMax = $("#target-audience-max").val();
+        console.log(audienceMax)
+        console.log(audienceMin)
+
         await $.ajax({
             url: baseUrl + "/game",
             data: JSON.stringify({
