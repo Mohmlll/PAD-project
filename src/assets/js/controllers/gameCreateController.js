@@ -50,32 +50,14 @@ class GameCreateController {
     }
 
     async onAddGame() {
-        let name = $('input[name=name]', this.gameView).val();
-        let description = $("#game_description", this.gameView).val();
-        // let description = $('input[name=description]', this.gameView).val();
-        let rules = $('input[name=rules]', this.gameView).val();
-        let difEasy = $('input[name=dif-easy]', this.gameView).val();
-        let difHard = $('input[name=dif-hard]', this.gameView).val();
-        let amountStudents = $('input[name=amount-students]', this.gameView).val();
-        let sampleFile = $('input[name=sampleFile]', this.gameView).val();
-        let type = $("#game_type option:selected").text();
-        let audienceMin = $("#target-audience-min option:selected").text();
-        let audienceMax = $("#target-audience-max option:selected").text();
+        let form = $('#game-form')[0]; // You need to use standard javascript object here
+        let formData = new FormData(form);
+
         await $.ajax({
             url: baseUrl + "/game",
-            data: JSON.stringify({
-                name: name,
-                description: description,
-                rules: rules,
-                difEasy: difEasy,
-                difHard: difHard,
-                amountStudents: amountStudents,
-                sampleFile: sampleFile,
-                type: type,
-                audienceMin: audienceMin,
-                audienceMax: audienceMax,
-            }),
-            contentType: "application/json",
+            data: formData,
+            contentType: false,
+            processData: false,
             method: "POST"
         });
     }
@@ -201,19 +183,12 @@ class GameCreateController {
 
         await this.onGetGame()
 
-        $('#game', this.gameView).on("click", (e) => {
+        $('#game', this.gameView).on("click", async (e) => {
             e.preventDefault()
-            this.onAddGame();
-            this.saveMaterials();
-            this.redirectToGames();
-            //File upload
-            this.gameView.find("#game").on("click", function () {
-                //Set the proper action url
-                $(this).closest("form").attr("action", `${baseUrl}/game`);
 
-                //Submit the forms
-                $(this).submit();
-            });
+            await this.onAddGame();
+            await this.saveMaterials();
+            await this.redirectToGames();
         })
 
 
