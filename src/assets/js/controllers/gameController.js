@@ -96,7 +96,6 @@ class GameController {
     fillTemplate(gameTemplate, name, gameId) {
         let gameRowTemplate = $(gameTemplate);
         gameRowTemplate.find(".game-name").text(name);
-        // gameRowTemplate.find(".game_image").attr("src", "../uploads/" + gameId + ".png");
 
         gameRowTemplate.on("click", () => {
             this.navigateTo(gameId);
@@ -189,27 +188,19 @@ class GameController {
 
 
     filter() {
-        let gameType, vanafLeerjaar, totLeerjaar;
+        let gameType, minLeerjaar, maxLeerjaar;
         let filteredTypeGames;
         let game = this.game;
 
         gameType = $("#game-type-filter").val();
-        if (gameType !== "Alle soorten") {
-            filteredTypeGames = game.filter(game => game.type === gameType);
-        }else{
-            filteredTypeGames = game;
-        }
+        minLeerjaar = $("#game-target-audience-min").val();
+        maxLeerjaar = $("#game-target-audience-max").val();
 
-        vanafLeerjaar = $("#game-target-audience-min").val();
-        let filteredMinGames = game.filter(game => game["target_audience_min"] === vanafLeerjaar);
+        filteredTypeGames = game.filter(function (e) {
+            return (e.type === gameType) && (e["target_audience_min"] >= minLeerjaar) && (e["target_audience_max"] <= maxLeerjaar);
 
-        totLeerjaar = $("#game-target-audience-max").val();
-        let filteredMaxGames = game.filter(game => game["target_audience_max"] === totLeerjaar);
-
-       let filteredGames = this.findCommonElements3(filteredTypeGames, filteredMinGames);
-
-
-        console.log(filteredGames);
+        });
+        console.log(filteredTypeGames);
     }
 
 
