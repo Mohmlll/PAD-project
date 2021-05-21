@@ -19,7 +19,7 @@ class GameController {
         // get data
         this.game = await this.userRepository.getGames();
         // get template
-        let materialTemplate = await $.get("views/materialTemplate.html")
+        let materialTemplate = await $.get("views/materialTemplate2.html")
         let gameTemplate = await $.get("views/templateGame.html");
         let gameId, name, gameType;
         // loop trough available materials
@@ -169,23 +169,6 @@ class GameController {
             ${this.dropDownDataGameMaterialFilter[i]["material"]}</option>`)
         }
     }
-
-    filterToggleType() {
-        $(".filter-options").toggleClass("show", "show");
-    }
-
-    dropdownToggleType() {
-        $("#gameTypeFilter").toggleClass("show", "show");
-    }
-
-    dropdownToggleAudienceMin() {
-        $("#gameAudienceFilterMin").toggleClass("show", "show");
-    }
-
-    dropdownToggleAudienceMax() {
-        $("#gameAudienceFilterMax").toggleClass("show", "show");
-    }
-
 
     filter() {
         let gameType, minLeerjaar, maxLeerjaar;
