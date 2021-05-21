@@ -170,24 +170,7 @@ class GameController {
         }
     }
 
-    filterToggleType() {
-        $(".filter-options").toggleClass("show", "show");
-    }
-
-    dropdownToggleType() {
-        $("#gameTypeFilter").toggleClass("show", "show");
-    }
-
-    dropdownToggleAudienceMin() {
-        $("#gameAudienceFilterMin").toggleClass("show", "show");
-    }
-
-    dropdownToggleAudienceMax() {
-        $("#gameAudienceFilterMax").toggleClass("show", "show");
-    }
-
-
-    filter() {
+    async filter() {
         let gameType, minLeerjaar, maxLeerjaar;
         let filteredTypeGames;
         let game = this.game;
@@ -201,6 +184,7 @@ class GameController {
 
         });
         console.log(filteredTypeGames);
+        await this.onGetGame(filteredTypeGames)
     }
 
 
@@ -231,6 +215,9 @@ class GameController {
             this.filter()
         });
 
+        $('#inputFilter', this.gameView).on("keyup", () => {
+            this.filter()
+        })
 
         //Empty the content-div and add the resulting view to the page
         $(".content").empty().append(this.gameView);
