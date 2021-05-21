@@ -1,43 +1,10 @@
-/*footer {*/
-/*    position: fixed;*/
-/*    left: 0;*/
-/*    bottom: 0;*/
-/*    width: 100%;*/
-/*}*/
+
 .registerImg {
     width: 15%;
 }
 
 input.invalid {
     background-color: #ffdddd;
-}
-
-.wizard {
-
-}
-
-.wizard .nav {
-
-}
-
-.wizard .nav li {
-
-}
-
-.wizard .bottom-nav {
-
-}
-
-.wizard .bottom-nav button {
-
-}
-
-.wizard .tabs {
-
-}
-
-.wizard .tabs .tab {
-
 }
 
 .wizard .tabs .tab[data-wizard-state="current"] {
@@ -64,10 +31,6 @@ input.invalid {
 
 .input-success {
     border-color: green !important;
-}
-
-#target-audience-max, #target-audience-min {
-
 }
 
 .btn {

@@ -16,7 +16,7 @@
 <section class="section home-feature" id="blog">
     <div class="container full-opacity">
         <div class="features-small-item h-100 row">
-            <div class="center-text align-content-center w-50">
+            <div class="center-text align-content-center w-50 row">
 <!--                <div class="col-md-6 col-sm-12 mt-2">-->
 <!--                    <fieldset>-->
 <!--                        <label class="float-left" for="search-filter"><b>Zoeken</b></label>-->
@@ -24,16 +24,6 @@
 <!--                               type="text">-->
 <!--                    </fieldset>-->
 <!--                </div>-->
-
-                <div class="col-md-6 col-sm-12 mt-2">
-                    <fieldset>
-                        <label class="float-left" for="game-type-filter"><b>Type Spel</b></label>
-                        <select aria-label="Default select example" class="form-control" id="game-type-filter">
-                            <option selected>Alle soorten</option>
-                        </select>
-                    </fieldset>
-                </div>
-
                 <div class="col-md-6 col-sm-12 mt-2">
                     <fieldset>
                         <label class="float-left" for="game-target-audience-min"><b>Vanaf leerjaar</b></label>
@@ -54,7 +44,15 @@
                 </div>
                 <div class="col-md-6 col-sm-12 mt-2">
                     <fieldset>
-                        <label class="float-left" for="game-type-filter"><b>Min aantal spelers: </b><span id="student-amount-value" >25</span></label>
+                        <label class="float-left" for="game-type-filter"><b>Type Spel</b></label>
+                        <select aria-label="Default select example" class="form-control" id="game-type-filter">
+                            <option selected>Alle soorten</option>
+                        </select>
+                    </fieldset>
+                </div>
+                <div class="col-md-6 col-sm-12 mt-2">
+                    <fieldset>
+                        <label class="float-left" for="student-amount"><b>Min aantal spelers: </b><span id="student-amount-value" >25</span></label>
                         <div class="slidecontainer">
                             <input type="range" min="1" max="50" value="25" class="slider" id="student-amount">
                         </div>
@@ -71,14 +69,15 @@
                     </fieldset>
                 </div>
             </div>
-            <div class="row center-text align-content-center w-50">
-                <fieldset>
-                    <label class="float-left" for="materialview2"><b>Materiaal</b></label>
-                    <br>
-                    <div id="materialview2">
-                    </div>
-                </fieldset>
-            </div>
+<!--            <div class="row center-text align-content-center w-50">-->
+<!--                <fieldset>-->
+<!--                    <label class="float-left" for="materialview2"><b>Materiaal</b></label>-->
+<!--                    <br>-->
+<!--                    <div id="materialview2">-->
+<!--                        -->
+<!--                    </div>-->
+<!--                </fieldset>-->
+<!--            </div>-->
             <div class="col-md-12 col-sm-12 mt-2">
                 <button class="main-button btn btn-default float-right" id="filter-button" type="submit"
                         value="Upload!">Zoeken
@@ -93,7 +92,10 @@
         </div>
         <div class="no-result-alert features-small-item h-100">
             geen zoek resultaten
+
         </div>
+        <br>
+        <br>
     </div>
 </section>
 
