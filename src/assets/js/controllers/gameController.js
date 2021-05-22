@@ -37,45 +37,6 @@ class GameController {
             materialTemplateUsable.find(".material-minus").attr("id", "subs" + material_id);
             materialTemplateUsable.appendTo("#materialview2");
 
-        let gameTemplate = await $.get("views/templateGame.html")
-
-        // loop trough available games
-        for (let i = 0; i < result.length; i++) {
-            const row = result[i];
-            let gameId = row["id_game"];
-            let name = row["name"];
-            let description = row["description"];
-            let target_audience_min = row["target_audience_min"];
-            let target_audience_max = row["target_audience_max"];
-            let type = row["type"];
-            let amount_players = row["amount_players"];
-            let rules = row["rules"];
-            let differentiates_easy = row["differentiates_easy"];
-            let differentiates_hard = row["differentiates_hard"];
-
-            // let game_image = row["image_url"];
-
-            let gameRowTemplate = $(gameTemplate);
-            gameRowTemplate.find(".game-name").text(name);
-            gameRowTemplate.find(".description").text(description);
-            gameRowTemplate.find(".target_audience_min").text("Vanaf: " + target_audience_min);
-            gameRowTemplate.find(".target_audience_max").text(" T/M: " + target_audience_max);
-            gameRowTemplate.find(".type").text(type);
-            gameRowTemplate.find(".amount_players").text(amount_players);
-            gameRowTemplate.find(".rules").text(rules);
-            gameRowTemplate.find(".differentiates_easy").text(differentiates_easy);
-            gameRowTemplate.find(".differentiates_hard").text(differentiates_hard);
-            gameRowTemplate.find(".materials").addClass("materials" + gameId).removeClass("materials");
-            // gameRowTemplate.find(".game_image").attr("src", "../uploads/" + gameId + ".png");
-            // gameRowTemplate.find(".game_image").attr("src", "../assets/img/template/blank.jpg");
-            gameRowTemplate.find(".collapse").removeClass("collapseSummary").addClass("collapseSummary" + gameId);
-            gameRowTemplate.attr("id", "g" + String(gameId))
-
-            gameRowTemplate.on("click", () => {
-                this.navigateTo(gameId);
-            })
-            gameRowTemplate.find("a[href='.collapseSummary']").attr('href', '.collapseSummary' + gameId);
-            gameRowTemplate.appendTo("#gameview");
         }
 
         if (games == null) {

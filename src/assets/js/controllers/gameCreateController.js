@@ -73,6 +73,7 @@ class GameCreateController {
         await $.ajax({
             url: baseUrl + "/game",
             data: formData,
+
             contentType: false,
             processData: false,
             method: "POST"
