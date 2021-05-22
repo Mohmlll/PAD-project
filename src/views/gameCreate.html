@@ -1,8 +1,8 @@
 <div class="main-area" id="welcome">
     <div class="container game-container page-container">
-        <form method="post" encType="multipart/form-data">
+        <form method="post" encType="multipart/form-data" id="game-form">
             <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-12 mb-4">
                     <div class="features-small-item h-100 vertical-center">
                         <div class="login-show">
                             <h4>Spel aanmaken</h4>
@@ -19,34 +19,53 @@
                 <div class="col-lg-4">
                     <div class="features-small-item h-100 vertical-center">
                         <div class="row">
-
-                            <div class="col-md-12 col-sm-12 mt-2">
-                                <fieldset class="file-wrapper">
-                                    <label class="float-left" for="game-plan">Plattegrond</label>
-                                    <input class="form-control" id="game-plan" name="sampleFile" required type="file">
-                                </fieldset>
-                            </div>
-
                             <div class="col-md-12 col-sm-12 mt-2">
                                 <fieldset>
                                     <label class="float-left" for="game_name">Spelnaam</label>
                                     <input class="form-control" id="game_name" name="name" required type="text">
                                 </fieldset>
                             </div>
+
                             <div class="col-md-12 col-sm-12 mt-2">
                                 <fieldset>
                                     <label class="float-left" for="game_description">Beschrijving</label>
                                     <textarea class="form-control" id="game_description" name="description" required
                                               type="text"></textarea>
-
                                 </fieldset>
                             </div>
+
+                            <div class="col-md-12 col-sm-12 mt-2">
+                                <fieldset class="file-wrapper">
+                                    <label class="float-left" for="game-icon">Thumbnail</label>
+                                    <input class="form-control" id="game-icon" name="game-icon" required type="file" accept="image/*">
+                                </fieldset>
+                            </div>
+
+                            <div class="col-md-12 col-sm-12 mt-2">
+                                <fieldset class="file-wrapper">
+                                    <label class="float-left" for="game-plan">Plattegrond</label>
+                                    <input class="form-control" id="game-plan" name="game-plan" required type="file" accept="image/*">
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="features-small-item h-100 vertical-center">
+                        <div class="row">
                             <div class="col-md-12 col-sm-12 mt-2">
                                 <fieldset>
                                     <label class="float-left" for="game_type">Soort spel</label>
                                     <select class="form-control" id="game_type" name="game_type">
 
                                     </select>
+                                </fieldset>
+                            </div>
+                            <div class="col-md-12 col-sm-12 mt-2">
+                                <fieldset>
+                                    <label class="float-left" for="target-audience-min">Minimaal aantal leerlingen</label>
+                                    <input class="form-control" id="min-players"
+                                            name="min-players" type="number">
                                 </fieldset>
                             </div>
                             <div class="col-md-12 col-sm-12 mt-2">

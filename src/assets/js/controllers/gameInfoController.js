@@ -9,6 +9,7 @@ class GameInfoController {
     async onGetGame() {
         // get data
         let gameId = parseInt(window.location.hash.replace("#game", ""));
+        this.gameId = gameId;
         let game;
         let materials;
         let materialData;
@@ -55,14 +56,25 @@ class GameInfoController {
         let row = game[0]
 
         let name = row["name"];
+        this.name = name;
         let description = row["description"];
+        this.description = description;
         let target_audience_min = row["target_audience_min"];
+        this.target_audience_min = target_audience_min;
         let target_audience_max = row["target_audience_max"];
+        this.target_audience_max = target_audience_max;
         let type = row["type"];
+        this.type = type;
 
         let gameInfoRowTemplate = $(gameInfoTemplate);
 
         gameInfoRowTemplate.find(".game-info-name").text(name);
+        // gameInfoRowTemplate.find(".game-info-name").append("<i class='fas fa-file-pdf fa-pull-right'></i>")
+        // gameInfoRowTemplate.find(".game-info-name").append("<i class='fas fa-file-download fa-pull-right cursor-pointer'></i>").children().attr("id", "game-download-" + gameId)
+        gameInfoRowTemplate.find(".game-info-name").append("<i class='fas fa-file-download fa-pull-right cursor-pointer'></i>").children().attr("id", "game-download").children()
+        gameInfoRowTemplate.find(".game-info-name").append("<h3 class='fa-pull-right cursor'>Download</h3>")
+
+
         gameInfoRowTemplate.find(".game-info-description").text(description);
         gameInfoRowTemplate.find(".game-info-target-audience-min").text("‎ " + target_audience_min);
         gameInfoRowTemplate.find(".game-info-target-audience-max").text("‎ " + target_audience_max);
@@ -83,6 +95,7 @@ class GameInfoController {
             }
             if (loopCount === materials.length) {
                 materialStringReplaced = materialString.replace(/,(?=[^,]*$)/, '')
+                this.materialStringReplaced = materialStringReplaced;
             }
             gameInfoRowTemplate.find(".game-info-materials").append(materialStringReplaced)
 
@@ -160,6 +173,26 @@ class GameInfoController {
         }
     }
 
+    download() {
+        $("#game-download", this.gameView).on("click", () => {
+            let pdf;
+
+            pdf = new jsPDF();
+            pdf.setFont("arial");
+            pdf.setFontType("normal");
+
+            pdf.text(20, 20, this.name);
+            let splitDescription = pdf.splitTextToSize(this.description, 180);
+            pdf.text(20, 30, splitDescription);
+
+            pdf.text(20, 80, "Doelgroep: " + this.target_audience_min + " - " + this.target_audience_max);
+            pdf.text(20, 90, "Soort spel: " + this.type);
+            pdf.text(20, 100, "Materialen:\n" + this.materialStringReplaced);
+
+            pdf.save("game" + this.gameId + ".pdf")
+        })
+    }
+
 
     //Called when the home.html has been loaded
     async setup(data) {
@@ -172,9 +205,8 @@ class GameInfoController {
         await this.onGetGame();
         await this.getRating();
 
-        // $("#rating_game", this.gameView).on("click", "input", () => {
-        //     this.getRating();
-        // })
+        this.download()
+
         //Reload page when back button is pressed
         if (window.history && window.history.pushState) {
             $(window).on('popstate', () => {

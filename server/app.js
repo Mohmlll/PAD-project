@@ -9,6 +9,7 @@ const morgan = require("morgan");
 const db = require("./utils/databaseHelper");
 const cryptoHelper = require("./utils/cryptoHelper");
 const corsConfig = require("./utils/corsConfigHelper");
+const helper = require("./utils/helper");
 const app = express();
 const fileUpload = require("express-fileupload");
 
@@ -67,30 +68,36 @@ app.post("/room_example", (req, res) => {
 
 });
 
+
 app.post("/game", function (req, res) {
     if (!req.files || Object.keys(req.files).length === 0) {
-        return res.status(badRequestCode).json({ reason: "No files were uploaded." });
+        return res.status(badRequestCode).json({reason: "No files were uploaded."});
     }
-    let sampleFile = req.files.sampleFile;
-    let filename = sampleFile.name;
-    let extension = filename.split(".").pop();
-    let picName = req.body.id_game;
-    let path = wwwrootPathUpload + "uploads/"+ picName + "." + extension;
 
-    // return res.status(badRequestCode).json({  request: path });
+    // game icon
+    let gameIcon = req.files['game-icon'];
+    let gameIconPath = `${wwwrootPathUpload}uploads/${helper.randomImageString()}_gameIcon.${gameIcon.name.split(".").pop()}`
 
-    sampleFile.mv(path, function (err) {
+    // game plan
+    let gamePlan = req.files['game-plan'];
+    let gamePlanPath = `${wwwrootPathUpload}uploads/${helper.randomImageString()}_gamePlan.${gamePlan.name.split(".").pop()}`
+
+
+    gameIcon.mv(gameIconPath, function (err) {
         if (err) {
             return res.status(badRequestCode).json({reason: err});
         }
-        db.handleQuery(connectionPool, {
-            query: "insert into game(name, description, rules, target_audience_min, target_audience_max, type, amount_players, differentiates_easy, differentiates_hard) values(?,?,?,?,?,?,?,?,?)",
-            values: [req.body.name, req.body.description, req.body.rules, req.body.audienceMin, req.body.audienceMax, req.body.type, req.body.amountStudents, req.body.difEasy, req.body.difHard]
-        }, (data) => {
-            res.json({data})
-        }, (err) => {
-            console.log(err);
-            res.json({message: "F"})
+        gamePlan.mv(gamePlanPath, function (err) {
+            if (err) {
+                return res.status(badRequestCode).json({reason: err});
+            }
+            db.handleQuery(connectionPool, {
+                    query: "insert into game(name, description, target_audience_min, target_audience_max, type, amount_players, game_icon, game_plan) values(?,?,?,?,?,?,?,?)",
+                    values: [req.body.name, req.body.description, req.body['target-audience-min'], req.body['target-audience-max'], req.body.type, req.body['min-players'], gameIconPath, gamePlanPath]
+                }, (data) => {
+                    res.json({data})
+                },
+            );
         });
     });
 });
