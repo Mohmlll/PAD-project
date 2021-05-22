@@ -55,25 +55,10 @@ class GameCreateController {
     async onAddGame() {
         let form = $('#game-form')[0]; // You need to use standard javascript object here
         let formData = new FormData(form);
-        let name = $('input[name=name]', this.gameView).val();
-        let description = $("#game_description", this.gameView).val();
-        // let description = $('input[name=description]', this.gameView).val();
-        let rules = $('input[name=rules]', this.gameView).val();
-        let difEasy = $('input[name=dif-easy]', this.gameView).val();
-        let difHard = $('input[name=dif-hard]', this.gameView).val();
-        let amountStudents = $('input[name=amount-students]', this.gameView).val();
-        let sampleFile = $('input[name=sampleFile]', this.gameView).val();
-        let type = $("#game_type option:selected").text();
-
-        let audienceMin = $("#target-audience-min").val();
-        let audienceMax = $("#target-audience-max").val();
-        console.log(audienceMax)
-        console.log(audienceMin)
 
         await $.ajax({
             url: baseUrl + "/game",
             data: formData,
-
             contentType: false,
             processData: false,
             method: "POST"
