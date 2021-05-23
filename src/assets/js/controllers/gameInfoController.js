@@ -118,16 +118,30 @@ class GameInfoController {
         gameInfoRowTemplate.appendTo("#game-info-view");
     }
 
+    async favCheck(){
+        let favButton = $("#game-info-fav");
+        let unFavButton = $("#game-info-un-fav");
+
+        if (this.isFav) {
+            unFavButton.hide();
+            favButton.show();
+
+        } else {
+            favButton.hide();
+            unFavButton.show();
+        }
+    }
     async fav() {
         let favButton = $("#game-info-fav");
         let unFavButton = $("#game-info-un-fav");
-        
+
         if (this.isFav) {
             console.log("isfav is " + this.isFav + " en ik heb geklikt")
             await this.userRepository.favDelete(this.userId, this.gameId);
             this.isFav = false;
             favButton.hide();
             unFavButton.show();
+
         } else {
             console.log("isfav is " + this.isFav + " en ik heb geklikt")
             await this.userRepository.fav(this.userId, this.gameId);
@@ -246,7 +260,7 @@ class GameInfoController {
         this.download()
 
         //fav game code
-        await this.fav()
+        await this.favCheck()
         $("#game-info-fav", this.gameView).text("Voeg toe aan favorieten").on("click", () => {
             this.fav()
         });
