@@ -119,22 +119,22 @@ class GameInfoController {
     }
 
     async fav() {
+        let favButton = $("#game-info-fav");
+        let unFavButton = $("#game-info-un-fav");
+        
         if (this.isFav) {
-            $("#game-info-fav").text("Verwijder van favorieten").addClass("game-info-isFav-true").removeClass("game-info-isFav-false")
-                .on("click", async () => {
-                    console.log("isfav is " + this.isFav + " en ik heb geklikt")
-                    await this.userRepository.favDelete(this.userId, this.gameId);
-                    this.isFav = false;
-                })
+            console.log("isfav is " + this.isFav + " en ik heb geklikt")
+            await this.userRepository.favDelete(this.userId, this.gameId);
+            this.isFav = false;
+            favButton.hide();
+            unFavButton.show();
         } else {
-            $("#game-info-fav").text("Voeg toe als favoriet").addClass("game-info-isFav-false").removeClass("game-info-isFav-true")
-                .on("click", async () => {
-                    console.log("isfav is " + this.isFav + " en ik heb geklikt")
-                    await this.userRepository.fav(this.userId, this.gameId);
-                    this.isFav = true;
-                })
+            console.log("isfav is " + this.isFav + " en ik heb geklikt")
+            await this.userRepository.fav(this.userId, this.gameId);
+            this.isFav = true;
+            unFavButton.hide();
+            favButton.show();
         }
-
     }
 
     async getAvgRating(gameId) {
@@ -245,7 +245,15 @@ class GameInfoController {
 
         this.download()
 
+        //fav game code
         await this.fav()
+        $("#game-info-fav", this.gameView).text("Voeg toe aan favorieten").on("click", () => {
+            this.fav()
+        });
+        $("#game-info-un-fav", this.gameView).text("Verwijder van favorieten").on("click", () => {
+            this.fav()
+        });
+
         //Reload page when back button is pressed
         if (window.history && window.history.pushState) {
             $(window).on('popstate', () => {

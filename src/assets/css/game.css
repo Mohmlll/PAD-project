@@ -46,4 +46,8 @@
 .show {
     display: block;
 }
-
+.fav-button{
+    display: none;
+    cursor: pointer;
+    float: right;
+}
