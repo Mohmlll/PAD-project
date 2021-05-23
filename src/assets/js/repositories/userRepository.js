@@ -64,6 +64,14 @@ class UserRepository {
         return await networkManager
             .doRequest('/newGameListLimit3', null, "GET")
     }
+    async clickGameListLimit3() {
+        return await networkManager
+            .doRequest('/clickGameListLimit3', null, "GET")
+    }
+    async ratingGameListLimit3() {
+        return await networkManager
+            .doRequest('/ratingGameListLimit3', null, "GET")
+    }
 
     async rating(userId, gameId, rating) {
         return await networkManager
@@ -91,6 +99,19 @@ class UserRepository {
     async getGames() {
         return await networkManager
             .doRequest('/game', null, "GET")
+    }
+
+    async click(userId, gameId, click) {
+        return await networkManager
+            .doRequest('/click', {id_user: userId, id_game: gameId, click: click}, "POST")
+    }
+    async clickCheck(userId, gameId) {
+        return await networkManager
+            .doRequest('/clickCheck', {id_user: userId, id_game: gameId}, "POST")
+    }
+    async clicksGet(gameId) {
+        return await networkManager
+            .doRequest('/clicks', {id_game: gameId}, "POST")
     }
 
 }

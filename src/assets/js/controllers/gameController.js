@@ -65,12 +65,35 @@ class GameController {
         let gameRowTemplate = $(gameTemplate);
         gameRowTemplate.find(".game-name").text(name);
 
-        gameRowTemplate.on("click", () => {
+        gameRowTemplate.on("click", async () => {
+            let userId = sessionManager.get("id");
+            let click = true;
+            await this.click(userId, gameId, click)
             this.navigateTo(gameId);
         })
         gameRowTemplate.find("a[href='.collapseSummary']").attr('href', '.collapseSummary' + gameId);
         gameRowTemplate.appendTo("#gameview");
 
+
+    }
+
+    async click(userId, gameId, click) {
+        let hasClick
+        try {
+            let clickCheck = await this.userRepository.clickCheck(userId, gameId)
+            hasClick = clickCheck.data.length !== 0;
+        } catch (e) {
+            if (e.code === 401) {
+                this.gameView
+                    .find(".error")
+                    .html(e.reason);
+            } else {
+                console.log(e);
+            }
+        }
+        if (!hasClick) {
+            await this.userRepository.click(userId, gameId, click)
+        }
 
     }
 

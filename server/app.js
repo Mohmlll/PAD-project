@@ -182,6 +182,30 @@ app.get('/newGameListLimit3', (req, res) => {
         })
     });
 });
+app.get('/clickGameListLimit3', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "select *, count(*) as totalClicks from game g left join click c on g.id_game = c.id_game group by g.id_game order by totalClicks desc limit 3"
+    }, d => {
+        res.json(d);
+    }, err => {
+        res.status(500);
+        res.json({
+            message: err.message
+        })
+    });
+});
+app.get('/ratingGameListLimit3', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "select *, avg(rating) as avgRating from game g left join rating r on g.id_game = r.id_game group by g.id_game order by avgRating desc limit 3"
+    }, d => {
+        res.json(d);
+    }, err => {
+        res.status(500);
+        res.json({
+            message: err.message
+        })
+    });
+});
 
 app.get('/material', (req, res) => {
     db.handleQuery(connectionPool, {
@@ -271,6 +295,17 @@ app.post('/rating', (req, res) => {
         res.json({message: "/rating doesnt work"})
     });
 });
+app.post('/click', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "insert into click(id_user, id_game, click) values(?,?,?)",
+        values: [req.body.id_user, req.body.id_game, req.body.click]
+    }, (data) => {
+        res.json({data})
+    }, (err) => {
+        console.log(err);
+        res.json({message: "/click doesnt work"})
+    });
+});
 app.post('/ratingCheck', (req, res) => {
     console.log("/ratings doesnt work")
     db.handleQuery(connectionPool, {
@@ -281,6 +316,18 @@ app.post('/ratingCheck', (req, res) => {
     }, (err) => {
         console.log(err);
         res.json({message: "/ratingCheck doesnt work"})
+    });
+});
+app.post('/clickCheck', (req, res) => {
+    console.log("/ratings doesnt work")
+    db.handleQuery(connectionPool, {
+        query: "select click from click where id_game = ? AND id_user = ?",
+        values: [req.body.id_game, req.body.id_user]
+    }, (data) => {
+        res.json({data})
+    }, (err) => {
+        console.log(err);
+        res.json({message: "/clickCheck doesnt work"})
     });
 });
 app.post('/ratingUpdate', (req, res) => {
@@ -304,6 +351,18 @@ app.post('/ratings', (req, res) => {
     }, (err) => {
         console.log(err);
         res.json({message: "/ratings doesnt work"})
+    });
+});
+app.post('/clicks', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "select count(*) as totalClicks from click where id_game = ?",
+        values: [req.body.id_game]
+    }, (data) => {
+            console.log("Query success")
+        res.json({data})
+    }, (err) => {
+        console.log(err);
+        res.json({message: "/clicks doesnt work"})
     });
 });
 

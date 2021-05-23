@@ -102,7 +102,13 @@ class GameInfoController {
         }
         let avgRating = await this.getAvgRating(gameId)
         let countRating = await this.getCountRating(gameId)
-        gameInfoRowTemplate.find("#avg_rating").append(avgRating + "(" + countRating + ")");
+        let clicks = await this.getClicks(gameId)
+        if (countRating === 0) {
+            gameInfoRowTemplate.find("#avg_rating").text("Dit spel heeft nog geen beoordelingen.");
+        } else {
+            gameInfoRowTemplate.find("#avg_rating").text("Gemiddelde beoordeling: " + avgRating + "(" + countRating + ")");
+        }
+        gameInfoRowTemplate.find("#game-info-clicks").append(clicks);
 
         gameInfoRowTemplate.appendTo("#game-info-view");
     }
@@ -117,6 +123,10 @@ class GameInfoController {
         return countCall.data[0]["total"];
     }
 
+    async getClicks(gameId) {
+        let clickCall = await this.userRepository.clicksGet(gameId)
+        return clickCall.data[0]["totalClicks"];
+    }
 
     async getRating() {
         let gameId = parseInt(window.location.hash.replace("#game", ""));

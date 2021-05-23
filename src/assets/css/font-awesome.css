@@ -3053,6 +3053,11 @@
     flex-direction: row-reverse;
     justify-content: right;
 }
+.game-info-clicks {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: right;
+}
 
 .rating>input {
     display: none
