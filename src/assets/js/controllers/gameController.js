@@ -163,20 +163,18 @@ class GameController {
             contentType: "application/json",
             method: "get"
         });
-        let optionMinS
+
         for (let i = 0; i < this.dropDownDataGameAudienceFilter.length; i++) {
-            if (this.dropDownDataGameAudienceFilter[i]["audience"] === 0) {
-                optionMinS = "Alle jaarlagen";
-            } else {
-                optionMinS = "Groep " + this.dropDownDataGameAudienceFilter[i]["audience"];
-            }
-
+            let option = "Groep " + this.dropDownDataGameAudienceFilter[i]["audience"];
             let optionMin = $('<option class="audienceMin"></option>').attr("value", this.dropDownDataGameAudienceFilter[i]["audience"]);
-            let optionMax = $('<option class="audienceMax"></option>').attr("value", this.dropDownDataGameAudienceFilter[i]["audience"]);
-
-            optionMin.text(optionMinS);
-            optionMax.text(optionMinS);
+            optionMin.text(option);
             optionMin.appendTo("#game-target-audience-min");
+        }
+
+        for (let i = this.dropDownDataGameAudienceFilter.length -1 ; i >= 0 ; i--) {
+            let option = "Groep " + this.dropDownDataGameAudienceFilter[i]["audience"];
+            let optionMax = $('<option class="audienceMax"></option>').attr("value", this.dropDownDataGameAudienceFilter[i]["audience"]);
+            optionMax.text(option);
             optionMax.appendTo("#game-target-audience-max");
         }
     }
