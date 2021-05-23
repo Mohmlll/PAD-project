@@ -19,12 +19,13 @@ class HomeController {
         let ratingGames;
         let clickGames;
         let favGames;
+        let userId = sessionManager.get("id");
 
         try {
             newGames = await this.userRepository.newGameListLimit3()
             ratingGames = await this.userRepository.ratingGameListLimit3()
             clickGames = await this.userRepository.clickGameListLimit3()
-            favGames = await this.userRepository.favGameListLimit3()
+            favGames = await this.userRepository.favGameListLimit3(userId)
         } catch (e) {
             if (e.code === 401) {
                 this.welcomeView

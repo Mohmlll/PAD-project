@@ -206,9 +206,10 @@ app.get('/ratingGameListLimit3', (req, res) => {
         })
     });
 });
-app.get('/favGameListLimit3', (req, res) => {
+app.post('/favGameListLimit3', (req, res) => {
     db.handleQuery(connectionPool, {
-        query: "select * from game g inner join favorite f on g.id_game = f.id_game order by g.id_game limit 3"
+        query: "select * from game g inner join favorite f on g.id_game = f.id_game where f.id_user = ? order by g.id_game limit 3",
+        values: [req.body.id_user]
     }, d => {
         res.json(d);
     }, err => {

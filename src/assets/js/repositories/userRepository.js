@@ -75,9 +75,9 @@ class UserRepository {
             .doRequest('/ratingGameListLimit3', null, "GET")
     }
 
-    async favGameListLimit3() {
+    async favGameListLimit3(userId) {
         return await networkManager
-            .doRequest('/favGameListLimit3', null, "GET")
+            .doRequest('/favGameListLimit3', {id_user: userId}, "POST")
     }
 
     async rating(userId, gameId, rating) {
