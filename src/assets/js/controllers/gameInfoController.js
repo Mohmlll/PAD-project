@@ -119,8 +119,8 @@ class GameInfoController {
     }
 
     async favCheck(){
-        let favButton = $("#game-info-fav");
-        let unFavButton = $("#game-info-un-fav");
+        let favButton = $("#game-info-un-fav");
+        let unFavButton = $("#game-info-fav");
 
         if (this.isFav) {
             unFavButton.hide();
@@ -132,8 +132,8 @@ class GameInfoController {
         }
     }
     async fav() {
-        let favButton = $("#game-info-fav");
-        let unFavButton = $("#game-info-un-fav");
+        let favButton = $("#game-info-un-fav");
+        let unFavButton = $("#game-info-fav");
 
         if (this.isFav) {
             console.log("isfav is " + this.isFav + " en ik heb geklikt")
