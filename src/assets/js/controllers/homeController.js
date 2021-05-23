@@ -37,94 +37,51 @@ class HomeController {
         }
 
         // get template
-        let newGamesTemplate = await $.get("views/templateGame.html");
-        let ratingGamesTemplate = await $.get("views/templateGame.html");
-        let clickGamesTemplate = await $.get("views/templateGame.html");
-        let favGamesTemplate = await $.get("views/templateGame.html");
+        let gameTemplate = await $.get("views/templateGame.html");
 
         // loop trough available newGames
-        for (let i = 0; i < newGames.length; i++) {
-            const row = newGames[i];
-            let gameId = row["id_game"];
-            let name = row["name"];
-
-            let newGamesRow = $(newGamesTemplate);
-
-            newGamesRow.find(".game-name").text(name);
-            newGamesRow.attr("id", "g" + String(gameId))
-
-            newGamesRow.on("click", async () => {
-                let userId = sessionManager.get("id");
-                let click = true;
-                await this.click(userId, gameId, click)
-                this.navigateTo(gameId);
-            })
-            newGamesRow.appendTo(".newGameListLimit3");
+        for (const game of newGames) {
+            this.fillGameRow(gameTemplate, game).appendTo(".newGameListLimit3");
         }
+
         // loop trough available ratingGames
-        for (let i = 0; i < ratingGames.length; i++) {
-            const row = ratingGames[i];
-            let gameId = row["id_game"];
-            let name = row["name"];
-
-            let ratingGamesRow = $(ratingGamesTemplate);
-            ratingGamesRow.find(".game-name").text(name);
-            ratingGamesRow.attr("id", "g" + String(gameId))
-
-
-            ratingGamesRow.on("click", async () => {
-                let userId = sessionManager.get("id");
-                let click = true;
-                await this.click(userId, gameId, click)
-                this.navigateTo(gameId);
-            })
-            ratingGamesRow.find(".game-name").text(name);
-            ratingGamesRow.attr("id", "g" + String(gameId))
-            ratingGamesRow.appendTo(".ratingGameListLimit3");
+        for (const game of ratingGames) {
+            this.fillGameRow(gameTemplate, game).appendTo(".ratingGameListLimit3");
         }
+
         // loop trough available clickGames
-        for (let i = 0; i < clickGames.length; i++) {
-            const row = clickGames[i];
-            let gameId = row["id_game"];
-            let name = row["name"];
-
-            let clickGamesRow = $(clickGamesTemplate);
-            clickGamesRow.find(".game-name").text(name);
-            clickGamesRow.attr("id", "g" + String(gameId))
-
-
-            clickGamesRow.on("click", async () => {
-                let userId = sessionManager.get("id");
-                let click = true;
-                await this.click(userId, gameId, click)
-                this.navigateTo(gameId);
-            })
-            clickGamesRow.find(".game-name").text(name);
-            clickGamesRow.attr("id", "g" + String(gameId))
-            clickGamesRow.appendTo(".clickGameListLimit3");
+        for (const game of clickGames) {
+            this.fillGameRow(gameTemplate, game).appendTo(".clickGameListLimit3");
         }
+
         // loop trough available favGames
-        for (let i = 0; i < favGames.length; i++) {
-            const row = favGames[i];
-            let gameId = row["id_game"];
-            let name = row["name"];
-
-            let favGamesRow = $(favGamesTemplate);
-            favGamesRow.find(".game-name").text(name);
-            favGamesRow.attr("id", "g" + String(gameId))
-
-
-            favGamesRow.on("click", async () => {
-                let userId = sessionManager.get("id");
-                let click = true;
-                await this.click(userId, gameId, click)
-                this.navigateTo(gameId);
-            })
-            favGamesRow.find(".game-name").text(name);
-            favGamesRow.attr("id", "g" + String(gameId))
-            favGamesRow.appendTo(".favGameListLimit3");
+        for (const game of favGames) {
+            this.fillGameRow(gameTemplate, game).appendTo(".favGameListLimit3");
         }
     }
+
+    fillGameRow(template, game){
+        let gameId = game["id_game"];
+        let name = game["name"];
+
+        let copyTemplate = $(template);
+        copyTemplate.find(".game-name").text(name);
+        copyTemplate.find(".game-image").attr('src', 'uploads/' + game['game_icon']);
+        copyTemplate.attr("id", "g" + String(gameId))
+
+        copyTemplate.on("click", async () => {
+            let userId = sessionManager.get("id");
+            let click = true;
+            await this.click(userId, gameId, click)
+            this.navigateTo(gameId);
+        })
+
+        copyTemplate.find(".game-name").text(name);
+        copyTemplate.attr("id", "g" + String(gameId))
+
+        return copyTemplate;
+    }
+
 
     async click(userId, gameId, click) {
         let hasClick
