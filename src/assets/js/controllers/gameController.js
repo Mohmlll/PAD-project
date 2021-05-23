@@ -8,7 +8,7 @@ class GameController {
     }
 
     async onGetGame(games) {
-        $("#gameview").empty();
+        // $("#gameview").empty();
         this.result = await $.ajax({
             url: baseUrl + "/material",
             contentType: "application/json",
@@ -39,6 +39,8 @@ class GameController {
 
         }
 
+        let gameRows = $();
+
         if (games == null) {
             games = this.game;
             // loop trough available games
@@ -47,7 +49,8 @@ class GameController {
                 gameId = row["id_game"];
                 name = row["name"];
                 gameType = row["type"];
-                this.fillTemplate(gameTemplate, name, gameId);
+
+                gameRows = gameRows.add(this.fillTemplate(gameTemplate, name, gameId));
             }
         } else {
             for (let i = 0; i < games.length; i++) {
@@ -55,8 +58,16 @@ class GameController {
                 gameId = row.id_game;
                 name = row.name;
                 gameType = row.type;
-                this.fillTemplate(gameTemplate, name, gameId);
+                gameRows = gameRows.add(this.fillTemplate(gameTemplate, name, gameId));
             }
+        }
+
+        if (games.length === 0) {
+            $('.no-result-alert').show();
+            $("#gameview").empty();
+        } else {
+            $("#gameview").html(gameRows);
+            $('.no-result-alert').hide();
         }
     }
 
@@ -72,8 +83,7 @@ class GameController {
             this.navigateTo(gameId);
         })
         gameRowTemplate.find("a[href='.collapseSummary']").attr('href', '.collapseSummary' + gameId);
-        gameRowTemplate.appendTo("#gameview");
-
+        return gameRowTemplate;
 
     }
 
@@ -171,7 +181,7 @@ class GameController {
             optionMin.appendTo("#game-target-audience-min");
         }
 
-        for (let i = this.dropDownDataGameAudienceFilter.length -1 ; i >= 0 ; i--) {
+        for (let i = this.dropDownDataGameAudienceFilter.length - 1; i >= 0; i--) {
             let option = "Groep " + this.dropDownDataGameAudienceFilter[i]["audience"];
             let optionMax = $('<option class="audienceMax"></option>').attr("value", this.dropDownDataGameAudienceFilter[i]["audience"]);
             optionMax.text(option);
