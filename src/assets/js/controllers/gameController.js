@@ -122,7 +122,7 @@ class GameController {
             });
         } else {
             filteredTypeGames = game.filter(function (e) {
-                return (e.type === gameType) && (minAudience >= e["target_audience_min"]) && (maxAudience <= e["target_audience_max"]) && (e["amount_players"] >= amountStudents);
+                return (e.type === gameType) && (e["target_audience_min"] >= minAudience) && (e["target_audience_max"] <= maxAudience) && (e["amount_players"] >= amountStudents);
 
             });
         }
