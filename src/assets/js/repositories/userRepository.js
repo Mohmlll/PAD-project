@@ -64,13 +64,20 @@ class UserRepository {
         return await networkManager
             .doRequest('/newGameListLimit3', null, "GET")
     }
+
     async clickGameListLimit3() {
         return await networkManager
             .doRequest('/clickGameListLimit3', null, "GET")
     }
+
     async ratingGameListLimit3() {
         return await networkManager
             .doRequest('/ratingGameListLimit3', null, "GET")
+    }
+
+    async favGameListLimit3() {
+        return await networkManager
+            .doRequest('/favGameListLimit3', null, "GET")
     }
 
     async rating(userId, gameId, rating) {
@@ -82,6 +89,7 @@ class UserRepository {
         return await networkManager
             .doRequest('/ratingUpdate', {rating: parseInt(rating), id_user: userId, id_game: gameId}, "POST")
     }
+
     async ratingCheck(userId, gameId) {
         return await networkManager
             .doRequest('/ratingCheck', {id_user: userId, id_game: gameId}, "POST")
@@ -105,13 +113,30 @@ class UserRepository {
         return await networkManager
             .doRequest('/click', {id_user: userId, id_game: gameId, click: click}, "POST")
     }
+
     async clickCheck(userId, gameId) {
         return await networkManager
             .doRequest('/clickCheck', {id_user: userId, id_game: gameId}, "POST")
     }
+
     async clicksGet(gameId) {
         return await networkManager
             .doRequest('/clicks', {id_game: gameId}, "POST")
+    }
+
+    async fav(userId, gameId) {
+        return await networkManager
+            .doRequest('/fav', {id_user: userId, id_game: gameId}, "POST")
+    }
+
+    async favCheck(userId, gameId) {
+        return await networkManager
+            .doRequest('/favCheck', {id_user: userId, id_game: gameId}, "POST")
+    }
+
+    async favDelete(userId, gameId) {
+        return await networkManager
+            .doRequest('/favDelete', {id_user: userId, id_game: gameId}, "POST")
     }
 
 }

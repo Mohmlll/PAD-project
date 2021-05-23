@@ -49,7 +49,7 @@ app.post("/user/login", (req, res) => {
             res.status(httpOkCode).json({email: data[0].email, id: data[0].id});
         } else {
             //wrong email
-            res.status(authorizationErrCode).json({reason: "Wrong email or password", values:[password, email]});
+            res.status(authorizationErrCode).json({reason: "Wrong email or password", values: [password, email]});
         }
 
     }, (err) => res.status(badRequestCode).json({reason: err}));
@@ -206,6 +206,18 @@ app.get('/ratingGameListLimit3', (req, res) => {
         })
     });
 });
+app.get('/favGameListLimit3', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "select * from game g inner join favorite f on g.id_game = f.id_game order by g.id_game limit 3"
+    }, d => {
+        res.json(d);
+    }, err => {
+        res.status(500);
+        res.json({
+            message: err.message
+        })
+    });
+});
 
 app.get('/material', (req, res) => {
     db.handleQuery(connectionPool, {
@@ -306,8 +318,30 @@ app.post('/click', (req, res) => {
         res.json({message: "/click doesnt work"})
     });
 });
+app.post('/fav', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "insert into favorite(id_user, id_game) values(?,?)",
+        values: [req.body.id_user, req.body.id_game]
+    }, (data) => {
+        res.json({data})
+    }, (err) => {
+        console.log(err);
+        res.json({message: "/fav doesnt work"})
+    });
+});
+app.post('/favDelete', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "delete from favorite where id_user = ? and id_game = ?",
+        values: [req.body.id_user, req.body.id_game]
+    }, (data) => {
+        res.json({data})
+    }, (err) => {
+        console.log(err);
+        res.json({message: "/favDelete doesnt work"})
+    });
+});
+
 app.post('/ratingCheck', (req, res) => {
-    console.log("/ratings doesnt work")
     db.handleQuery(connectionPool, {
         query: "select rating from rating where id_game = ? AND id_user = ?",
         values: [req.body.id_game, req.body.id_user]
@@ -318,8 +352,19 @@ app.post('/ratingCheck', (req, res) => {
         res.json({message: "/ratingCheck doesnt work"})
     });
 });
+app.post('/favCheck', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "select * from favorite where id_game = ? AND id_user = ?",
+        values: [req.body.id_game, req.body.id_user]
+    }, (data) => {
+        res.json({data})
+    }, (err) => {
+        console.log(err);
+        res.json({message: "/favCheck doesnt work"})
+    });
+});
+
 app.post('/clickCheck', (req, res) => {
-    console.log("/ratings doesnt work")
     db.handleQuery(connectionPool, {
         query: "select click from click where id_game = ? AND id_user = ?",
         values: [req.body.id_game, req.body.id_user]
@@ -346,7 +391,7 @@ app.post('/ratings', (req, res) => {
         query: "select avg(rating) as average, count(*) as total from rating where id_game = ?",
         values: [req.body.id_game]
     }, (data) => {
-            console.log("Query success")
+        console.log("Query success")
         res.json({data})
     }, (err) => {
         console.log(err);
@@ -358,7 +403,7 @@ app.post('/clicks', (req, res) => {
         query: "select count(*) as totalClicks from click where id_game = ?",
         values: [req.body.id_game]
     }, (data) => {
-            console.log("Query success")
+        console.log("Query success")
         res.json({data})
     }, (err) => {
         console.log(err);

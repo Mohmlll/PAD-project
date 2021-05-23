@@ -24,7 +24,7 @@ class HomeController {
             newGames = await this.userRepository.newGameListLimit3()
             ratingGames = await this.userRepository.ratingGameListLimit3()
             clickGames = await this.userRepository.clickGameListLimit3()
-            // favGames = await this.userRepository.favGameListLimit3()
+            favGames = await this.userRepository.favGameListLimit3()
         } catch (e) {
             if (e.code === 401) {
                 this.welcomeView
@@ -102,27 +102,27 @@ class HomeController {
             clickGamesRow.attr("id", "g" + String(gameId))
             clickGamesRow.appendTo(".clickGameListLimit3");
         }
-        // // loop trough available favGames
-        // for (let i = 0; i < favGames.length; i++) {
-        //     const row = favGames[i];
-        //     let gameId = row["id_game"];
-        //     let name = row["name"];
-        //
-        //     let favGamesRow = $(favGamesTemplate);
-        //     favGamesRow.find(".game-name").text(name);
-        //     favGamesRow.attr("id", "g" + String(gameId))
-        //
-        //
-        //     favGamesRow.on("click", async () => {
-        //         let userId = sessionManager.get("id");
-        //         let click = true;
-        //         await this.click(userId, gameId, click)
-        //         this.navigateTo(gameId);
-        //     })
-        //     favGamesRow.find(".game-name").text(name);
-        //     favGamesRow.attr("id", "g" + String(gameId))
-        //     favGamesRow.appendTo(".favGameListLimit3");
-        // }
+        // loop trough available favGames
+        for (let i = 0; i < favGames.length; i++) {
+            const row = favGames[i];
+            let gameId = row["id_game"];
+            let name = row["name"];
+
+            let favGamesRow = $(favGamesTemplate);
+            favGamesRow.find(".game-name").text(name);
+            favGamesRow.attr("id", "g" + String(gameId))
+
+
+            favGamesRow.on("click", async () => {
+                let userId = sessionManager.get("id");
+                let click = true;
+                await this.click(userId, gameId, click)
+                this.navigateTo(gameId);
+            })
+            favGamesRow.find(".game-name").text(name);
+            favGamesRow.attr("id", "g" + String(gameId))
+            favGamesRow.appendTo(".favGameListLimit3");
+        }
     }
 
     async click(userId, gameId, click) {

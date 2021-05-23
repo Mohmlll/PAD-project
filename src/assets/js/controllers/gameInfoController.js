@@ -1,6 +1,7 @@
 class GameInfoController {
     constructor() {
         this.userRepository = new UserRepository();
+        this.userId = sessionManager.get("id");
         $.get("views/gameInfo.html")
             .then((data) => this.setup(data))
             .catch(() => this.error());
@@ -100,9 +101,12 @@ class GameInfoController {
             gameInfoRowTemplate.find(".game-info-materials").append(materialStringReplaced)
 
         }
+
         let avgRating = await this.getAvgRating(gameId)
         let countRating = await this.getCountRating(gameId)
         let clicks = await this.getClicks(gameId)
+        this.isFav = await this.getIsFav(gameId)
+
         if (countRating === 0) {
             gameInfoRowTemplate.find("#avg_rating").text("Dit spel heeft nog geen beoordelingen.");
         } else {
@@ -110,7 +114,27 @@ class GameInfoController {
         }
         gameInfoRowTemplate.find("#game-info-clicks").append(clicks);
 
+
         gameInfoRowTemplate.appendTo("#game-info-view");
+    }
+
+    async fav() {
+        if (this.isFav) {
+            $("#game-info-fav").text("Verwijder van favorieten").addClass("game-info-isFav-true").removeClass("game-info-isFav-false")
+                .on("click", async () => {
+                    console.log("isfav is " + this.isFav + " en ik heb geklikt")
+                    await this.userRepository.favDelete(this.userId, this.gameId);
+                    this.isFav = false;
+                })
+        } else {
+            $("#game-info-fav").text("Voeg toe als favoriet").addClass("game-info-isFav-false").removeClass("game-info-isFav-true")
+                .on("click", async () => {
+                    console.log("isfav is " + this.isFav + " en ik heb geklikt")
+                    await this.userRepository.fav(this.userId, this.gameId);
+                    this.isFav = true;
+                })
+        }
+
     }
 
     async getAvgRating(gameId) {
@@ -128,14 +152,18 @@ class GameInfoController {
         return clickCall.data[0]["totalClicks"];
     }
 
+    async getIsFav(gameId) {
+        let favCall = await this.userRepository.favCheck(this.userId, gameId)
+        return favCall.data.length !== 0;
+    }
+
     async getRating() {
         let gameId = parseInt(window.location.hash.replace("#game", ""));
-        let userId = sessionManager.get("id");
         let rating;
 
         $("#rating_game input").on("click", (event) => {
             rating = $(event.target).val();
-            this.postRating(userId, gameId, rating);
+            this.postRating(this.userId, gameId, rating);
             this.getAvgRating(gameId)
         })
 
@@ -217,6 +245,7 @@ class GameInfoController {
 
         this.download()
 
+        await this.fav()
         //Reload page when back button is pressed
         if (window.history && window.history.pushState) {
             $(window).on('popstate', () => {

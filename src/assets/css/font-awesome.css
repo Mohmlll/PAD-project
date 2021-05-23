@@ -3053,10 +3053,25 @@
     flex-direction: row-reverse;
     justify-content: right;
 }
+
 .game-info-clicks {
     display: flex;
     flex-direction: row-reverse;
     justify-content: right;
+}
+
+.game-info-fav {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: right;
+}
+
+.game-info-isFav-true:hover {
+    background-color: red;
+}
+
+.game-info-isFav-false:hover {
+    background-color: #ffe500;
 }
 
 .rating > input {
