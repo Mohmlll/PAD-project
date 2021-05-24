@@ -50,6 +50,7 @@ class GameCreateController {
         for (let i = 0; i < this.intDropDownDataGameType; i++) {
             let option = $("<option></option>");
             option.text(this.dropDownDataGameType[i]["type"])
+            option.val(this.dropDownDataGameType[i]["type"])
             option.appendTo("#game_type");
         }
     }
