@@ -1,3 +1,5 @@
+
+
 let gameId;
 
 class GameCreateController {
@@ -16,23 +18,23 @@ class GameCreateController {
             contentType: "application/json",
             method: "get"
         });
-            for (let i = 0; i < this.dropDownData.length; i++) {
-                let optionMinS;
+        for (let i = 0; i < this.dropDownData.length; i++) {
+            let optionMinS;
 
-                if (this.dropDownData[i]["audience"] === 0) {
-                    optionMinS = "Alle jaarlagen";
-                } else {
-                    optionMinS = "Groep " + this.dropDownData[i]["audience"];
-                }
-
-                let optionMin = $('<option class="audienceMin"></option>').attr("value", this.dropDownData[i]["audience"]);
-                let optionMax = $('<option class="audienceMax"></option>').attr("value", this.dropDownData[i]["audience"]);
-
-                optionMin.text(optionMinS);
-                optionMax.text(optionMinS);
-                optionMin.appendTo("#target-audience-min");
-                optionMax.appendTo("#target-audience-max");
+            if (this.dropDownData[i]["audience"] === 0) {
+                optionMinS = "Alle jaarlagen";
+            } else {
+                optionMinS = "Groep " + this.dropDownData[i]["audience"];
             }
+
+            let optionMin = $('<option class="audienceMin"></option>').attr("value", this.dropDownData[i]["audience"]);
+            let optionMax = $('<option class="audienceMax"></option>').attr("value", this.dropDownData[i]["audience"]);
+
+            optionMin.text(optionMinS);
+            optionMax.text(optionMinS);
+            optionMin.appendTo("#target-audience-min");
+            optionMax.appendTo("#target-audience-max");
+        }
     }
 
     async getDropDownDataGameType() {
@@ -75,7 +77,7 @@ class GameCreateController {
         this.intResult = this.result.length;
 
         // get template
-        let materialTemplate = await $.get("views/materialTemplate.html")
+        let materialTemplate = await $.get("views/materialTemplate.html");
 
         // loop trough available materials
         for (let i = 0; i < this.result.length; i++) {
