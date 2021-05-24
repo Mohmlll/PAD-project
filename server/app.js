@@ -76,11 +76,11 @@ app.post("/game", function (req, res) {
 
     // game icon
     let gameIcon = req.files['game-icon'];
-    let gameIconPath = `${wwwrootPathUpload}/uploads/${helper.randomImageString()}_gameIcon.${gameIcon.name.split(".").pop()}`
+    let gameIconPath = `${wwwrootPathUpload}uploads/${helper.randomImageString()}_gameIcon.${gameIcon.name.split(".").pop()}`
 
     // game plan
     let gamePlan = req.files['game-plan'];
-    let gamePlanPath = `${wwwrootPathUpload}/uploads/${helper.randomImageString()}_gamePlan.${gamePlan.name.split(".").pop()}`
+    let gamePlanPath = `${wwwrootPathUpload}uploads/${helper.randomImageString()}_gamePlan.${gamePlan.name.split(".").pop()}`
 
 
     gameIcon.mv(gameIconPath, function (err) {
