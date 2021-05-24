@@ -74,8 +74,6 @@ class GameInfoController {
         // gameInfoRowTemplate.find(".game-info-name").append("<i class='fas fa-file-download fa-pull-right cursor-pointer'></i>").children().attr("id", "game-download-" + gameId)
         gameInfoRowTemplate.find(".game-info-name").append("<i class='fas fa-file-download fa-pull-right cursor-pointer'></i>").children().attr("id", "game-download").children()
         gameInfoRowTemplate.find(".game-info-name").append("<h3 class='fa-pull-right cursor'>Download</h3>")
-        gameInfoRowTemplate.find(".game-image-plan").attr("src", 'uploads/' + row['game_plan'])
-        gameInfoRowTemplate.find(".game-image").attr("src", 'uploads/' + row['game_icon'])
 
 
         gameInfoRowTemplate.find(".game-info-description").text(description);

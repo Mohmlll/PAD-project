@@ -76,20 +76,18 @@ app.post("/game", function (req, res) {
 
     // game icon
     let gameIcon = req.files['game-icon'];
-    let gameIconPath = `${helper.randomImageString()}_gameIcon.${gameIcon.name.split(".").pop()}`
-    let gameIconFullPath = `${wwwrootPathUpload}uploads/${gameIconPath}`
+    let gameIconPath = `${wwwrootPathUpload}uploads/${helper.randomImageString()}_gameIcon.${gameIcon.name.split(".").pop()}`
 
     // game plan
     let gamePlan = req.files['game-plan'];
-    let gamePlanPath = `${helper.randomImageString()}_gamePlan.${gamePlan.name.split(".").pop()}`
-    let gamePlanFullPath = `${wwwrootPathUpload}uploads/${gamePlanPath}`
+    let gamePlanPath = `${wwwrootPathUpload}uploads/${helper.randomImageString()}_gamePlan.${gamePlan.name.split(".").pop()}`
 
 
-    gameIcon.mv(gameIconFullPath, function (err) {
+    gameIcon.mv(gameIconPath, function (err) {
         if (err) {
             return res.status(badRequestCode).json({reason: err});
         }
-        gamePlan.mv(gamePlanFullPath, function (err) {
+        gamePlan.mv(gamePlanPath, function (err) {
             if (err) {
                 return res.status(badRequestCode).json({reason: err});
             }
