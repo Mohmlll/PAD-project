@@ -48,7 +48,7 @@ class GameController {
                 name = row["name"];
                 gameType = row["type"];
 
-                gameRows = gameRows.add(this.fillTemplate(gameTemplate, name, gameId, games));
+                gameRows = gameRows.add(this.fillTemplate(gameTemplate, name, gameId, row));
             }
         } else {
             for (let i = 0; i < games.length; i++) {
@@ -56,7 +56,7 @@ class GameController {
                 gameId = row.id_game;
                 name = row.name;
                 gameType = row.type;
-                gameRows = gameRows.add(this.fillTemplate(gameTemplate, name, gameId, games));
+                gameRows = gameRows.add(this.fillTemplate(gameTemplate, name, gameId, row));
             }
         }
 
