@@ -261,10 +261,10 @@ class GameInfoController {
 
         //fav game code
         await this.favCheck()
-        $("#game-info-fav", this.gameView).text("Voeg toe aan favorieten").on("click", () => {
+        $("#game-info-fav", this.gameView).on("click", () => {
             this.fav()
         });
-        $("#game-info-un-fav", this.gameView).text("Verwijder van favorieten").on("click", () => {
+        $("#game-info-un-fav", this.gameView).on("click", () => {
             this.fav()
         });
 

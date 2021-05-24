@@ -1,16 +1,17 @@
 
 .game-name {
-    background-color: #3d6d2e;
     color: white;
     height: 10%;
     font-size: 20px;
     text-align: center;
     margin: auto;
 }
+.top-game-card{
+    background-color: #3d6d2e;
+}
 
 .game-img {
     cursor: pointer;
-    background-image: url("https://i.imgur.com/a7JlOZQ.png");
     overflow: hidden;
     border-radius: 10px;
     position: relative;
@@ -19,7 +20,12 @@
 
 .game-img:hover {
     background-color: white;
-    opacity: 0.5;
+}
+#fav-icon{
+    color: gold;
+    font-size: 1.5em;
+    margin: auto;
+    display: none;
 }
 
 .filter-button {
@@ -48,5 +54,14 @@
 }
 .fav-button{
     cursor: pointer;
-    float: right;
+    font-size: 2em;
+    color: gold;
+}
+#game-info-fav span {
+    color: black;
+    font-size: 14px;
+}
+#game-info-un-fav span{
+    color: black;
+    font-size: 14px;
 }

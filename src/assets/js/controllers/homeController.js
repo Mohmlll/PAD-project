@@ -14,6 +14,7 @@ class HomeController {
     }
 
     async onGetGame() {
+
         // get data
         let newGames;
         let ratingGames;
@@ -120,6 +121,7 @@ class HomeController {
                 await this.click(userId, gameId, click)
                 this.navigateTo(gameId);
             })
+            favGamesRow.find("#fav-icon").css("display", "block");
             favGamesRow.find(".game-name").text(name);
             favGamesRow.attr("id", "g" + String(gameId))
             favGamesRow.appendTo(".favGameListLimit3");
@@ -160,7 +162,6 @@ class HomeController {
         //Load the welcome-content into memory
         this.welcomeView = $(data);
         this.welcomeView.find("[data-controller]").on("click", NavbarController.handleClickMenuItem);
-
         $("#gamesButton", this.welcomeView).on("click", (e) => {
             app.loadController(CONTROLLER_GAME);
         });
