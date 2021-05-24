@@ -76,11 +76,11 @@ app.post("/game", function (req, res) {
 
     // game icon
     let gameIcon = req.files['game-icon'];
-    let gameIconPath = `${wwwrootPathUpload}uploads/${helper.randomImageString()}_gameIcon.${gameIcon.name.split(".").pop()}`
+    let gameIconPath = `${wwwrootPathUpload}/uploads/${helper.randomImageString()}_gameIcon.${gameIcon.name.split(".").pop()}`
 
     // game plan
     let gamePlan = req.files['game-plan'];
-    let gamePlanPath = `${wwwrootPathUpload}uploads/${helper.randomImageString()}_gamePlan.${gamePlan.name.split(".").pop()}`
+    let gamePlanPath = `${wwwrootPathUpload}/uploads/${helper.randomImageString()}_gamePlan.${gamePlan.name.split(".").pop()}`
 
 
     gameIcon.mv(gameIconPath, function (err) {
@@ -93,7 +93,7 @@ app.post("/game", function (req, res) {
             }
             db.handleQuery(connectionPool, {
                     query: "insert into game(name, description, target_audience_min, target_audience_max, type, amount_players, game_icon, game_plan) values(?,?,?,?,?,?,?,?)",
-                    values: [req.body.name, req.body.description, req.body['target-audience-min'], req.body['target-audience-max'], req.body.type, req.body['min-players'], gameIconPath, gamePlanPath]
+                    values: [req.body.name, req.body.description, req.body['target-audience-min'], req.body['target-audience-max'], req.body.type, req.body['min-players'], "."+gameIconPath, "."+gamePlanPath]
                 }, (data) => {
                     res.json({data})
                 },
