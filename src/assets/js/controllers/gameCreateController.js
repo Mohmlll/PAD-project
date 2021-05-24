@@ -75,7 +75,7 @@ class GameCreateController {
         this.intResult = this.result.length;
 
         // get template
-        let materialTemplate = await $.get("views/materialTemplate.html")
+        let materialTemplate = await $.get("views/materialTemplate.html");
 
         // loop trough available materials
         for (let i = 0; i < this.result.length; i++) {
