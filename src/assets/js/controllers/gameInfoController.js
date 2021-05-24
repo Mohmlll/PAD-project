@@ -239,9 +239,9 @@ class GameInfoController {
             let splitDescription = pdf.splitTextToSize(this.description, 180);
             pdf.text(20, 30, splitDescription);
 
-            pdf.text(20, 80, "Doelgroep: " + this.target_audience_min + " - " + this.target_audience_max);
-            pdf.text(20, 90, "Soort spel: " + this.type);
-            pdf.text(20, 100, "Materialen:\n" + this.materialStringReplaced);
+            pdf.text(20, 170, "Doelgroep: " + this.target_audience_min + " - " + this.target_audience_max);
+            pdf.text(20, 180, "Soort spel: " + this.type);
+            pdf.text(20, 190, "Materialen:\n" + this.materialStringReplaced);
 
             pdf.save("game" + this.gameId + ".pdf")
         })
