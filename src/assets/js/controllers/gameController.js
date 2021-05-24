@@ -48,7 +48,7 @@ class GameController {
                 name = row["name"];
                 gameType = row["type"];
 
-                gameRows = gameRows.add(this.fillTemplate(gameTemplate, name, gameId));
+                gameRows = gameRows.add(this.fillTemplate(gameTemplate, name, gameId, games));
             }
         } else {
             for (let i = 0; i < games.length; i++) {
@@ -56,7 +56,7 @@ class GameController {
                 gameId = row.id_game;
                 name = row.name;
                 gameType = row.type;
-                gameRows = gameRows.add(this.fillTemplate(gameTemplate, name, gameId));
+                gameRows = gameRows.add(this.fillTemplate(gameTemplate, name, gameId, games));
             }
         }
 
@@ -70,10 +70,10 @@ class GameController {
     }
 
 
-    fillTemplate(gameTemplate, name, gameId) {
+    fillTemplate(gameTemplate, name, gameId, games) {
         let gameRowTemplate = $(gameTemplate);
         gameRowTemplate.find(".game-name").text(name);
-
+        gameRowTemplate.find(".game-image").attr('src', 'uploads/' + games['game_icon']);
         gameRowTemplate.on("click", async () => {
             let userId = sessionManager.get("id");
             let click = true;
