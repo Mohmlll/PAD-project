@@ -69,3 +69,11 @@
     color: black;
     font-size: 14px;
 }
+.game-thumb-nail{
+    max-width: 250px;
+    border-radius: 25px;
+
+}
+.game-image-plan{
+    max-width: 100%;
+}
