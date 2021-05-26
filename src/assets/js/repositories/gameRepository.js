@@ -54,5 +54,9 @@ class GameRepository {
         return await networkManager
             .doRequest('/favGameListLimit3', {id_user: userId}, "POST")
     }
+    async deleteGame(gameId) {
+        return await networkManager
+            .doRequest('/deleteGame', {id_game: gameId}, "POST")
+    }
 
 }
