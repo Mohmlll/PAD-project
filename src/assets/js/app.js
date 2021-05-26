@@ -17,7 +17,7 @@ const CONTROLLER_REGISTER = "register";
 const CONTROLLER_GAME = "game";
 const CONTROLLER_GAME_CREATE = "gameCreate";
 const CONTROLLER_GAME_INFO = "gameInfo";
-const CONTROLLER_ADMIN_PANEL = "adminPanel"
+const CONTROLLER_ADMIN_PANEL = "adminPanel";
 const sessionManager = new SessionManager();
 const networkManager = new NetworkManager();
 const templateManager = new TemplateManager();
@@ -87,7 +87,6 @@ class App {
                 break;
             case CONTROLLER_ADMIN_PANEL:
                 this.setHash(name)
-                this.isLoggedIn()
                 new AdminController();
                 break;
             case CONTROLLER_GAME_INFO:
