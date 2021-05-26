@@ -432,6 +432,17 @@ app.post('/deleteGame', (req, res) => {
         res.json({message: "/fav doesnt work"})
     });
 });
+app.post('/editGame', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "update game where id_game = ? set name = ?, description = ? , target_audience_min = ?, target_audience_max = ?, type= ?, amount_players = ?, game_plan = ?, game_icon = ?, rules = ? ",
+        values: [req.body.id_game, req.body.name,req.body.description,req.body.target_audience_min,req.body.target_audience_max,req.body.type,req.body.amount_players,req.body.game_plan, req.body.game_icon, req.body.rules]
+    }, (data) => {
+        res.json({data})
+    }, (err) => {
+        console.log(err);
+        res.json({message: "/fav doesnt work"})
+    });
+});
 
 app.post('/reset', (req, res) => {
     const email = {
