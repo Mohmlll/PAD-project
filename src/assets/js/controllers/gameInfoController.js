@@ -187,7 +187,6 @@ class GameInfoController {
 
     async postRating(userId, gameId, rating) {
         let hasRating;
-
         try {
             let game = await this.userRepository.ratingCheck(userId, gameId);
             hasRating = game.data.length !== 0;
