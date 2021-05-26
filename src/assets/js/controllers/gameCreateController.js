@@ -1,10 +1,10 @@
-
-
 let gameId;
 
 class GameCreateController {
 
     constructor() {
+        this.statRepository = new StatRepository();
+        this.gameRepository = new GameRepository();
         $.get("views/gameCreate.html")
             .then((data) => this.setup(data))
             .catch(() => this.error());

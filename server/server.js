@@ -27,13 +27,11 @@ const app = require('./app');
 app.listen(SERVER_PORT, () => console.log(`PAD Framework app listening on port ${SERVER_PORT} for environment ${SERVER_ENVIRONMENT}!`));
 
 function getConfigFilePath() {
-    if(SERVER_ENVIRONMENT === SERVER_ENVIRONMENT_DEV) {
+    if (SERVER_ENVIRONMENT === SERVER_ENVIRONMENT_DEV) {
         return "./config/config.dev.json";
-    }
-    else if(SERVER_ENVIRONMENT === SERVER_ENVIRONMENT_LIVE) {
+    } else if (SERVER_ENVIRONMENT === SERVER_ENVIRONMENT_LIVE) {
         return "./config/config.live.json";
-    }
-    else {
+    } else {
         return "./config/config.local.json";
     }
 }

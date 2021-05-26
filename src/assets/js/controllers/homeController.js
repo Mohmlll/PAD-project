@@ -7,7 +7,8 @@
 class HomeController {
     constructor() {
         this.userRepository = new UserRepository();
-
+        this.statRepository = new StatRepository();
+        this.gameRepository = new GameRepository();
         $.get("views/home.html")
             .done((data) => this.setup(data))
             .fail(() => this.error());
@@ -22,10 +23,10 @@ class HomeController {
         let userId = sessionManager.get("id");
 
         try {
-            newGames = await this.userRepository.newGameListLimit3()
-            ratingGames = await this.userRepository.ratingGameListLimit3()
-            clickGames = await this.userRepository.clickGameListLimit3()
-            favGames = await this.userRepository.favGameListLimit3(userId)
+            newGames = await this.gameRepository.newGameListLimit3()
+            ratingGames = await this.gameRepository.ratingGameListLimit3()
+            clickGames = await this.gameRepository.clickGameListLimit3()
+            favGames = await this.gameRepository.favGameListLimit3(userId)
         } catch (e) {
             if (e.code === 401) {
                 this.welcomeView
@@ -60,7 +61,7 @@ class HomeController {
         }
     }
 
-    fillGameRow(template, game){
+    fillGameRow(template, game) {
         let gameId = game["id_game"];
         let name = game["name"];
 
@@ -86,7 +87,7 @@ class HomeController {
     async click(userId, gameId, click) {
         let hasClick
         try {
-            let clickCheck = await this.userRepository.clickCheck(userId, gameId)
+            let clickCheck = await this.statRepository.clickCheck(userId, gameId)
             hasClick = clickCheck.data.length !== 0;
         } catch (e) {
             if (e.code === 401) {
@@ -98,7 +99,7 @@ class HomeController {
             }
         }
         if (!hasClick) {
-            await this.userRepository.click(userId, gameId, click)
+            await this.statRepository.click(userId, gameId, click)
         }
 
     }

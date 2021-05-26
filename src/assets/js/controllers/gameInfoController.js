@@ -1,6 +1,8 @@
 class GameInfoController {
     constructor() {
         this.userRepository = new UserRepository();
+        this.statRepository = new StatRepository();
+        this.gameRepository = new GameRepository();
         this.userId = sessionManager.get("id");
         $.get("views/gameInfo.html")
             .then((data) => this.setup(data))
@@ -18,7 +20,7 @@ class GameInfoController {
         let loopCount = 0;
         let materialStringReplaced;
         try {
-            game = await this.userRepository.game(gameId)
+            game = await this.gameRepository.game(gameId)
         } catch (e) {
             if (e.code === 401) {
                 this.gameView
@@ -30,7 +32,7 @@ class GameInfoController {
         }
 
         try {
-            materials = await this.userRepository.materials(gameId)
+            materials = await this.gameRepository.materials(gameId)
         } catch (e) {
             if (e.code === 401) {
                 this.gameView
@@ -41,7 +43,7 @@ class GameInfoController {
             }
         }
         try {
-            materialData = await this.userRepository.materialType()
+            materialData = await this.gameRepository.materialType()
         } catch (e) {
             if (e.code === 401) {
                 this.gameView
@@ -120,7 +122,7 @@ class GameInfoController {
         gameInfoRowTemplate.appendTo("#game-info-view");
     }
 
-    async favCheck(){
+    async favCheck() {
         let favButton = $("#game-info-un-fav");
         let unFavButton = $("#game-info-fav");
 
@@ -133,20 +135,21 @@ class GameInfoController {
             unFavButton.show();
         }
     }
+
     async fav() {
         let favButton = $("#game-info-un-fav");
         let unFavButton = $("#game-info-fav");
 
         if (this.isFav) {
             console.log("isfav is " + this.isFav + " en ik heb geklikt")
-            await this.userRepository.favDelete(this.userId, this.gameId);
+            await this.statRepository.favDelete(this.userId, this.gameId);
             this.isFav = false;
             favButton.hide();
             unFavButton.show();
 
         } else {
             console.log("isfav is " + this.isFav + " en ik heb geklikt")
-            await this.userRepository.fav(this.userId, this.gameId);
+            await this.statRepository.fav(this.userId, this.gameId);
             this.isFav = true;
             unFavButton.hide();
             favButton.show();
@@ -154,22 +157,22 @@ class GameInfoController {
     }
 
     async getAvgRating(gameId) {
-        let avgRatingCall = await this.userRepository.getAvgRatingForSpecifiedGame(gameId)
+        let avgRatingCall = await this.statRepository.getAvgRatingForSpecifiedGame(gameId)
         return avgRatingCall.data[0]["average"];
     }
 
     async getCountRating(gameId) {
-        let countCall = await this.userRepository.getAvgRatingForSpecifiedGame(gameId)
+        let countCall = await this.statRepository.getAvgRatingForSpecifiedGame(gameId)
         return countCall.data[0]["total"];
     }
 
     async getClicks(gameId) {
-        let clickCall = await this.userRepository.clicksGet(gameId)
+        let clickCall = await this.statRepository.clicksGet(gameId)
         return clickCall.data[0]["totalClicks"];
     }
 
     async getIsFav(gameId) {
-        let favCall = await this.userRepository.favCheck(this.userId, gameId)
+        let favCall = await this.statRepository.favCheck(this.userId, gameId)
         return favCall.data.length !== 0;
     }
 
@@ -189,7 +192,7 @@ class GameInfoController {
         let hasRating;
 
         try {
-            let game = await this.userRepository.ratingCheck(userId, gameId);
+            let game = await this.statRepository.ratingCheck(userId, gameId);
             hasRating = game.data.length !== 0;
         } catch (e) {
             if (e.code === 401) {
@@ -202,7 +205,7 @@ class GameInfoController {
         }
         if (hasRating) {
             try {
-                await this.userRepository.getSpecificRatingForEachUser(rating, userId, gameId)
+                await this.statRepository.getSpecificRatingForEachUser(rating, userId, gameId)
             } catch (e) {
                 if (e.code === 401) {
                     this.gameView
@@ -214,7 +217,7 @@ class GameInfoController {
             }
         } else {
             try {
-                await this.userRepository.rating(userId, gameId, rating)
+                await this.statRepository.rating(userId, gameId, rating)
             } catch (e) {
                 if (e.code === 401) {
                     this.gameView

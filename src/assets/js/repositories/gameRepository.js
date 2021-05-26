@@ -7,7 +7,7 @@
 class GameRepository {
 
     constructor() {
-        this.route = "/user"
+        this.route = "/game"
     }
 
     async game(gameId) {
@@ -25,10 +25,6 @@ class GameRepository {
             .doRequest('/material', null, "GET")
     }
 
-    async newGameListLimit3() {
-        return await networkManager
-            .doRequest('/newGameListLimit3', null, "GET")
-    }
 
     async update(id, values = {}) {
 
@@ -38,4 +34,25 @@ class GameRepository {
         return await networkManager
             .doRequest('/game', null, "GET")
     }
+
+    async newGameListLimit3() {
+        return await networkManager
+            .doRequest('/newGameListLimit3', null, "GET")
+    }
+
+    async clickGameListLimit3() {
+        return await networkManager
+            .doRequest('/clickGameListLimit3', null, "GET")
+    }
+
+    async ratingGameListLimit3() {
+        return await networkManager
+            .doRequest('/ratingGameListLimit3', null, "GET")
+    }
+
+    async favGameListLimit3(userId) {
+        return await networkManager
+            .doRequest('/favGameListLimit3', {id_user: userId}, "POST")
+    }
+
 }

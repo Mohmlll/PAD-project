@@ -1,45 +1,22 @@
 class GameController {
     constructor() {
         this.userRepository = new UserRepository();
-
+        this.gameRepository = new GameRepository();
+        this.statRepository = new StatRepository();
         $.get("views/game.html")
             .then((data) => this.setup(data))
             .catch(() => this.error());
     }
 
     async onGetGame(games) {
-        // get data
-        this.game = await this.userRepository.getGames();
+
         // get template
         let gameTemplate = await $.get("views/templateGame.html");
         let gameId, name, gameType;
-
-        // this.result = await $.ajax({
-        //     url: baseUrl + "/material",
-        //     contentType: "application/json",
-        //     method: "get"
-        // });
-        // let materialTemplate = await $.get("views/materialTemplate2.html")
-        // // loop trough available materials
-        // for (let i = 0; i < this.result.length; i++) {
-        //     const resultUsable = this.result[i];
-        //
-        //     let material_id = resultUsable["id"]
-        //     let material = resultUsable["material"]
-        //
-        //     let materialTemplateUsable = $(materialTemplate);
-        //
-        //     materialTemplateUsable.find(".labelMaterials").text(material);
-        //     materialTemplateUsable.find(".material-input").attr("id", "noOfRoom" + material_id);
-        //     materialTemplateUsable.find(".material-plus").attr("id", "adds" + material_id);
-        //     materialTemplateUsable.find(".material-minus").attr("id", "subs" + material_id);
-        //     materialTemplateUsable.appendTo("#materialview2");
-        //
-        // }
-
         let gameRows = $();
-
         if (games == null) {
+            // get data
+            this.game = await this.gameRepository.getGames();
             games = this.game;
             // loop trough available games
             for (let i = 0; i < games.length; i++) {
@@ -69,6 +46,31 @@ class GameController {
         }
     }
 
+    async loadFilterMaterial() {
+        // get data
+        this.result = await $.ajax({
+            url: baseUrl + "/material",
+            contentType: "application/json",
+            method: "get"
+        });
+        let materialTemplate = await $.get("views/materialTemplate2.html")
+        // loop trough available materials
+        for (let i = 0; i < this.result.length; i++) {
+            const resultUsable = this.result[i];
+
+            let material_id = resultUsable["id"]
+            let material = resultUsable["material"]
+
+            let materialTemplateUsable = $(materialTemplate);
+
+            materialTemplateUsable.find(".labelMaterials").text(material);
+            materialTemplateUsable.find(".material-input").attr("id", "noOfRoom" + material_id);
+            materialTemplateUsable.find(".material-plus").attr("id", "adds" + material_id);
+            materialTemplateUsable.find(".material-minus").attr("id", "subs" + material_id);
+            materialTemplateUsable.appendTo("#materialview2");
+
+        }
+    }
 
     fillTemplate(gameTemplate, name, gameId, games) {
         let gameRowTemplate = $(gameTemplate);
@@ -88,7 +90,7 @@ class GameController {
     async click(userId, gameId, click) {
         let hasClick
         try {
-            let clickCheck = await this.userRepository.clickCheck(userId, gameId)
+            let clickCheck = await this.statRepository.clickCheck(userId, gameId)
             hasClick = clickCheck.data.length !== 0;
         } catch (e) {
             if (e.code === 401) {
@@ -100,7 +102,7 @@ class GameController {
             }
         }
         if (!hasClick) {
-            await this.userRepository.click(userId, gameId, click)
+            await this.statRepository.click(userId, gameId, click)
         }
 
     }
@@ -122,6 +124,8 @@ class GameController {
         minAudience = $("#game-target-audience-min").val();
         maxAudience = $("#game-target-audience-max").val();
 
+        // this.material = await this.gameRepository.materials(gameId);
+        // this.materialType = await this.gameRepository.materialType();
 
         if (gameType === allSorts) {
             filteredTypeGames = game.filter(function (e) {
@@ -187,50 +191,51 @@ class GameController {
         }
     }
 
-    // async getDropDownGameMaterialFilter() {
-    //     // get data
-    //     this.dropDownDataGameMaterialFilter = await $.ajax({
-    //         url: baseUrl + "/material",
-    //         contentType: "application/json",
-    //         method: "get"
-    //     });
-    //     this.intDropDownDataGameMaterialFilter = this.dropDownDataGameMaterialFilter.length;
-    //     for (let i = 0; i < this.intDropDownDataGameMaterialFilter; i++) {
-    //         $('#game-material-filter').append(`<option value="${this.dropDownDataGameMaterialFilter[i]["material"]}">
-    //         ${this.dropDownDataGameMaterialFilter[i]["material"]}</option>`)
-    //     }
-    // }
-    // add() {
-    //     for (let i = 1; i <= this.intResult; i++) {
-    //         $('#adds' + i, this.gameView).on("click", (e) => {
-    //             $('#adds' + i).parent().prev().children().val()
-    //             let curr = $('#adds' + i).parent().prev().children().val()
-    //             if (curr > 0) {
-    //                 $('#subs' + i).removeAttr('disabled');
-    //             }
-    //             if (curr >= 98) {
-    //                 $('#adds' + i).attr('disabled', 'disabled');
-    //             }
-    //             $('#adds' + i).parent().prev().children().val(Number(curr) + 1)
-    //         });
-    //     }
-    // }
-    //
-    // remove() {
-    //     for (let i = 1; i <= this.intResult; i++) {
-    //         $('#subs' + i, this.gameView).on("click", (e) => {
-    //             let curr = $('#subs' + i).parent().next().children().val();
-    //             if (curr <= 0) {
-    //                 $('#subs' + i).attr('disabled', 'disabled');
-    //             } else {
-    //                 $('#subs' + i).parent().next().children().val(Number(curr) - 1);
-    //             }
-    //             if (curr <= 99) {
-    //                 $('#adds' + i).removeAttr('disabled');
-    //             }
-    //         });
-    //     }
-    // }
+    async getDropDownGameMaterialFilter() {
+        // get data
+        this.dropDownDataGameMaterialFilter = await $.ajax({
+            url: baseUrl + "/material",
+            contentType: "application/json",
+            method: "get"
+        });
+        this.intDropDownDataGameMaterialFilter = this.dropDownDataGameMaterialFilter.length;
+        for (let i = 0; i < this.intDropDownDataGameMaterialFilter; i++) {
+            $('#game-material-filter').append(`<option value="${this.dropDownDataGameMaterialFilter[i]["material"]}">
+            ${this.dropDownDataGameMaterialFilter[i]["material"]}</option>`)
+        }
+    }
+
+    add() {
+        for (let i = 1; i <= this.result.length; i++) {
+            $('#adds' + i, this.gameView).on("click", (e) => {
+                $('#adds' + i).parent().prev().children().val()
+                let curr = $('#adds' + i).parent().prev().children().val()
+                if (curr > 0) {
+                    $('#subs' + i).removeAttr('disabled');
+                }
+                if (curr >= 98) {
+                    $('#adds' + i).attr('disabled', 'disabled');
+                }
+                $('#adds' + i).parent().prev().children().val(Number(curr) + 1)
+            });
+        }
+    }
+
+    remove() {
+        for (let i = 1; i <= this.result.length; i++) {
+            $('#subs' + i, this.gameView).on("click", (e) => {
+                let curr = $('#subs' + i).parent().next().children().val();
+                if (curr <= 0) {
+                    $('#subs' + i).attr('disabled', 'disabled');
+                } else {
+                    $('#subs' + i).parent().next().children().val(Number(curr) - 1);
+                }
+                if (curr <= 99) {
+                    $('#adds' + i).removeAttr('disabled');
+                }
+            });
+        }
+    }
 
     //Called when the home.html has been loaded
     async setup(data) {
@@ -257,9 +262,10 @@ class GameController {
         await this.getDropDownDataGameTypeFilter()
         await this.getDropDownDataGameAudienceFilter()
         await this.onGetGame();
-        // await this.getDropDownGameMaterialFilter()
-        // this.add()
-        // this.remove()
+        await this.getDropDownGameMaterialFilter()
+        await this.loadFilterMaterial();
+        this.add()
+        this.remove()
 
         // listen for redirects
         templateManager.listen();
