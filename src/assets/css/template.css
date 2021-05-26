@@ -678,7 +678,7 @@ welcome
     background-position: center center;
     background-size: cover;
     min-height: 100vh;
-    z-index: 100;
+    z-index: 20;
 }
 
 .welcome-area .header-text {
