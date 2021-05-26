@@ -1,3 +1,9 @@
+
+
+
+
+
+
 <div class="welcome-area" id="welcome" xmlns="http://www.w3.org/1999/html">
     <div class="container game-container page-container ">
         <div class="white-box w-100">
@@ -6,7 +12,7 @@
             <img class="game-image game-thumb-nail shadow">
 
             <!--Rating begin-->
-            <label class="rating" for="rating_game" id="avg_rating"></label>
+            <label for="rating_game" class="rating" id="avg_rating"></label>
             <div class="rating" id="rating_game">
                 <input id="5" name="rating" type="radio" value="5"><label for="5">☆</label>
                 <input id="4" name="rating" type="radio" value="4"><label for="4">☆</label>
@@ -15,9 +21,10 @@
                 <input id="1" name="rating" type="radio" value="1"><label for="1">☆</label>
             </div>
             <!--Rating end-->
-            <label class="game-info-clicks" for="game-info-clicks" id="game-info-clicks">Aantal keren bekeken: </label>
-            <i class="fas f004 fa-heart fav-button" id="game-info-un-fav"></i>
-            <i class="far f004 fa-heart fav-button" id="game-info-fav"></i>
+            <label for="game-info-clicks" class="game-info-clicks" id="game-info-clicks">Aantal keren bekeken: </label>
+            <i id="game-info-un-fav" class="fas f004 fa-heart fav-button"></i>
+            <i id="game-info-fav" class="far f004 fa-heart fav-button"></i>
+
 
 
         </div>
@@ -28,20 +35,11 @@
                         <div class="col-md-12 col-sm-12 mt-2">
                             <h4>Spel Info</h4>
                             <fieldset>
-                                <label class="float-left">Soort spel: </label>
-                                <div class="game-info-type"></div>
-                            </fieldset>
-                        </div>
-                        <div class="col-md-12 col-sm-12 mt-2">
-                            <fieldset>
-                                <label class="float-left">Doelgroep vanaf: </label>
-                                <div class="game-info-target-audience-min"></div>
-                            </fieldset>
-                        </div>
-                        <div class="col-md-12 col-sm-12 mt-2">
-                            <fieldset>
-                                <label class="float-left">T/M: </label>
-                                <div class="game-info-target-audience-min"></div>
+                                <label class="game-info-type no-margin-bottom">Soort spel: </label>
+                                <br>
+                                <label class="game-info-target-audience-min no-margin-bottom">Doelgroep vanaf: </label>
+                                <br>
+                                <label class="game-info-target-audience-max no-margin-bottom">T/m: </label>
                             </fieldset>
                         </div>
                     </div>
@@ -70,8 +68,7 @@
             <div class="col-lg-5 w-100">
                 <div class="white-box h-100 w-100">
                     <fieldset>
-                        <h4 class="float-left">Beschrijving</h4>
-                        <br>
+                        <h4>Beschrijving</h4>
                         <p class="float-left game-info-description">
                         </p>
                     </fieldset>
@@ -80,9 +77,8 @@
             <div class="col-lg-7">
                 <div class="white-box h-100 w-100">
                     <fieldset>
-                        <h4 class="float-left">Regels</h4>
-                        <br>
-                        <p class="float-left game-info-description">
+                        <h4>Regels</h4>
+                        <p class="float-left game-info-rules">
                         </p>
                     </fieldset>
                 </div>

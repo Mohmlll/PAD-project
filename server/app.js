@@ -92,8 +92,8 @@ app.post("/game", function (req, res) {
                 return res.status(badRequestCode).json({reason: err});
             }
             db.handleQuery(connectionPool, {
-                    query: "insert into game(name, description, target_audience_min, target_audience_max, type, amount_players, game_icon, game_plan) values(?,?,?,?,?,?,?,?)",
-                    values: [req.body.name, req.body.description, req.body['target-audience-min'], req.body['target-audience-max'], req.body.type, req.body['min-players'], "." + gameIconPath, "." + gamePlanPath]
+                query: "insert into game(name, description, target_audience_min, target_audience_max, type, amount_players, game_icon, game_plan, rules) values(?,?,?,?,?,?,?,?,?)",
+                values: [req.body.name, req.body.description, req.body['target-audience-min'], req.body['target-audience-max'], req.body.type, req.body['min-players'], "."+gameIconPath, "."+gamePlanPath, req.body['game-rules']]
                 }, (data) => {
                     res.json({data})
                 },

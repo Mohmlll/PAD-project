@@ -1,8 +1,7 @@
 class GameInfoController {
     constructor() {
-        this.userRepository = new UserRepository();
-        this.statRepository = new StatRepository();
         this.gameRepository = new GameRepository();
+        this.statRepository = new StatRepository();
         this.userId = sessionManager.get("id");
         $.get("views/gameInfo.html")
             .then((data) => this.setup(data))
@@ -60,7 +59,7 @@ class GameInfoController {
 
         let name = row["name"];
         this.name = name;
-        let description = row["description"];
+        let description = row["description"] || "Geen beschrijving";
         this.description = description;
         let target_audience_min = row["target_audience_min"];
         this.target_audience_min = target_audience_min;
@@ -68,22 +67,25 @@ class GameInfoController {
         this.target_audience_max = target_audience_max;
         let type = row["type"];
         this.type = type;
+        let rules = row["rules"] || "Geen regels";
+
+        rules = "-" + rules
+        rules = rules.replaceAll("\r\n", "\n-");
+        this.rules = rules;
 
         let gameInfoRowTemplate = $(gameInfoTemplate);
 
         gameInfoRowTemplate.find(".game-info-name").text(name);
-        // gameInfoRowTemplate.find(".game-info-name").append("<i class='fas fa-file-pdf fa-pull-right'></i>")
-        // gameInfoRowTemplate.find(".game-info-name").append("<i class='fas fa-file-download fa-pull-right cursor-pointer'></i>").children().attr("id", "game-download-" + gameId)
         gameInfoRowTemplate.find(".game-info-name").append("<i class='fas fa-file-download fa-pull-right cursor-pointer'></i>").children().attr("id", "game-download").children()
         gameInfoRowTemplate.find(".game-info-name").append("<h3 class='fa-pull-right cursor'>Download</h3>")
         gameInfoRowTemplate.find(".game-image-plan").attr("src", 'uploads/' + row['game_plan'])
         gameInfoRowTemplate.find(".game-image").attr("src", 'uploads/' + row['game_icon'])
-
-
         gameInfoRowTemplate.find(".game-info-description").text(description);
-        gameInfoRowTemplate.find(".game-info-target-audience-min").text("‎ " + target_audience_min);
-        gameInfoRowTemplate.find(".game-info-target-audience-max").text("‎ " + target_audience_max);
-        gameInfoRowTemplate.find(".game-info-type").text("‎ " + type);
+        gameInfoRowTemplate.find(".game-info-rules").text(rules);
+        gameInfoRowTemplate.find(".game-info-target-audience-min").append(target_audience_min);
+        gameInfoRowTemplate.find(".game-info-target-audience-max").append(target_audience_max);
+        gameInfoRowTemplate.find(".game-info-type").append(type);
+
         let materialString = "";
         for (let j = 0; j < materials.length; j++) {
             loopCount++
@@ -190,6 +192,7 @@ class GameInfoController {
 
     async postRating(userId, gameId, rating) {
         let hasRating;
+
         try {
             let game = await this.statRepository.ratingCheck(userId, gameId);
             hasRating = game.data.length !== 0;

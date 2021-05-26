@@ -121,7 +121,9 @@ a {
 .cursor-pointer {
     cursor: pointer;
 }
-
+.no-margin-bottom{
+    margin-bottom: 0; !important;
+}
 /**
 slider
  */
