@@ -655,9 +655,9 @@ header
     display: block;
     position: absolute;
     width: 100%;
-    height: 100%;
+    height: calc(100% + 30px);
     left: 0;
-    top: 0;
+    top: -30px;
 }
 
 
@@ -678,6 +678,7 @@ welcome
     background-position: center center;
     background-size: cover;
     min-height: 100vh;
+    z-index: 100;
 }
 
 .welcome-area .header-text {
@@ -1422,7 +1423,6 @@ pricing
 footer {
     position: relative;
     z-index: 100;
-    margin-top: 150px;
 }
 
 /*
