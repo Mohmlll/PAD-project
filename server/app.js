@@ -421,6 +421,17 @@ app.post('/clicks', (req, res) => {
         res.json({message: "/clicks doesnt work"})
     });
 });
+app.post('/deleteGame', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "delete from game where id_game = ?,  values(?)",
+        values: [req.body.id_game]
+    }, (data) => {
+        res.json({data})
+    }, (err) => {
+        console.log(err);
+        res.json({message: "/fav doesnt work"})
+    });
+});
 
 app.post('/reset', (req, res) => {
     const email = {
