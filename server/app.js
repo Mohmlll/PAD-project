@@ -123,6 +123,16 @@ app.post("/gameInfoMaterials", (req, res) => {
         res.json({message: "noooope"})
     })
 })
+app.get("/getAllInfoMaterials", (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "SELECT * FROM game_has_material",
+        values: [req.body.game_id_game]
+    }, data => {
+        res.json(data);
+    }, err => {
+        res.json({message: "noooope"})
+    })
+})
 
 app.post('/register', (req, res) => {
     const password = req.body.password;

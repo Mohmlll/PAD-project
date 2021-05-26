@@ -1,6 +1,5 @@
 class GameController {
     constructor() {
-        this.userRepository = new UserRepository();
         this.gameRepository = new GameRepository();
         this.statRepository = new StatRepository();
         $.get("views/game.html")
@@ -9,7 +8,7 @@ class GameController {
     }
 
     async onGetGame(games) {
-
+        console.log(games)
         // get template
         let gameTemplate = await $.get("views/templateGame.html");
         let gameId, name, gameType;
@@ -46,7 +45,7 @@ class GameController {
         }
     }
 
-    async loadFilterMaterial() {
+    async fillMaterial() {
         // get data
         this.result = await $.ajax({
             url: baseUrl + "/material",
@@ -65,8 +64,11 @@ class GameController {
 
             materialTemplateUsable.find(".labelMaterials").text(material);
             materialTemplateUsable.find(".material-input").attr("id", "noOfRoom" + material_id);
+            materialTemplateUsable.find(".material-input").attr("data-id", material_id);
+
             materialTemplateUsable.find(".material-plus").attr("id", "adds" + material_id);
             materialTemplateUsable.find(".material-minus").attr("id", "subs" + material_id);
+
             materialTemplateUsable.appendTo("#materialview2");
 
         }
@@ -115,7 +117,7 @@ class GameController {
     }
 
     async filter() {
-        let gameType, minAudience, maxAudience, amountStudents, filteredTypeGames;
+        let gameType, minAudience, maxAudience, amountStudents, filteredGames;
         let game = this.game;
         let allSorts = "Alle soorten";
 
@@ -124,32 +126,64 @@ class GameController {
         minAudience = $("#game-target-audience-min").val();
         maxAudience = $("#game-target-audience-max").val();
 
-        // this.material = await this.gameRepository.materials(gameId);
-        // this.materialType = await this.gameRepository.materialType();
 
         if (gameType === allSorts) {
-            filteredTypeGames = game.filter(function (e) {
+            filteredGames = game.filter(function (e) {
                 return (e["target_audience_min"] >= minAudience) && (e["target_audience_max"] <= maxAudience) && (e["amount_players"] >= amountStudents);
 
             });
         } else {
-            filteredTypeGames = game.filter(function (e) {
+            filteredGames = game.filter(function (e) {
                 return (e.type === gameType) && (e["target_audience_min"] >= minAudience) && (e["target_audience_max"] <= maxAudience) && (e["amount_players"] >= amountStudents);
 
             });
         }
 
-        console.log(filteredTypeGames);
+        filteredGames = await this.filterMaterials(filteredGames);
 
-        if (filteredTypeGames.length === 0) {
+        if (filteredGames.length === 0) {
             $('.no-result-alert').show();
         } else {
             $('.no-result-alert').hide();
         }
 
-        await this.onGetGame(filteredTypeGames)
+        await this.onGetGame(filteredGames)
     }
 
+    async filterMaterials(games) {
+        let materials = await this.gameRepository.allMaterials();
+        let materialArray = [];
+
+        $("#materialview2 input").each(function (e) {
+            let materialId = $(this).attr("data-id");
+            let value = $(this).val();
+            materialId = parseInt(materialId);
+            value = parseInt(value);
+            materialArray.push({id: materialId, value: value});
+        });
+
+        console.log(materialArray);
+        for (let j = 0; j < materialArray.length; j++) {
+            let materialRow = materialArray[j];
+            if (materialRow.value < 0) {
+                continue;
+            }
+
+            for (let i = 0; i < games.length; i++) {
+                let gameRow = games[i];
+                let gameMaterials = materials.filter(function (e) {
+                    return (e.game_id_game === gameRow.id_game) && (materialRow.id === e.material_id);
+                });
+
+                if (gameMaterials.length === 0 || materialRow.value < gameMaterials[0].amount) {
+                    games.splice(i, 1);
+                }
+
+            }
+        }
+        console.log(games);
+        return games;
+    }
 
     async getDropDownDataGameTypeFilter() {
         // get data
@@ -205,6 +239,13 @@ class GameController {
         }
     }
 
+    base() {
+        let input = $('input[type=number].material-input');
+        if (input.val() < 0) {
+            input.val("");
+        }
+    }
+
     add() {
         for (let i = 1; i <= this.result.length; i++) {
             $('#adds' + i, this.gameView).on("click", (e) => {
@@ -225,7 +266,9 @@ class GameController {
         for (let i = 1; i <= this.result.length; i++) {
             $('#subs' + i, this.gameView).on("click", (e) => {
                 let curr = $('#subs' + i).parent().next().children().val();
-                if (curr <= 0) {
+                let input = $('input[type=number].material-input');
+
+                if (curr <= -1) {
                     $('#subs' + i).attr('disabled', 'disabled');
                 } else {
                     $('#subs' + i).parent().next().children().val(Number(curr) - 1);
@@ -244,7 +287,8 @@ class GameController {
 
 
         $("#filter-button", this.gameView).on("click", () => {
-            this.filter()
+            this.filter();
+
         });
         $("#student-amount", this.gameView).on("input", () => {
             const slider = document.getElementById("student-amount");
@@ -263,10 +307,10 @@ class GameController {
         await this.getDropDownDataGameAudienceFilter()
         await this.onGetGame();
         await this.getDropDownGameMaterialFilter()
-        await this.loadFilterMaterial();
+        await this.fillMaterial();
         this.add()
         this.remove()
-
+        this.base()
         // listen for redirects
         templateManager.listen();
     }

@@ -20,6 +20,11 @@ class GameRepository {
             .doRequest(`/gameInfoMaterials`, {game_id_game: gameId}, "POST");
     }
 
+    async allMaterials(){
+        return await networkManager
+            .doRequest('/getAllInfoMaterials', null, "GET")
+    }
+
     async materialType() {
         return await networkManager
             .doRequest('/material', null, "GET")
