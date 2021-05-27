@@ -20,9 +20,11 @@ class LoginController {
 
         $("#login", this.loginView).on("submit", (e) => this.handleLogin(e));
         $("#forgot", this.loginView).on("submit", (e) => this.handleForgot(e));
+        $("#forgot_2", this.loginView).on("submit", (e) => this.handleToken(e));
 
         $("#forgot-btn", this.loginView).on("click", (e) => this.setPage(e, 'forgot'));
         $("#login-btn", this.loginView).on("click", (e) => this.setPage(e, 'login'));
+        $("#forgot-2-btn", this.loginView).on("click", (e) => this.setPage(e, 'forgot'));
 
         //Empty the content-div and add the resulting view to the page
         $(".content").empty().append(this.loginView);
@@ -32,19 +34,28 @@ class LoginController {
     }
 
     setPage(event, type) {
-        event.preventDefault();
+        if (event !== null)
+            event.preventDefault();
 
         const login_elements = $("#login, .login-show");
         const forgot_elements = $("#forgot, .forgot-show");
+        const forgot_2_elements = $("#forgot_2, .forgot-2-show");
 
         switch (type) {
             case 'forgot':
                 login_elements.hide();
                 forgot_elements.show();
+                forgot_2_elements.hide();
+                break;
+            case 'forgot_2':
+                login_elements.hide();
+                forgot_elements.hide();
+                forgot_2_elements.show();
                 break;
             case 'login':
                 login_elements.show();
                 forgot_elements.hide();
+                forgot_2_elements.hide();
                 break;
         }
     }
@@ -89,17 +100,41 @@ class LoginController {
         const email = this.loginView.find("[name='forgot_email']").val();
 
         // send email
-        try {
+        const result = await this.userRepository.resetPassword(email);
 
-        } catch (e) {
-            //if unauthorized error show error to user
-            if (e.code === 401) {
-                this.loginView
-                    .find(".error")
-                    .html(e.reason);
-            } else {
-                console.log(e);
-            }
+        switch (result.status) {
+            case 200:
+                // continue form
+                this.setPage(null, 'forgot_2')
+                break;
+            default:
+                // message.error(result.message)
+                break;
+        }
+    }
+
+    async handleToken(event){
+        //prevent actual submit and page refresh
+        event.preventDefault();
+
+        //Find the token and password
+        const token = this.loginView.find("[name='forgot_token']").val();
+
+        // validate token
+        const result = await this.userRepository.validateToken(token);
+
+        switch (result.status) {
+            case 200:
+                // login
+                sessionManager.set("email", result.user.email);
+                sessionManager.set("id", result.user.email)
+
+                // redirect to change password page
+                app.loadController(CONTROLLER_HOME);
+                break;
+            default:
+                // message.error(result.message)
+                break;
         }
     }
 
