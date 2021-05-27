@@ -78,8 +78,6 @@ class TemplateManager {
     }
 
     handleClickMenuItem(event) {
-        console.log('click');
-
         //Get the data-controller from the clicked element (this)
         const controller = $(event).attr("data-controller");
 

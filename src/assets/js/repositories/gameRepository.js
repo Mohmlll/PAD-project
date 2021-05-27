@@ -7,7 +7,7 @@
 class GameRepository {
 
     constructor() {
-        this.route = "/user"
+        this.route = "/game"
     }
 
     async game(gameId) {
@@ -20,15 +20,16 @@ class GameRepository {
             .doRequest(`/gameInfoMaterials`, {game_id_game: gameId}, "POST");
     }
 
+    async allMaterials(){
+        return await networkManager
+            .doRequest('/getAllInfoMaterials', null, "GET")
+    }
+
     async materialType() {
         return await networkManager
             .doRequest('/material', null, "GET")
     }
 
-    async newGameListLimit3() {
-        return await networkManager
-            .doRequest('/newGameListLimit3', null, "GET")
-    }
 
     async update(id, values = {}) {
 
@@ -38,4 +39,35 @@ class GameRepository {
         return await networkManager
             .doRequest('/game', null, "GET")
     }
+
+    async newGameListLimit3() {
+        return await networkManager
+            .doRequest('/newGameListLimit3', null, "GET")
+    }
+
+    async clickGameListLimit3() {
+        return await networkManager
+            .doRequest('/clickGameListLimit3', null, "GET")
+    }
+
+    async ratingGameListLimit3() {
+        return await networkManager
+            .doRequest('/ratingGameListLimit3', null, "GET")
+    }
+
+    async favGameListLimit3(userId) {
+        return await networkManager
+            .doRequest('/favGameListLimit3', {id_user: userId}, "POST")
+    }
+
+    async deleteGame(gameId) {
+        return await networkManager
+            .doRequest('/deleteGame', {id_game: gameId}, "POST")
+    }
+
+    async editGame() {
+        return await networkManager
+            .doRequest('/editGame', {id_game : gameId, name : name, description : description ,target_audience_min:target_audience_min,target_audience_max: target_audience_max,type:type,amount_players :amount_players,game_plan: game_plan, game_icon: game_icon, rules: rules})
+    }
+
 }

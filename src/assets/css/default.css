@@ -16,6 +16,9 @@ input.invalid {
     display: none;
 }
 
+.tab{
+    min-height: 250px;
+}
 .vertical-center {
     display: flex !important;
     align-items: center;

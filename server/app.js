@@ -92,7 +92,7 @@ app.post("/game", function (req, res) {
             }
             db.handleQuery(connectionPool, {
                     query: "insert into game(name, description, target_audience_min, target_audience_max, type, amount_players, game_icon, game_plan) values(?,?,?,?,?,?,?,?)",
-                    values: [req.body.name, req.body.description, req.body['target-audience-min'], req.body['target-audience-max'], req.body.type, req.body['min-players'], "."+gameIconPath, "."+gamePlanPath]
+                    values: [req.body.name, req.body.description, req.body['target-audience-min'], req.body['target-audience-max'], req.body.type, req.body['min-players'], "." + gameIconPath, "." + gamePlanPath]
                 }, (data) => {
                     res.json({data})
                 },
@@ -115,6 +115,16 @@ app.post("/gameInfo", (req, res) => {
 app.post("/gameInfoMaterials", (req, res) => {
     db.handleQuery(connectionPool, {
         query: "SELECT * FROM game_has_material WHERE game_id_game = ?",
+        values: [req.body.game_id_game]
+    }, data => {
+        res.json(data);
+    }, err => {
+        res.json({message: "noooope"})
+    })
+})
+app.get("/getAllInfoMaterials", (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "SELECT * FROM game_has_material",
         values: [req.body.game_id_game]
     }, data => {
         res.json(data);
@@ -401,6 +411,28 @@ app.post('/clicks', (req, res) => {
     }, (err) => {
         console.log(err);
         res.json({message: "/clicks doesnt work"})
+    });
+});
+app.post('/deleteGame', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "delete from game where id_game = ?,  values(?)",
+        values: [req.body.id_game]
+    }, (data) => {
+        res.json({data})
+    }, (err) => {
+        console.log(err);
+        res.json({message: "/fav doesnt work"})
+    });
+});
+app.post('/editGame', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "update game where id_game = ? set name = ?, description = ? , target_audience_min = ?, target_audience_max = ?, type= ?, amount_players = ?, game_plan = ?, game_icon = ?, rules = ? ",
+        values: [req.body.id_game, req.body.name,req.body.description,req.body.target_audience_min,req.body.target_audience_max,req.body.type,req.body.amount_players,req.body.game_plan, req.body.game_icon, req.body.rules]
+    }, (data) => {
+        res.json({data})
+    }, (err) => {
+        console.log(err);
+        res.json({message: "/fav doesnt work"})
     });
 });
 

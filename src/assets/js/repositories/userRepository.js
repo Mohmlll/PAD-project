@@ -148,5 +148,4 @@ class UserRepository {
         return await networkManager
             .doRequest('/favDelete', {id_user: userId, id_game: gameId}, "POST")
     }
-
 }
