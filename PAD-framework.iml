@@ -8,6 +8,5 @@
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="jquery" level="application" />
-    <orderEntry type="library" name="bootstrap-notify" level="application" />
   </component>
 </module>
