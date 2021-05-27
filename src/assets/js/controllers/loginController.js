@@ -108,7 +108,7 @@ class LoginController {
                 this.setPage(null, 'forgot_2')
                 break;
             default:
-                // message.error(result.message)
+                message.error(result.message)
                 break;
         }
     }
@@ -131,9 +131,11 @@ class LoginController {
 
                 // redirect to change password page
                 app.loadController(CONTROLLER_HOME);
+
+                message.success();
                 break;
             default:
-                // message.error(result.message)
+                message.error(result.message)
                 break;
         }
     }
