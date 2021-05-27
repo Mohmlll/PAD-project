@@ -23,6 +23,13 @@
                             om een nieuw wachtwoord aan te vragen.
                         </p>
                     </div>
+                    <div class="forgot-2-show" style="display: none">
+                        <h4>Token invullen</h4>
+
+                        <p class="mt-5">
+                            Er is een token verstuurd naar uw e-mail adres. vul deze aan de rechterkant van het scherm in om uw wachtwoord opnieuw in te stellen.
+                        </p>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-5 mb-3">
@@ -53,14 +60,25 @@
                             <div class="col-md-12 col-sm-12 mt-2">
                                 <fieldset>
                                     <label class="float-left" for="forgot_email">E-Mail Adres</label>
-                                    <input class="form-control" id="forgot_email" name="forgot_email" required
-                                           type="email">
+                                    <input class="form-control" id="forgot_email" name="forgot_email" required type="email">
                                     <label class="label-small float-right mt-1" for="forgot_email" id="login-btn">Al
                                         een account?&nbsp;<a href="">inloggen</a></label>
                                 </fieldset>
                             </div>
                         </div>
                         <button class="main-button mt-2" type="submit">E-mail verzenden</button>
+                    </form>
+                    <form class="w-100" id="forgot_2" style="display: none">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 mt-2">
+                                <fieldset>
+                                    <label class="float-left" for="forgot_token">Verstuurde token</label>
+                                    <input class="form-control" id="forgot_token" name="forgot_token" required type="number">
+                                    <label class="label-small float-right mt-1" for="forgot_token" id="forgot-2-btn">Geen mail gehad?&nbsp;<a href="">Opnieuw proberen</a></label>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <button class="main-button mt-2" type="submit">Token valideren</button>
                     </form>
                 </div>
             </div>

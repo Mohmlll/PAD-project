@@ -45,6 +45,16 @@ class UserRepository {
             }, "POST");
     }
 
+    // reset via email
+    async resetPassword(email) {
+        return await networkManager.doRequest(`/resetPassword`, {email: email}, "POST");
+    }
+
+    // reset via email
+    async validateToken(token) {
+        return await networkManager.doRequest(`/validateToken`, {token: token}, "POST");
+    }
+
     async game(gameId) {
         return await networkManager
             .doRequest(`/gameInfo`, {id_game: gameId}, "POST");
