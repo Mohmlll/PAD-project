@@ -158,14 +158,23 @@ class GameInfoController {
         }
     }
 
+
     async getAvgRating(gameId) {
         let avgRatingCall = await this.statRepository.getAvgRatingForSpecifiedGame(gameId)
+        this.avgRating = avgRatingCall.data[0]["average"];
         return avgRatingCall.data[0]["average"];
     }
 
     async getCountRating(gameId) {
         let countCall = await this.statRepository.getAvgRatingForSpecifiedGame(gameId)
+        this.ratingCount = countCall.data[0]["total"];
         return countCall.data[0]["total"];
+    }
+
+    async getCurrentRating(gameId) {
+        let ratingCall = await this.statRepository.getAvgRatingForSpecifiedGame(gameId)
+        this.currentRating = ratingCall.data[0]["rating"]
+        return this.currentRating;
     }
 
     async getClicks(gameId) {
@@ -176,6 +185,16 @@ class GameInfoController {
     async getIsFav(gameId) {
         let favCall = await this.statRepository.favCheck(this.userId, gameId)
         return favCall.data.length !== 0;
+    }
+
+    async getRatingForUser(gameId) {
+        let ratingCall = await this.statRepository.getRating(this.userId, gameId)
+        return ratingCall.data[0]["rating"];
+    }
+
+    async ratingCheck(gameId) {
+        let ratingCall = await this.statRepository.getRating(this.userId, gameId)
+        return ratingCall.data.length !== 0;
     }
 
     async getRating() {
@@ -191,45 +210,35 @@ class GameInfoController {
     }
 
     async postRating(userId, gameId, rating) {
-        let hasRating;
-
+        let currentUserRating
         try {
-            let game = await this.statRepository.ratingCheck(userId, gameId);
-            hasRating = game.data.length !== 0;
+            currentUserRating = await this.getRatingForUser(gameId)
         } catch (e) {
             if (e.code === 401) {
                 this.gameView
                     .find(".error")
                     .html(e.reason);
             } else {
+                currentUserRating = 0
                 console.log(e);
             }
         }
-        if (hasRating) {
-            try {
-                await this.statRepository.getSpecificRatingForEachUser(rating, userId, gameId)
-            } catch (e) {
-                if (e.code === 401) {
-                    this.gameView
-                        .find(".error")
-                        .html(e.reason);
-                } else {
-                    console.log(e);
-                }
-            }
+        let isRated = await this.ratingCheck(gameId)
+        await this.statRepository.rating(userId, gameId, rating, currentUserRating)
+
+        let avg_rating
+        if (this.ratingCount === 1 && isRated) {
+            avg_rating = rating;
+        } else if (this.ratingCount === 0) {
+            avg_rating = rating;
+            this.ratingCount = 1
+        } else if (isRated) {
+            avg_rating = (((this.avgRating * this.ratingCount - currentUserRating) + parseInt(rating)) / (this.ratingCount));
         } else {
-            try {
-                await this.statRepository.rating(userId, gameId, rating)
-            } catch (e) {
-                if (e.code === 401) {
-                    this.gameView
-                        .find(".error")
-                        .html(e.reason);
-                } else {
-                    console.log(e);
-                }
-            }
+            this.ratingCount++
+            avg_rating = (((this.avgRating * this.ratingCount - parseInt(this.currentRating)) + parseInt(rating)) / (this.ratingCount));
         }
+        $('#avg_rating').text("Gemiddelde beoordeling: " + Math.round(avg_rating * 100) / 100 + "(" + this.ratingCount + ")")
     }
 
     download() {

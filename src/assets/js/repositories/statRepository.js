@@ -35,17 +35,12 @@ class StatRepository {
     //ratings
     async rating(userId, gameId, rating) {
         return await networkManager
-            .doRequest('/rating', {id_user: userId, id_game: gameId, rating: rating}, "POST")
+            .doRequest('/rating', {id_user: userId, id_game: gameId, rating: rating, }, "POST")
     }
 
-    async getSpecificRatingForEachUser(rating, userId, gameId) {
+    async getRating(userId, gameId) {
         return await networkManager
-            .doRequest('/ratingUpdate', {rating: parseInt(rating), id_user: userId, id_game: gameId}, "POST")
-    }
-
-    async ratingCheck(userId, gameId) {
-        return await networkManager
-            .doRequest('/ratingCheck', {id_user: userId, id_game: gameId}, "POST")
+            .doRequest('/getRating', {id_user: userId, id_game: gameId}, "POST")
     }
 
     async getAvgRatingForSpecifiedGame(gameId) {

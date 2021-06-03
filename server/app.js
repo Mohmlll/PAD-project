@@ -307,17 +307,7 @@ app.post('/materials', (req, res) => {
     });
 });
 
-app.post('/rating', (req, res) => {
-    db.handleQuery(connectionPool, {
-        query: "insert into rating(id_user, id_game, rating) values(?,?,?)",
-        values: [req.body.id_user, req.body.id_game, req.body.rating]
-    }, (data) => {
-        res.json({data})
-    }, (err) => {
-        console.log(err);
-        res.json({message: "/rating doesnt work"})
-    });
-});
+
 app.post('/click', (req, res) => {
     db.handleQuery(connectionPool, {
         query: "insert into click(id_user, id_game, click) values(?,?,?)",
@@ -352,17 +342,6 @@ app.post('/favDelete', (req, res) => {
     });
 });
 
-app.post('/ratingCheck', (req, res) => {
-    db.handleQuery(connectionPool, {
-        query: "select rating from rating where id_game = ? AND id_user = ?",
-        values: [req.body.id_game, req.body.id_user]
-    }, (data) => {
-        res.json({data})
-    }, (err) => {
-        console.log(err);
-        res.json({message: "/ratingCheck doesnt work"})
-    });
-});
 app.post('/favCheck', (req, res) => {
     db.handleQuery(connectionPool, {
         query: "select * from favorite where id_game = ? AND id_user = ?",
@@ -372,6 +351,17 @@ app.post('/favCheck', (req, res) => {
     }, (err) => {
         console.log(err);
         res.json({message: "/favCheck doesnt work"})
+    });
+});
+app.post('/getRating', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "select rating from rating where id_game = ? AND id_user = ?",
+        values: [req.body.id_game, req.body.id_user]
+    }, (data) => {
+        res.json({data})
+    }, (err) => {
+        console.log(err);
+        res.json({message: "/getRating doesnt work"})
     });
 });
 
@@ -386,20 +376,22 @@ app.post('/clickCheck', (req, res) => {
         res.json({message: "/clickCheck doesnt work"})
     });
 });
-app.post('/ratingUpdate', (req, res) => {
+
+app.post('/rating', (req, res) => {
     db.handleQuery(connectionPool, {
-        query: "update rating set rating = ? where id_game = ? AND id_user = ?",
-        values: [req.body.rating, req.body.id_game, req.body.id_user]
+        query: "insert into rating(id_user, id_game, rating) values(?,?,?) ON DUPLICATE KEY update rating = ?",
+        values: [req.body.id_user, req.body.id_game, req.body.rating, req.body.rating]
     }, (data) => {
         res.json({data})
     }, (err) => {
         console.log(err);
-        res.json({message: "/ratingupdate doesnt work"})
+        res.json({message: "/rating doesnt work"})
     });
 });
+
 app.post('/ratings', (req, res) => {
     db.handleQuery(connectionPool, {
-        query: "select avg(rating) as average, count(*) as total from rating where id_game = ?",
+        query: "select avg(rating) as average, count(*) as total, rating from rating where id_game = ?",
         values: [req.body.id_game]
     }, (data) => {
         console.log("Query success")
