@@ -15,6 +15,10 @@ class AdminController {
         });
     }
 
+    async onEditGame () {
+        this.game = await this.gameRepository.editGame();
+    }
+
      //Loading games in
     async onGetGame(games) {
 

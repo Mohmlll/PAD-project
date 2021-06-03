@@ -12,7 +12,6 @@ const corsConfig = require("./utils/corsConfigHelper");
 const helper = require("./utils/helper");
 const app = express();
 const fileUpload = require("express-fileupload");
-
 //logger lib  - 'short' is basic logging info
 app.use(morgan("short"));
 
@@ -150,21 +149,14 @@ app.post('/register', (req, res) => {
 
 })
 
-app.post('/duplicateCheck', (req, res) => {
-    const email = req.body.email;
+app.post('/duplicateCheck', async (req, res) => {
+    const user = await helper.user.getByEmail(req.body.email);
 
-    db.handleQuery(connectionPool, {
-        query: "SELECT email FROM user WHERE email = ?",
-        values: [email.toLowerCase()]
-    }, data => {
-        res.json(data);
-
-    }, err => {
-        res.status(500);
-        res.json({
-            message: err.message
-        })
-    });
+    if (user){
+        res.json(user);
+    } else {
+        res.json({status: 404, message: "Dit email adres is niet bij ons bekend."})
+    }
 });
 
 app.get('/game', (req, res) => {
@@ -424,24 +416,68 @@ app.post('/deleteGame', (req, res) => {
         res.json({message: "/fav doesnt work"})
     });
 });
+app.post('/editGame', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "update game where id_game = ? set name = ?, description = ? , target_audience_min = ?, target_audience_max = ?, type= ?, amount_players = ?, game_plan = ?, game_icon = ?, rules = ? ",
+        values: [req.body.id_game, req.body.name,req.body.description,req.body.target_audience_min,req.body.target_audience_max,req.body.type,req.body.amount_players,req.body.game_plan, req.body.game_icon, req.body.rules]
+    }, (data) => {
+        res.json({data})
+    }, (err) => {
+        console.log(err);
+        res.json({message: "/fav doesnt work"})
+    });
+});
 
-app.post('/reset', (req, res) => {
-    const email = {
+app.post('/validateToken', async (req, res) => {
+    const token = req.body.token;
+
+    const valid = await helper.user.findValidToken(token);
+
+    if (!valid.user_id)
+        return res.json({status: 404, message: "Token niet gevonden."})
+
+    const user = await helper.user.getById(valid.user_id)
+
+    if (!user)
+        return res.json({status: 404, message: "Er is iets fout gegaan."})
+
+    return res.json({status: 200, user: user})
+});
+
+app.post('/resetPassword', async (req, res) => {
+    const email = req.body.email;
+    const user = await helper.user.getByEmail(email);
+
+    if (!user)
+        return res.json({status: 404, message: "Dit email adres is niet bij ons bekend."})
+
+    const token = await helper.user.createResetToken(user);
+
+    if (!token)
+        return res.json({status: 400, message: "Er is iets fout gegaan."})
+
+    const message = {
         "from": {
-            "name": "Group",
-            "address": "group@hbo-ict.cloud"
+            "name": "Limitless Jungle",
+            "address": "no-reply@limitlessjungle.nl"
         },
         "to": [
             {
-                "name": "Lennard Fonteijn",
-                "address": "l.c.j.fonteijn@hva.nl"
+                "name": user.name,
+                "address": email,
             }
         ],
-        "subject": "Just a test!",
-        "html": "Hello Lennard!This is an email :)"
+        "subject": "Wachtwoord opnieuw instellen",
+        "html": `Code: ${token}`
     };
 
-    // $.post('')
+    const mailed = await helper.mailer.sendEmail(message);
+
+    if (mailed) {
+        return res.json({status: 200, user: user})
+    } else {
+        return res.json({status: 400, message: "Er is iets fout gegaan."})
+    }
 });
 
 

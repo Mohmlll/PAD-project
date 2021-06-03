@@ -59,9 +59,15 @@ class GameRepository {
         return await networkManager
             .doRequest('/favGameListLimit3', {id_user: userId}, "POST")
     }
+
     async deleteGame(gameId) {
         return await networkManager
             .doRequest('/deleteGame', {id_game: gameId}, "POST")
+    }
+
+    async editGame() {
+        return await networkManager
+            .doRequest('/editGame', {id_game : gameId, name : name, description : description ,target_audience_min:target_audience_min,target_audience_max: target_audience_max,type:type,amount_players :amount_players,game_plan: game_plan, game_icon: game_icon, rules: rules})
     }
 
 }
