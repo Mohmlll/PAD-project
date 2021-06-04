@@ -13,6 +13,7 @@ class GameController {
         let gameTemplate = await $.get("views/templateGame.html");
         let gameId, name, gameType;
         let gameRows = $();
+        let isFav;
         if (games == null) {
             // get data
             this.game = await this.gameRepository.getGames();
@@ -24,8 +25,10 @@ class GameController {
                 name = row["name"];
                 gameType = row["type"];
                 let avgRating = await this.getAvgRating(gameId) || 0
+                isFav = await this.getIsFav(gameId)
 
-                gameRows = gameRows.add(this.fillTemplate(gameTemplate, name, avgRating, gameId, row));
+
+                gameRows = gameRows.add(this.fillTemplate(gameTemplate, name, avgRating, isFav, gameId, row));
             }
         } else {
             for (let i = 0; i < games.length; i++) {
@@ -34,10 +37,13 @@ class GameController {
                 name = row.name;
                 gameType = row.type;
                 let avgRating = await this.getAvgRating(gameId) || 0
+                isFav = await this.getIsFav(gameId)
 
-                gameRows = gameRows.add(this.fillTemplate(gameTemplate, name, avgRating, gameId, row));
+
+                gameRows = gameRows.add(this.fillTemplate(gameTemplate, name, avgRating, isFav, gameId, row));
             }
         }
+
 
         if (games.length === 0) {
             $('.no-result-alert').show();
@@ -77,9 +83,19 @@ class GameController {
         }
     }
 
-    fillTemplate(gameTemplate, name, avgRating, gameId, games) {
+    async getIsFav(gameId) {
+        let userId = sessionManager.get("id");
+        let favCall = await this.statRepository.favCheck(userId, gameId)
+        return favCall.data.length !== 0;
+    }
+
+    fillTemplate(gameTemplate, name, avgRating, isFav, gameId, games) {
         let gameRowTemplate = $(gameTemplate);
         gameRowTemplate.find(".game-name").text(name + " (" + avgRating + "☆)");
+        if (isFav){
+            gameRowTemplate.find(".game-name").css("background-color", "yellow").css("color", "black")
+        }
+
 
         gameRowTemplate.find(".game-image").attr('src', 'uploads/' + games['game_icon']);
         gameRowTemplate.on("click", async () => {
