@@ -410,13 +410,13 @@ app.post('/clicks', (req, res) => {
 });
 app.post('/deleteGame', (req, res) => {
     db.handleQuery(connectionPool, {
-        query: "delete from game where id_game = ?,  values(?)",
+        query: "delete from game where id_game = ?",
         values: [req.body.id_game]
     }, (data) => {
         res.json({data})
     }, (err) => {
         console.log(err);
-        res.json({message: "/fav doesnt work"})
+        res.json({message: "/delete doesnt work"})
     });
 });
 app.post('/editGame', (req, res) => {
