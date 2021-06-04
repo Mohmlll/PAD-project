@@ -133,10 +133,13 @@ app.get("/getAllInfoMaterials", (req, res) => {
     })
 })
 
-app.post('/register', (req, res) => {
+app.post('/register', async (req, res) => {
     const password = req.body.password;
     let hashedPassword = cryptoHelper.getHashedPassword(password);
-
+    const user = await helper.user.getByEmail(req.body.email);
+    if (user) {
+        res.json({status: 404, message: "Dit email adres is al in gebruik"})
+    }
     db.handleQuery(connectionPool, {
         query: "INSERT INTO user(email, password, lastname, firstname, birthdate, school, country) values(?,?,?,?,?,?,?)",
         values: [req.body.email, hashedPassword, req.body.firstname, req.body.lastname, req.body.birthdate, req.body.schoolName, req.body.country]

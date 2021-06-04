@@ -77,6 +77,7 @@ class LoginController {
             const result = await this.userRepository.login(email, password)
             sessionManager.set("email", result.email);
             sessionManager.set("id", result.id);
+            message.success("Succesvol ingelogd")
             app.loadController(CONTROLLER_HOME);
         } catch (e) {
             //if unauthorized error show error to user

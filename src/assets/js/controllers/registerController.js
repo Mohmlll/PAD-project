@@ -17,7 +17,6 @@ class RegisterController {
         $("#next", this.registerView).on("click", async (e) => {
             //email value from input checked in data base with emailCheck
             let email = $('input[name=email]', this.registerView).val();
-            const emailCheck = await this.userRepository.duplicateCheck(email);
 
             //password duplicate check values
             let password = $('input[name=password]', this.registerView).val();
@@ -26,11 +25,17 @@ class RegisterController {
             //currentStep is the current registration step and nextStep is the next registration step
             const currentStep = $(".tab[data-wizard-state='current']", this.registerView);
             const nextStep = currentStep.next();
-            //
-            const validate = await this.validateStepForm(currentStep, emailCheck, password, passwordCheck);
+
+            //email duplicate check
+            const emailValidation = await this.validateEmail(email);
+
+            //password check
+            const passwordValidation = await this.validatePassword(password, passwordCheck);
+
             // validate for
-            if (!validate)
+            if (!emailValidation||!passwordValidation||!await this.validateStepForm(currentStep)) {
                 return;
+            }
 
             if (nextStep.length === 1) {
                 currentStep.attr('data-wizard-state', 'done');
@@ -55,14 +60,9 @@ class RegisterController {
 
         $("#finish", this.registerView).on("click", async (e) => {
             const currentStep = $(".tab[data-wizard-state='current']", this.registerView);
-            let password = $('input[name=password]', this.registerView).val();
-            let passwordCheck = $('input[name=passwordCheck]', this.registerView).val();
-            let email = $('input[name=email]', this.registerView).val();
-            const emailCheck = await this.userRepository.duplicateCheck(email);
-
             //the 'return;' stops when has invalid fields
-            if (!this.validateStepForm(currentStep, emailCheck, password, passwordCheck))
-                return;
+            if (!this.validateStepForm(currentStep))
+                return message.error("error");
 
             // post user
             await this.onRegister();
@@ -87,8 +87,14 @@ class RegisterController {
         try {
             const user = await this.userRepository.register(email, password, firstname, lastname, birthdate, schoolName, country)
             console.log(user);
-            sessionManager.set("email", user.email);
-            app.loadController(CONTROLLER_HOME);
+            if(user.status === 404){
+                message.error(user.message || DEFAULT_ERROR_MESSAGE);
+            }else {
+                sessionManager.set("email", user.email);
+                message.success("Succesvol geregistreerd")
+                app.loadController(CONTROLLER_HOME);
+            }
+
         } catch (e) {
             if (e.code === 401) {
                 this.registerView
@@ -119,16 +125,41 @@ class RegisterController {
         }
     }
 
-    validateStepForm(tab, email, password, passwordCheck) {
-        const inputs = tab.find('[required]');
-        let errorCount = 0;
-        const passwordInput = $("#passwordCheckRegister");
+    async validateEmail(email) {
+        const emailCheck = await this.userRepository.duplicateCheck(email);
         const emailInput = $("#emailRegister");
 
+        if (emailCheck.email) {
+            emailInput.removeClass('input-success');
+            emailInput.addClass('input-error');
+            message.error("Email is al in gebruik")
+            return false;
+        } else {
+            emailInput.removeClass('input-error');
+            emailInput.addClass('input-success');
+            return true;
+        }
+    }
 
+    validatePassword(password, passwordCheck) {
+        const passwordInput = $("#passwordCheckRegister");
+        if (password !== passwordCheck) {
+            passwordInput.removeClass('input-success');
+            passwordInput.addClass('input-error');
+            message.error("Wachtwoorden komen niet overeen");
+            return false;
+        } else {
+            passwordInput.removeClass('input-error');
+            passwordInput.addClass('input-success');
+            return true;
+        }
+    }
+
+    validateStepForm(tab) {
+        const inputs = tab.find('[required]:not([type=email]):not([type=password])');
+        let errorCount = 0;
         for (const input of inputs) {
             const elem = $(input);
-
             if (!elem.is(":valid")) {
                 elem.removeClass('input-success');
                 elem.addClass('input-error');
@@ -137,24 +168,7 @@ class RegisterController {
                 elem.removeClass('input-error');
                 elem.addClass('input-success');
             }
-            if (password !== passwordCheck) {
-                errorCount++
-                passwordInput.removeClass('input-success');
-                passwordInput.addClass('input-error');
-            } else {
-                passwordInput.removeClass('input-error');
-                passwordInput.addClass('input-success');
-            }
-            if (email.length !== 0) {
-                errorCount++
-                emailInput.removeClass('input-success');
-                emailInput.addClass('input-error');
-            } else {
-                emailInput.removeClass('input-error');
-                emailInput.addClass('input-success');
-            }
         }
-
         return errorCount === 0;
     }
 

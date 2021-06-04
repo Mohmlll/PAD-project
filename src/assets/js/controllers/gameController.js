@@ -260,7 +260,7 @@ class GameController {
                 $('#adds' + i).parent().prev().children().val(Number(curr) + 1)
             });
         }
-    }
+    } 
 
     remove() {
         for (let i = 1; i <= this.result.length; i++) {
