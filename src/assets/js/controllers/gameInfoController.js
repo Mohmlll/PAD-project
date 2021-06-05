@@ -233,7 +233,7 @@ class GameInfoController {
             avg_rating = rating;
             this.ratingCount = 1
         } else if (isRated) {
-            avg_rating = (((this.avgRating * this.ratingCount - currentUserRating) + parseInt(rating)) / (this.ratingCount));
+            avg_rating = (((this.avgRating * this.ratingCount - parseInt(currentUserRating)) + parseInt(rating)) / (this.ratingCount));
         } else {
             this.ratingCount++
             avg_rating = (((this.avgRating * this.ratingCount - parseInt(this.currentRating)) + parseInt(rating)) / (this.ratingCount));

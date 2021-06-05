@@ -13,6 +13,7 @@ class GameController {
         let gameTemplate = await $.get("views/templateGame.html");
         let gameId, name, gameType;
         let gameRows = $();
+        let isFav;
         if (games == null) {
             // get data
             this.game = await this.gameRepository.getGames();
@@ -23,8 +24,11 @@ class GameController {
                 gameId = row["id_game"];
                 name = row["name"];
                 gameType = row["type"];
+                let avgRating = await this.getAvgRating(gameId) || 0
+                isFav = await this.getIsFav(gameId)
 
-                gameRows = gameRows.add(this.fillTemplate(gameTemplate, name, gameId, row));
+
+                gameRows = gameRows.add(this.fillTemplate(gameTemplate, name, avgRating, isFav, gameId, row));
             }
         } else {
             for (let i = 0; i < games.length; i++) {
@@ -32,9 +36,14 @@ class GameController {
                 gameId = row.id_game;
                 name = row.name;
                 gameType = row.type;
-                gameRows = gameRows.add(this.fillTemplate(gameTemplate, name, gameId, row));
+                let avgRating = await this.getAvgRating(gameId) || 0
+                isFav = await this.getIsFav(gameId)
+
+
+                gameRows = gameRows.add(this.fillTemplate(gameTemplate, name, avgRating, isFav, gameId, row));
             }
         }
+
 
         if (games.length === 0) {
             $('.no-result-alert').show();
@@ -74,9 +83,20 @@ class GameController {
         }
     }
 
-    fillTemplate(gameTemplate, name, gameId, games) {
+    async getIsFav(gameId) {
+        let userId = sessionManager.get("id");
+        let favCall = await this.statRepository.favCheck(userId, gameId)
+        return favCall.data.length !== 0;
+    }
+
+    fillTemplate(gameTemplate, name, avgRating, isFav, gameId, games) {
         let gameRowTemplate = $(gameTemplate);
-        gameRowTemplate.find(".game-name").text(name);
+        gameRowTemplate.find(".game-name").text(name + " (" + avgRating + "☆)");
+        if (isFav){
+            gameRowTemplate.find(".game-name").css("background-color", "yellow").css("color", "black")
+        }
+
+
         gameRowTemplate.find(".game-image").attr('src', 'uploads/' + games['game_icon']);
         gameRowTemplate.on("click", async () => {
             let userId = sessionManager.get("id");
@@ -87,6 +107,12 @@ class GameController {
         gameRowTemplate.find("a[href='.collapseSummary']").attr('href', '.collapseSummary' + gameId);
         return gameRowTemplate;
 
+    }
+
+    async getAvgRating(gameId) {
+        let avgRatingCall = await this.statRepository.getAvgRatingForSpecifiedGame(gameId)
+        this.avgRating = avgRatingCall.data[0]["average"];
+        return avgRatingCall.data[0]["average"];
     }
 
     async click(userId, gameId, click) {
@@ -260,7 +286,7 @@ class GameController {
                 $('#adds' + i).parent().prev().children().val(Number(curr) + 1)
             });
         }
-    } 
+    }
 
     remove() {
         for (let i = 1; i <= this.result.length; i++) {
