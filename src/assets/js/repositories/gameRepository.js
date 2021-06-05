@@ -39,7 +39,9 @@ class GameRepository {
         return await networkManager
             .doRequest('/game', null, "GET")
     }
-
+    async getPopularGames(){
+        return await networkManager.doRequest('/popularGames', null, "GET")
+    }
     async newGameListLimit3() {
         return await networkManager
             .doRequest('/newGameListLimit3', null, "GET")

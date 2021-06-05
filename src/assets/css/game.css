@@ -17,13 +17,17 @@
     height: 300px;
     background-color: white;
 }
-.game-img img{
+.game-image{
     object-fit: cover;
     height: 300px;
 }
 
-.game:hover {
+.game-image:hover {
+    opacity: 0.6;
     background-color: white;
+}
+.home-game-des{
+    font-size: 25px;
 }
 #fav-icon{
     color: gold;
@@ -32,7 +36,21 @@
     display: none;
 }
 
+.filter-button {
+    background-color: #3d6d2e;
+    color: white;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    text-align: center;
+    height: 50px;
+    font-size: 20px;
+}
 
+.filter-button:hover {
+    background-color: white;
+    color: black;
+    cursor: pointer;
+}
 
 .filter-options {
     background-color: white;
