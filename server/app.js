@@ -175,6 +175,24 @@ app.get('/game', (req, res) => {
     });
 });
 
+app.get('/popularGames', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "SELECT game.*, avg(rating.rating) AS rating\n" +
+            "FROM game\n" +
+            "INNER JOIN rating\n" +
+            "ON game.id_game = rating.id_game\n" +
+            "order by rating DESC;"
+    }, d => {
+        res.json(d);
+    }, err => {
+        res.status(500);
+        res.json({
+            message: err.message
+        })
+    });
+});
+
+
 app.get('/newGameListLimit3', (req, res) => {
     db.handleQuery(connectionPool, {
         query: "select * from game order by id_game desc limit 3"
