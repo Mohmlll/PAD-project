@@ -178,10 +178,12 @@ class GameCreateController {
             for (let i = 0; i < this.games.length; i++) {
                 this.game = this.games[i]["id_game"] + 1;
             }
-            if (this.games == null) {
-                gameId = 0;
+
+            if (this.games.length === 0) {
+                gameId = 1;
+            } else {
+                gameId = this.game;
             }
-            gameId = this.game;
         }, 4000);
 
     }

@@ -19,11 +19,6 @@ class NavbarController {
         //Load the sidebar-content into memory
         const sidebarView = $(data);
 
-        this.admin = await this.userRepository.checkAdmin(this.userId);
-        let admin = this.admin;
-        // console.log(admin + "56654")
-
-
         $("#logout", sidebarView).on('click', function () {
             sessionManager.clear();
             message.success("Succesvol uitgelogd")
