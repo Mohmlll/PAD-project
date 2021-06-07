@@ -173,13 +173,15 @@ class GameCreateController {
                 method: "get"
             });
 
+
             for (let i = 0; i < this.games.length; i++) {
                 this.game = this.games[i]["id_game"] + 1;
             }
-            if (this.games == null) {
-                gameId = 0;
-            }
+
             gameId = this.game;
+            if (this.games.length === 0) {
+                gameId = 1;
+            }
         }, 4000);
 
     }
