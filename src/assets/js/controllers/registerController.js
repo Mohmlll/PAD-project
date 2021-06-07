@@ -34,7 +34,9 @@ class RegisterController {
 
             // validate for
             if (!emailValidation || !passwordValidation || !await this.validateStepForm(currentStep)) {
+                //the 'return;' stops when has invalid fields
                 return;
+
             }
 
             if (nextStep.length === 1) {
@@ -60,8 +62,8 @@ class RegisterController {
 
         $("#finish", this.registerView).on("click", async (e) => {
             const currentStep = $(".tab[data-wizard-state='current']", this.registerView);
-            //the 'return;' stops when has invalid fields
             if (!this.validateStepForm(currentStep))
+                //the 'return;' stops when has invalid fields
                 return message.error("error");
 
             // post user
@@ -142,17 +144,32 @@ class RegisterController {
     }
 
     validatePassword(password, passwordCheck) {
-        const passwordInput = $("#passwordCheckRegister");
-        if (password !== passwordCheck) {
+        const passwordInput = $("#passwordRegister");
+        const passwordInputCheck = $("#passwordCheckRegister")
+        if (!$('input[name=password]', this.registerView).is(":valid")){
+            $(".password-error").show();
             passwordInput.removeClass('input-success');
             passwordInput.addClass('input-error');
+
+        }else{
+            $(".password-error").hide();
+            passwordInput.removeClass('input-error');
+            passwordInput.addClass('input-success');
+
+        }
+        if (password !== passwordCheck) {
+            passwordInputCheck.removeClass('input-success');
+            passwordInputCheck.addClass('input-error');
+
             message.error("Wachtwoorden komen niet overeen");
             return false;
         } else {
-            passwordInput.removeClass('input-error');
-            passwordInput.addClass('input-success');
+            passwordInputCheck.removeClass('input-error');
+            passwordInputCheck.addClass('input-success');
+         
             return true;
         }
+
     }
 
     validateStepForm(tab) {
