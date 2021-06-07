@@ -11,63 +11,68 @@ class AdminController {
 
     async deleteGame(gameId, gameName) {
         //confirmation bericht
-        let error;
-
-        let isConfirmed = confirm("Weet u zeker dat u " + gameName + " wilt verwijderen?");
-
-        if (isConfirmed === true) {
-            try {
+        Swal.fire({
+            title: 'Weet je het zeker?',
+            text: "Verwijderen is definitief!",
+            icon: '',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ja, graag!',
+            cancelButtonText: 'liever niet',
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    'Verwijderd!',
+                    gameName + ' is verwijderd.',
+                    'success'
+                )
                 await this.gameRepository.deleteGame(gameId)
-            } catch (e) {
-                error = true
-                if (e.code === 401) {
-                    this.adminView
-                        .find(".error")
-                        .html(e.reason);
-                } else {
-                    console.log(e);
-                }
             }
-        }
-        if (isConfirmed && !error) {
-            message.success("Spel succesvol verwijderd!")
-            $("#admin_panel_game_id_" + gameId).parent().children().hide();
-        } else if (isConfirmed && error) {
-            message.warning("Probleem opgelopen met verwijderen!")
-        }
+            if (result.isConfirmed) {
+                message.success("Spel succesvol verwijderd!")
+                $('.admin_panel_game_delete[data-id="' + gameId + '"]', this.adminView).parent().parent().hide()
+            } else {
+                message.warning("Probleem opgelopen met verwijderen!")
+            }
+
+        })
+
+
     }
 
     async deleteUser(userId, userName) {
         //confirmation bericht
-        let error;
-
-        let isConfirmed = confirm("Weet u zeker dat u de persoon: " + userName + " wilt verwijderen?");
-
-        if (isConfirmed === true) {
-            try {
-                await this.userRepository.deleteUser(userId)
-            } catch (e) {
-                error = true
-                if (e.code === 401) {
-                    this.adminView
-                        .find(".error")
-                        .html(e.reason);
-                } else {
-                    console.log(e);
-                }
+        Swal.fire({
+            title: 'Weet je het zeker?',
+            text: "Verwijderen is definitief!",
+            icon: '',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ja, graag!',
+            cancelButtonText: 'liever niet',
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    'Verwijderd!',
+                    userName + ' is verwijderd.',
+                    'success'
+                )
+                await this.gameRepository.deleteGame(gameId)
             }
-        }
-        if (isConfirmed && !error) {
-            message.success("Gebruiker succesvol verwijderd!")
-            $('.admin_user_delete[data-id="'+userId+'"]', this.adminView).parent().parent().hide()
-        } else if (isConfirmed && error) {
-            message.warning("Probleem opgelopen met verwijderen!")
-        }
+            if (result.isConfirmed) {
+                message.success("Spel succesvol verwijderd!")
+                $('.admin_user_delete[data-id="' + userId + '"]', this.adminView).parent().parent().hide()
+            } else {
+                message.warning("Probleem opgelopen met verwijderen!")
+            }
+
+        })
     }
 
     //Loading games in
     async onGetGame() {
-
         // get template
         let adminPanelGameTemplate = await $.get("views/adminPanelGameTemplate.html");
         let name, gameNumber, gameId;
@@ -83,32 +88,36 @@ class AdminController {
             gameId = row.id_game;
 
             adminTemplateUsable.find(".admin_panel_game_id").text(gameNumber)
-            adminTemplateUsable.find(".admin_panel_game_delete").attr("id", "delete_button_id_" + gameId);
-            adminTemplateUsable.find(".admin_panel_game_edit").attr("id", "edit_button_id_" + gameId);
+            adminTemplateUsable.find(".admin_panel_game_delete").attr("data-id", gameId);
             adminTemplateUsable.find(".admin_panel_game_name").text(name);
-            // adminTemplateUsable.find(".admin_panel_game_description").text(gameDescription);
-            // adminTemplateUsable.find(".admin_panel_game_type").text(gameType);
-            // adminTemplateUsable.find(".admin_panel_game_rules").text(gameRules);
             adminTemplateUsable.appendTo("#admin_panel_game_list");
+
         }
     }
 
-     onDeleteGame() {
-        for (let i = 0; i <= this.games.length; i++) {
-            let gameId = this.games[i]["id_game"]
-            let gameName = this.games[i]["name"]
+    onDeleteGame() {
+        $('.admin_panel_game_delete', this.adminView).on("click", async (e) => {
+            const gameId = $(e.currentTarget).attr("data-id")
+            const game = this.games.find(function (a) {
+                return a.id_game == gameId;
+            })
+            await this.deleteGame(gameId, game.name)
+        });
+    }
 
-            $('#delete_button_id_' + gameId, this.adminView).on("click", async (e) => {
-                console.log(gameId)
-
-                await this.deleteGame(gameId, gameName)
+    onDeleteUser() {
+        $('.admin_user_delete', this.adminView).on("click", async (e) => {
+            const userId = $(e.currentTarget).attr("data-id")
+            const user = this.users.find(function (a) {
+                return a.id == userId;
             });
-        }
+            console.log(user);
+            await this.deleteUser(userId, user.firstname)
+        });
     }
 
     //Loading users in
     async onGetUser() {
-
         // get template
         let adminPanelUserTemplate = await $.get("views/adminPanelUserTemplate.html");
         let firstName, lastName, fullName, userId, userRole, userNumber;
@@ -135,18 +144,6 @@ class AdminController {
         }
     }
 
-    onDeleteUser() {
-            $('.admin_user_delete', this.adminView).on("click", async (e) => {
-                console.log(e.currentTarget)
-                const userId = $(e.currentTarget).attr("data-id")
-                const user = this.users.find(function (a){
-                    return a.id == userId;
-                });
-                console.log(user)
-
-                await this.deleteUser(userId, user.firstname)
-            });
-    }
 
     //Called when the home.html has been loaded
     async setup(data) {
@@ -167,8 +164,4 @@ class AdminController {
         this.onDeleteGame();
     }
 
-    //Called when the register.html fails to load
-    // error() {
-    //     $(".content").html("Failed to load content!");
-    // }
 }
