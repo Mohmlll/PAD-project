@@ -544,8 +544,8 @@ app.post('/deleteUser', (req, res) => {
 
 app.post('/editRole', (req, res) => {
     db.handleQuery(connectionPool, {
-        query: "UPDATE user SET right = ? WHERE id = ?",
-        values: [ req.body.right,req.body.id]
+        query: "UPDATE user SET user.right = ? WHERE id = ?",
+        values: [ req.body.right, req.body.id]
     }, (data) => {
         res.json({data})
         console.log(data)

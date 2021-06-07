@@ -134,7 +134,7 @@ class AdminController {
                     console.log(e);
                 }
             }
-          
+
         });
     }
 

@@ -67,6 +67,6 @@ class UserRepository {
 
     async editRole(userId, roleNumber) {
         return await networkManager
-            .doRequest('editRole', {right: roleNumber, id: userId}, "POST")
+            .doRequest('/editRole', {right: roleNumber, id: userId}, "POST")
     }
 }
