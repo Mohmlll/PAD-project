@@ -450,18 +450,6 @@ app.post('/editGame', (req, res) => {
     });
 });
 
-app.post('/checkAdmin', (req, res) => {
-    db.handleQuery(connectionPool, {
-        query: "SELECT right FROM user WHERE id_user = ?",
-        values: [req.body.id_user]
-    }, (data) => {
-        res.json({data})
-    }, (err) => {
-        console.log(err);
-        res.json({message: "/doesnt work"})
-    });
-});
-
 app.post('/validateToken', async (req, res) => {
     const token = req.body.token;
 
