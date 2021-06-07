@@ -809,6 +809,10 @@ welcome
         margin: 20px;
         position: relative;
     }
+
+    .text-margin{
+        margin-bottom: 100px;
+    }
 }
 
 
