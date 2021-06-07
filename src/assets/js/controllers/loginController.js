@@ -114,7 +114,7 @@ class LoginController {
         }
     }
 
-    async handleToken(event){
+    async handleToken(event) {
         //prevent actual submit and page refresh
         event.preventDefault();
 

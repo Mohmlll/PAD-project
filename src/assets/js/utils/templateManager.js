@@ -1,10 +1,9 @@
-
 /**
  * Implementation of a template manager that handles ppage  events
  */
 class TemplateManager {
 
-    setActiveState(){
+    setActiveState() {
         const currentController = app.getHash();
 
         $(`.main-nav a[data-controller]`).removeClass('active')
@@ -16,7 +15,7 @@ class TemplateManager {
         window.sr = new scrollReveal();
 
         // Home seperator
-        if($('.home-seperator').length) {
+        if ($('.home-seperator').length) {
             $('.home-seperator .left-item, .home-seperator .right-item').imgfix();
         }
 
@@ -29,8 +28,8 @@ class TemplateManager {
         // }
 
         // Page loading animation
-        $(window).on('load', function() {
-            if($('.cover').length){
+        $(window).on('load', function () {
+            if ($('.cover').length) {
                 $('.cover').parallax({
                     imageSrc: $('.cover').data('image'),
                     zIndex: '1'
@@ -39,8 +38,8 @@ class TemplateManager {
 
             $("#preloader").animate({
                 'opacity': '0'
-            }, 600, function(){
-                setTimeout(function(){
+            }, 600, function () {
+                setTimeout(function () {
                     $("#preloader").css("visibility", "hidden").fadeOut();
                 }, 300);
             });
@@ -56,8 +55,8 @@ class TemplateManager {
         });
     }
 
-    listen(){
-        $("[data-controller]").on("click", function (){
+    listen() {
+        $("[data-controller]").on("click", function () {
             templateManager.handleClickMenuItem(this);
         });
 
@@ -68,7 +67,7 @@ class TemplateManager {
 
         const email = sessionManager.get('email');
 
-        if (email && email.length > 0){
+        if (email && email.length > 0) {
             $("[show-login='true']").show();
             $("[show-login='false']").hide();
         } else {
@@ -90,7 +89,7 @@ class TemplateManager {
         return false;
     }
 
-    scrollTo(target, button){
+    scrollTo(target, button) {
         $(document).off("scroll");
 
         $('a').each(function () {
@@ -105,13 +104,13 @@ class TemplateManager {
         });
     }
 
-    initSideBar(){
+    initSideBar() {
         // Window Resize Mobile Menu Fix
         this.mobileNav();
 
         // Menu Dropdown Toggle
-        if($('.menu-trigger').length){
-            $(".menu-trigger").on('click', function() {
+        if ($('.menu-trigger').length) {
+            $(".menu-trigger").on('click', function () {
                 $(this).toggleClass('active');
                 $('.header-area .nav').slideToggle(200);
             });
@@ -122,7 +121,7 @@ class TemplateManager {
         });
 
         // Window Resize Mobile Menu Fix
-        $(window).on('resize', function() {
+        $(window).on('resize', function () {
             templateManager.mobileNav();
         });
     }
@@ -144,8 +143,8 @@ class TemplateManager {
 
     mobileNav() {
         var width = $(window).width();
-        $('.submenu').on('click', function() {
-            if(width < 992) {
+        $('.submenu').on('click', function () {
+            if (width < 992) {
                 $('.submenu ul').removeClass('active');
                 $(this).find('ul').toggleClass('active');
             }

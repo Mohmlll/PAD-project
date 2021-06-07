@@ -33,7 +33,7 @@ class RegisterController {
             const passwordValidation = await this.validatePassword(password, passwordCheck);
 
             // validate for
-            if (!emailValidation||!passwordValidation||!await this.validateStepForm(currentStep)) {
+            if (!emailValidation || !passwordValidation || !await this.validateStepForm(currentStep)) {
                 return;
             }
 
@@ -87,9 +87,9 @@ class RegisterController {
         try {
             const user = await this.userRepository.register(email, password, firstname, lastname, birthdate, schoolName, country)
             console.log(user);
-            if(user.status === 404){
+            if (user.status === 404) {
                 message.error(user.message || DEFAULT_ERROR_MESSAGE);
-            }else {
+            } else {
                 sessionManager.set("email", user.email);
                 message.success("Succesvol geregistreerd")
                 app.loadController(CONTROLLER_HOME);
