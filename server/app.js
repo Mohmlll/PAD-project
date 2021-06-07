@@ -542,18 +542,18 @@ app.post('/deleteUser', (req, res) => {
     });
 });
 
-
-// app.post('/game', (req, res) => {
-//     db.handleQuery(connectionPool, {
-//         query: "insert into game(name, description, rules, target_audience_min, target_audience_max, type, amount_players, differentiates_easy, differentiates_hard) values(?,?,?,?,?,?,?,?,?)",
-//         values: [req.body.name, req.body.description, req.body.rules, req.body.audienceMin, req.body.audienceMax, req.body.type, req.body.amountStudents, req.body.difEasy, req.body.difHard]
-//     }, (data) => {
-//         res.json({data})
-//     }, (err) => {
-//         console.log(err);
-//         res.json({message: "F"})
-//     });
-// });
+app.post('/editRole', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "UPDATE user SET right = ? WHERE id = ?",
+        values: [ req.body.right,req.body.id]
+    }, (data) => {
+        res.json({data})
+        console.log(data)
+    }, (err) => {
+        console.log(err);
+        res.json({message: "/edit role doesnt work"})
+    });
+});
 
 //------- END ROUTES -------
 

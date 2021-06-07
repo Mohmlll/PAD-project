@@ -116,11 +116,33 @@ class AdminController {
         });
     }
 
+    editRole() {
+        let selectRole = $(".admin_panel_user_role")
+        selectRole = $(selectRole)
+        $('.admin_panel_user_role', this.adminView).on("change", async (e) => {
+            const userId = $(e.currentTarget).attr("data-id");
+            let roleNumber = selectRole.val();
+
+            try {
+                await this.userRepository.editRole(userId, roleNumber);
+            } catch (e) {
+                if (e.code === 401) {
+                    this.adminView
+                        .find(".error")
+                        .html(e.reason);
+                } else {
+                    console.log(e);
+                }
+            }
+          
+        });
+    }
+
     //Loading users in
     async onGetUser() {
         // get template
         let adminPanelUserTemplate = await $.get("views/adminPanelUserTemplate.html");
-        let firstName, lastName, fullName, userId, userRole, userNumber;
+        let firstName, lastName, fullName, userId, userRole, roleNumber, userNumber;
         // get data
         this.users = await this.userRepository.getUsers();
 
@@ -134,16 +156,21 @@ class AdminController {
             fullName = firstName + " " + lastName;
 
             userId = row.id;
-            userRole = row.role;
-
+            roleNumber = row.right;
+            adminUserTemplateUsable.find("#admin_panel_user_role").val(roleNumber)
+            adminUserTemplateUsable.find("#admin_panel_user_role").attr("data-id", userId);
             adminUserTemplateUsable.find(".admin_panel_user_id").text(userNumber)
             adminUserTemplateUsable.find(".admin_user_delete").attr("data-id", userId);
             adminUserTemplateUsable.find(".admin_panel_user_name").text(fullName);
-            adminUserTemplateUsable.find(".admin_panel_user_role").text(userRole);
+
             adminUserTemplateUsable.appendTo("#admin_panel_user_list");
+            // for (let i = 0; i < 2; i++) {
+            //     let option = $("<option></option>");
+            //     option.text("Admin").val(1)
+            //     option.appendTo(".admin_panel_user_role");
+            // }
         }
     }
-
 
     //Called when the home.html has been loaded
     async setup(data) {
@@ -162,6 +189,8 @@ class AdminController {
         await this.onGetUser();
         this.onDeleteUser();
         this.onDeleteGame();
+        this.editRole();
     }
-
 }
+
+
