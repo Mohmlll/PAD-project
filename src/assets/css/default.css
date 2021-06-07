@@ -169,7 +169,7 @@ slider
     background: #04AA6D; /* Green background */
     cursor: pointer; /* Cursor on hover */
 }
-.password-error{
+.password-error, .passwordCheck-error, .email-error{
     color: red;
     display: none;
 }

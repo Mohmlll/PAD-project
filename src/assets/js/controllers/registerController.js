@@ -130,15 +130,17 @@ class RegisterController {
     async validateEmail(email) {
         const emailCheck = await this.userRepository.duplicateCheck(email);
         const emailInput = $("#emailRegister");
-
+        const emailAlert =  $(".email-error");
         if (emailCheck.email) {
             emailInput.removeClass('input-success');
             emailInput.addClass('input-error');
             message.error("Email is al in gebruik")
+            emailAlert.show()
             return false;
         } else {
             emailInput.removeClass('input-error');
             emailInput.addClass('input-success');
+            emailAlert.hide()
             return true;
         }
     }
@@ -146,30 +148,30 @@ class RegisterController {
     validatePassword(password, passwordCheck) {
         const passwordInput = $("#passwordRegister");
         const passwordInputCheck = $("#passwordCheckRegister")
+        const passwordAlert = $(".password-error");
+        const passwordCheckAlert =  $(".passwordCheck-error");
+
         if (!$('input[name=password]', this.registerView).is(":valid")){
-            $(".password-error").show();
+            passwordAlert.show();
             passwordInput.removeClass('input-success');
             passwordInput.addClass('input-error');
-
         }else{
-            $(".password-error").hide();
+            passwordAlert.hide();
             passwordInput.removeClass('input-error');
             passwordInput.addClass('input-success');
-
+            if (password !== passwordCheck) {
+                passwordCheckAlert.show();
+                passwordInputCheck.removeClass('input-success');
+                passwordInputCheck.addClass('input-error');
+                message.error("Wachtwoorden komen niet overeen");
+                return false;
+            } else {
+                passwordCheckAlert.hide();
+                passwordInputCheck.removeClass('input-error');
+                passwordInputCheck.addClass('input-success');
+                return true;
+            }
         }
-        if (password !== passwordCheck) {
-            passwordInputCheck.removeClass('input-success');
-            passwordInputCheck.addClass('input-error');
-
-            message.error("Wachtwoorden komen niet overeen");
-            return false;
-        } else {
-            passwordInputCheck.removeClass('input-error');
-            passwordInputCheck.addClass('input-success');
-         
-            return true;
-        }
-
     }
 
     validateStepForm(tab) {
