@@ -16,7 +16,8 @@
     height: 300px;
     background-color: white;
 }
-.game-image{
+
+.game-image {
     object-fit: cover;
     height: 300px;
 }
@@ -25,10 +26,12 @@
     opacity: 0.6;
     background-color: white;
 }
-.home-game-des{
+
+.home-game-des {
     font-size: 25px;
 }
-#fav-icon{
+
+#fav-icon {
     color: gold;
     font-size: 1.5em;
     margin: auto;
@@ -59,24 +62,29 @@
 .show {
     display: block;
 }
-.fav-button{
+
+.fav-button {
     cursor: pointer;
     font-size: 2em;
     color: gold;
 }
+
 #game-info-fav span {
     color: black;
     font-size: 14px;
 }
-#game-info-un-fav span{
+
+#game-info-un-fav span {
     color: black;
     font-size: 14px;
 }
-.game-thumb-nail{
+
+.game-thumb-nail {
     max-width: 250px;
     border-radius: 25px;
 
 }
-.game-image-plan{
+
+.game-image-plan {
     max-width: 100%;
 }

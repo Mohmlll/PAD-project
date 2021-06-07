@@ -92,7 +92,7 @@ class GameController {
     fillTemplate(gameTemplate, name, avgRating, isFav, gameId, games) {
         let gameRowTemplate = $(gameTemplate);
         gameRowTemplate.find(".game-name").text(name + " (" + avgRating + "☆)");
-        if (isFav){
+        if (isFav) {
             gameRowTemplate.find(".game-name").css("background-color", "yellow").css("color", "black")
         }
 

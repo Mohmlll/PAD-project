@@ -20,7 +20,7 @@ class GameRepository {
             .doRequest(`/gameInfoMaterials`, {game_id_game: gameId}, "POST");
     }
 
-    async allMaterials(){
+    async allMaterials() {
         return await networkManager
             .doRequest('/getAllInfoMaterials', null, "GET")
     }
@@ -39,9 +39,11 @@ class GameRepository {
         return await networkManager
             .doRequest('/game', null, "GET")
     }
-    async getPopularGames(){
+
+    async getPopularGames() {
         return await networkManager.doRequest('/popularGames', null, "GET")
     }
+
     async newGameListLimit3() {
         return await networkManager
             .doRequest('/newGameListLimit3', null, "GET")
@@ -69,7 +71,18 @@ class GameRepository {
 
     async editGame() {
         return await networkManager
-            .doRequest('/editGame', {id_game : gameId, name : name, description : description ,target_audience_min:target_audience_min,target_audience_max: target_audience_max,type:type,amount_players :amount_players,game_plan: game_plan, game_icon: game_icon, rules: rules})
+            .doRequest('/editGame', {
+                id_game: gameId,
+                name: name,
+                description: description,
+                target_audience_min: target_audience_min,
+                target_audience_max: target_audience_max,
+                type: type,
+                amount_players: amount_players,
+                game_plan: game_plan,
+                game_icon: game_icon,
+                rules: rules
+            })
     }
 
 }
