@@ -59,7 +59,7 @@ class AdminController {
                     userName + ' is verwijderd.',
                     'success'
                 )
-                await this.gameRepository.deleteGame(gameId)
+                await this.userRepository.deleteUser(userId)
             }
             if (result.isConfirmed) {
                 message.success("Spel succesvol verwijderd!")
@@ -153,7 +153,7 @@ class AdminController {
             userNumber = i + 1;
             firstName = row.firstname;
             lastName = row.lastname;
-            fullName = firstName + " " + lastName;
+            fullName = lastName + " " + firstName;
 
             userId = row.id;
             roleNumber = row.right;

@@ -65,6 +65,10 @@ class UserRepository {
             .doRequest('/users', null, "GET")
     }
 
+    async deleteUser(userId) {
+        return await networkManager
+            .doRequest('/deleteUser', {id: userId}, "POST")
+     }
     async editRole(userId, roleNumber) {
         return await networkManager
             .doRequest('/editRole', {right: roleNumber, id: userId}, "POST")
