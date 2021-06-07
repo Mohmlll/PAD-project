@@ -38,6 +38,12 @@ class AdminController {
     }
 
     async onEditGame() {
+
+        let table = document.getElementById("admin_games");
+        let rows = table.getElementsByTagName("td");
+
+        console.log(rows)
+
         this.game = await this.gameRepository.editGame();
     }
 
@@ -46,7 +52,7 @@ class AdminController {
 
         // get template
         let adminPanelTemplate = await $.get("views/adminPanelTemplate.html");
-        let name, gameNumber, gameId;
+        let name, gameNumber, gameId,gameDescription,gameType,gameRules;
         // get data
         this.games = await this.gameRepository.getGames();
 
@@ -57,16 +63,20 @@ class AdminController {
             gameNumber = i + 1;
             name = row.name;
             gameId = row.id_game;
+            gameDescription = row.description;
+            gameType = row.type;
+            gameRules = row.rules;
+
+
             adminTemplateUsable.find(".admin_panel_game_id").text(gameNumber).attr("id", "admin_panel_game_id_" + gameId);
-            adminTemplateUsable.find(".admin_panel_delete").attr("id", "delete_button_id_" + gameId)
-            adminTemplateUsable.find(".admin_panel_edit").attr("id", "edit_button_id_" + gameId)
+            adminTemplateUsable.find(".admin_panel_delete").attr("id", "delete_button_id_" + gameId);
+            adminTemplateUsable.find(".admin_panel_edit").attr("id", "edit_button_id_" + gameId);
             adminTemplateUsable.find(".admin_panel_game_name").text(name);
+            adminTemplateUsable.find(".admin_panel_game_description").text(gameDescription);
+            adminTemplateUsable.find(".admin_panel_game_type").text(gameType);
+            adminTemplateUsable.find(".admin_panel_game_rules").text(gameRules);
             adminTemplateUsable.appendTo("#admin_panel_game_list");
         }
-
-        // loop trough available games
-        console.log(this.games)
-
     }
 
     onDeleteGame() {
@@ -82,6 +92,7 @@ class AdminController {
         }
     }
 
+
     //Called when the home.html has been loaded
     async setup(data) {
 
@@ -95,7 +106,8 @@ class AdminController {
         $(".content").empty().append(this.adminView);
         // listen for redirects
         templateManager.listen();
-        await this.onGetGame()
-        this.onDeleteGame()
+        await this.onGetGame();
+        this.onDeleteGame();
+        await this.onEditGame();
     }
 }
