@@ -56,6 +56,7 @@ class GameCreateController {
     }
 
     async onAddGame() {
+
         let form = $('#game-form')[0]; // You need to use standard javascript object here
         let formData = new FormData(form);
 
@@ -194,7 +195,7 @@ class GameCreateController {
             e.preventDefault()
 
             await this.onAddGame();
-            await this.saveMaterials();
+            // await this.saveMaterials();
             await this.redirectToGames();
         })
 
