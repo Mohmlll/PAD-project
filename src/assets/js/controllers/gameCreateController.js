@@ -56,6 +56,7 @@ class GameCreateController {
     }
 
     async onAddGame() {
+
         let form = $('#game-form')[0]; // You need to use standard javascript object here
         let formData = new FormData(form);
         let isValidInput = this.validateGameData(form)

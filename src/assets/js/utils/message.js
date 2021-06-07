@@ -14,17 +14,19 @@ const message = {
             // settings
             type: 'success'
         });
-    },
-    error(message = DEFAULT_ERROR_MESSAGE) {
-        $.notify({
-            // options
-            message: message
-        }, {
-            // settings
-            type: 'error'
-        });
-    },
-    warning(message = DEFAULT_WARNING_MESSAGE) {
+    }
+    // ,
+    // warning(message = DEFAULT_ERROR_MESSAGE) {
+    //     $.notify({
+    //         // options
+    //         message: message
+    //     }, {
+    //         // settings
+    //         type: 'error'
+    //     });
+    // }
+    ,
+    error(message = DEFAULT_WARNING_MESSAGE) {
         $.notify({
             // options
             message: message

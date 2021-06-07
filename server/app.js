@@ -436,6 +436,7 @@ app.post('/deleteGame', (req, res) => {
         console.log(err);
         res.json({message: "/delete doesnt work"})
     });
+    
 });
 app.post('/editGame', (req, res) => {
     db.handleQuery(connectionPool, {
@@ -512,6 +513,15 @@ app.post('/resetPassword', async (req, res) => {
         return res.json({status: 400, message: "Er is iets fout gegaan."})
     }
 });
+app.get("/users", (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "select * from user"
+    }, data => {
+        res.json(data);
+    }, err => {
+        res.json({message: "get users failed"})
+    })
+})
 
 
 // app.post('/game', (req, res) => {

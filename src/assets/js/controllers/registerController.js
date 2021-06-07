@@ -34,7 +34,9 @@ class RegisterController {
 
             // validate for
             if (!emailValidation || !passwordValidation || !await this.validateStepForm(currentStep)) {
+                //the 'return;' stops when has invalid fields
                 return;
+
             }
 
             if (nextStep.length === 1) {
@@ -60,8 +62,8 @@ class RegisterController {
 
         $("#finish", this.registerView).on("click", async (e) => {
             const currentStep = $(".tab[data-wizard-state='current']", this.registerView);
-            //the 'return;' stops when has invalid fields
             if (!this.validateStepForm(currentStep))
+                //the 'return;' stops when has invalid fields
                 return message.error("error");
 
             // post user
@@ -128,30 +130,47 @@ class RegisterController {
     async validateEmail(email) {
         const emailCheck = await this.userRepository.duplicateCheck(email);
         const emailInput = $("#emailRegister");
-
+        const emailAlert =  $(".email-error");
         if (emailCheck.email) {
             emailInput.removeClass('input-success');
             emailInput.addClass('input-error');
             message.error("Email is al in gebruik")
+            emailAlert.show()
             return false;
         } else {
             emailInput.removeClass('input-error');
             emailInput.addClass('input-success');
+            emailAlert.hide()
             return true;
         }
     }
 
     validatePassword(password, passwordCheck) {
-        const passwordInput = $("#passwordCheckRegister");
-        if (password !== passwordCheck) {
+        const passwordInput = $("#passwordRegister");
+        const passwordInputCheck = $("#passwordCheckRegister")
+        const passwordAlert = $(".password-error");
+        const passwordCheckAlert =  $(".passwordCheck-error");
+
+        if (!$('input[name=password]', this.registerView).is(":valid")){
+            passwordAlert.show();
             passwordInput.removeClass('input-success');
             passwordInput.addClass('input-error');
-            message.error("Wachtwoorden komen niet overeen");
-            return false;
-        } else {
+        }else{
+            passwordAlert.hide();
             passwordInput.removeClass('input-error');
             passwordInput.addClass('input-success');
-            return true;
+            if (password !== passwordCheck) {
+                passwordCheckAlert.show();
+                passwordInputCheck.removeClass('input-success');
+                passwordInputCheck.addClass('input-error');
+                message.error("Wachtwoorden komen niet overeen");
+                return false;
+            } else {
+                passwordCheckAlert.hide();
+                passwordInputCheck.removeClass('input-error');
+                passwordInputCheck.addClass('input-success');
+                return true;
+            }
         }
     }
 
