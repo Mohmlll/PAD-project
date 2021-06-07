@@ -5,15 +5,24 @@
  */
 class NavbarController {
     constructor() {
+        this.userRepository = new UserRepository();
+        this.userId = sessionManager.get("id");
         $.get("views/navbar.html")
             .done((data) => this.setup(data))
             .fail(() => this.error());
     }
 
+
+
     //Called when the navbar.html has been loaded
-    setup(data) {
+    async setup(data) {
         //Load the sidebar-content into memory
         const sidebarView = $(data);
+
+        this.admin = await this.userRepository.checkAdmin(this.userId);
+        let admin = this.admin;
+        console.log(admin + "56654")
+
 
         $("#logout", sidebarView).on('click', function () {
             sessionManager.clear();

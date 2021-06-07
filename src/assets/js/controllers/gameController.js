@@ -8,7 +8,6 @@ class GameController {
     }
 
     async onGetGame(games) {
-        console.log(games)
         // get template
         let gameTemplate = await $.get("views/templateGame.html");
         let gameId, name, gameType;
@@ -92,7 +91,7 @@ class GameController {
     fillTemplate(gameTemplate, name, avgRating, isFav, gameId, games) {
         let gameRowTemplate = $(gameTemplate);
         gameRowTemplate.find(".game-name").text(name + " (" + avgRating + "☆)");
-        if (isFav) {
+        if (isFav){
             gameRowTemplate.find(".game-name").css("background-color", "yellow").css("color", "black")
         }
 
@@ -188,7 +187,7 @@ class GameController {
             materialArray.push({id: materialId, value: value});
         });
 
-        console.log(materialArray);
+
         for (let j = 0; j < materialArray.length; j++) {
             let materialRow = materialArray[j];
             if (materialRow.value < 0) {
@@ -207,7 +206,6 @@ class GameController {
 
             }
         }
-        console.log(games);
         return games;
     }
 
@@ -267,7 +265,7 @@ class GameController {
 
     base() {
         let input = $('input[type=number].material-input');
-        if (input.val() < 0) {
+        if (input.val() <    0) {
             input.val("");
         }
     }
