@@ -60,4 +60,8 @@ class UserRepository {
             .doRequest(`/gameInfo`, {id_game: gameId}, "POST");
     }
 
+    async checkAdmin(id_user){
+        return await networkManager
+            .doRequest('/checkAdmin', {id_user: id_user}, "POST")
+    }
 }
