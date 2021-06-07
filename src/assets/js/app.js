@@ -48,7 +48,7 @@ class App {
             controllerData = {};
         }
 
-        console.log('Load controller', name, controllerData)
+        // console.log('Load controller', name, controllerData)
 
         switch (name) {
             case CONTROLLER_SIDEBAR:

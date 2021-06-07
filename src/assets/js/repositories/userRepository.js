@@ -68,4 +68,8 @@ class UserRepository {
         return await networkManager
             .doRequest('/users', null, "GET")
     }
+    async deleteUser(userId) {
+        return await networkManager
+            .doRequest('/deleteUser', {id: userId}, "POST")
+    }
 }

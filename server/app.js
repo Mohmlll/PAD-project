@@ -436,7 +436,7 @@ app.post('/deleteGame', (req, res) => {
         console.log(err);
         res.json({message: "/delete doesnt work"})
     });
-    
+
 });
 app.post('/editGame', (req, res) => {
     db.handleQuery(connectionPool, {
@@ -522,6 +522,18 @@ app.get("/users", (req, res) => {
         res.json({message: "get users failed"})
     })
 })
+
+app.post('/deleteUser', (req, res) => {
+    db.handleQuery(connectionPool, {
+        query: "delete from user where id = ?",
+        values: [req.body.id_user]
+    }, (data) => {
+        res.json({data})
+    }, (err) => {
+        console.log(err);
+        res.json({message: "/deleteUser doesnt work"})
+    });
+});
 
 
 // app.post('/game', (req, res) => {

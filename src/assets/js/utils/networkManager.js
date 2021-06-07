@@ -16,7 +16,7 @@ class NetworkManager {
 
         const url = baseUrl + route;
 
-        console.log(`Doing request to ${url}\nJSON: ${json}`);
+        // console.log(`Doing request to ${url}\nJSON: ${json}`);
 
         return new Promise((resolve, reject) => {
 

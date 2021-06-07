@@ -21,7 +21,7 @@ class NavbarController {
 
         this.admin = await this.userRepository.checkAdmin(this.userId);
         let admin = this.admin;
-        console.log(admin + "56654")
+        // console.log(admin + "56654")
 
 
         $("#logout", sidebarView).on('click', function () {

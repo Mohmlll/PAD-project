@@ -24,13 +24,13 @@ class SessionManager {
     }
 
     set(key, value) {
-        console.log("sessionSet", key, value);
+        // console.log("sessionSet", key, value);
 
         this.session[key] = value;
 
         this.saveSession();
 
-        console.log('sessionIs', this.get(key));
+        // console.log('sessionIs', this.get(key));
     }
 
     remove(key) {

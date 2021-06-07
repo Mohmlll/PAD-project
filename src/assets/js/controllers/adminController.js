@@ -37,9 +37,32 @@ class AdminController {
         }
     }
 
-    async onEditGame() {
+    async deleteUser(userId, userName) {
+        //confirmation bericht
+        let error;
 
-        this.game = await this.gameRepository.editGame();
+        let isConfirmed = confirm("Weet u zeker dat u de persoon: " + userName + " wilt verwijderen?");
+
+        if (isConfirmed === true) {
+            try {
+                await this.userRepository.deleteUser(userId)
+            } catch (e) {
+                error = true
+                if (e.code === 401) {
+                    this.adminView
+                        .find(".error")
+                        .html(e.reason);
+                } else {
+                    console.log(e);
+                }
+            }
+        }
+        if (isConfirmed && !error) {
+            message.success("Gebruiker succesvol verwijderd!")
+            $("#admin_panel_user_id_" + userId).parent().children().hide();
+        } else if (isConfirmed && error) {
+            message.warning("Probleem opgelopen met verwijderen!")
+        }
     }
 
     //Loading games in
@@ -68,10 +91,9 @@ class AdminController {
             // adminTemplateUsable.find(".admin_panel_game_rules").text(gameRules);
             adminTemplateUsable.appendTo("#admin_panel_game_list");
         }
-        console.log("ongetgame")
     }
 
-    onDeleteGame() {
+    async onDeleteGame() {
         for (let i = 0; i <= this.games.length; i++) {
             let gameId = this.games[i]["id_game"]
             let gameName = this.games[i]["name"]
@@ -89,7 +111,7 @@ class AdminController {
 
         // get template
         let adminPanelUserTemplate = await $.get("views/adminPanelUserTemplate.html");
-        let firstName,lastName,fullName, userId,userRole, userNumber;
+        let firstName, lastName, fullName, userId, userRole, userNumber;
         // get data
         this.users = await this.userRepository.getUsers();
 
@@ -105,20 +127,31 @@ class AdminController {
             userId = row.id;
             userRole = row.role;
 
-            adminUserTemplateUsable.find(".admin_panel_user_id").text(userNumber).attr("id", "admin_panel_game_id_" + userId);
-            adminUserTemplateUsable.find(".admin_user_delete").attr("id", "delete_button_id_" + userId);
-            // adminUserTemplateUsable.find(".admin_panel_user_edit").attr("id", "edit_button_id_" + userId);
+            adminUserTemplateUsable.find(".admin_panel_user_id").text(userNumber).attr("id", "admin_panel_user_id_" + userId);
+            adminUserTemplateUsable.find(".admin_user_delete").attr("id", "delete_button_user_id_" + userId);
             adminUserTemplateUsable.find(".admin_panel_user_name").text(fullName);
             adminUserTemplateUsable.find(".admin_panel_user_role").text(userRole);
             adminUserTemplateUsable.appendTo("#admin_panel_user_list");
         }
-        console.log("ongetuser")
+    }
+
+    async onDeleteUser() {
+        for (let i = 0; i <= this.users.length; i++) {
+            let userId = this.users[i]["id"]
+            let userName = this.users[i]["firstname"]
+
+            $('#delete_button_user_id_' + userId, this.adminView).on("click", async (e) => {
+                console.log(userId)
+                alert(userId)
+                await this.deleteUser(userId, userName)
+            });
+        }
     }
 
     //Called when the home.html has been loaded
     async setup(data) {
 
-        console.log("Admin panel loaded: AdminController")
+        // console.log("Admin panel loaded: AdminController")
 
         //Load the welcome-content into memory
         this.adminView = $(data);
@@ -130,8 +163,12 @@ class AdminController {
         templateManager.listen();
         await this.onGetGame();
         await this.onGetUser();
-        this.onDeleteGame();
-        await this.onEditGame();
-
+        await this.onDeleteGame();
+        await this.onDeleteUser();
     }
+
+    //Called when the register.html fails to load
+    // error() {
+    //     $(".content").html("Failed to load content!");
+    // }
 }
