@@ -61,6 +61,8 @@ class GameCreateController {
         let formData = new FormData(form);
         let isValidInput = this.validateGameData(form)
 
+        console.log(isValidInput);
+
         if (isValidInput) {
             await $.ajax({
                 url: baseUrl + "/game",
@@ -80,7 +82,7 @@ class GameCreateController {
         let errorCount = 0;
 
         form.each(function () {
-            inputs = $(this).find(':input') //<-- Should return all input elements in that specific form.
+            inputs = $(this).find('input:not(.no_val)') //<-- Should return all input elements in that specific form.
 
             for (const input of inputs) {
                 const elem = $(input);
@@ -237,6 +239,33 @@ class GameCreateController {
 
         // listen for redirects
         templateManager.listen();
+
+
+        // rules
+        $(".rule_add_row .btn").on('click', (e) => {
+            let template = $(".rule_template_row").clone();
+            template.removeClass('rule_template_row');
+            template.show();
+            template.find('input').attr('name', 'rules[]');
+            template.find('.remove_row').on('click', (e) => {
+                $(e.currentTarget).parents('.rule_row').remove();
+            });
+            $(".rule_rows").append(template);
+        });
+
+        // diffs
+        $(".diff_add_row .btn").on('click', (e) => {
+            let template = $(".diff_template_row").clone();
+            template.removeClass('diff_template_row');
+            template.show();
+            template.find('input').attr('name', 'diffs[]');
+            template.find('textarea').attr('name', 'diffs_descriptions[]');
+
+            template.find('.remove_row').on('click', (e) => {
+                $(e.currentTarget).parents('.diff_row').remove();
+            });
+            $(".diff_rows").append(template);
+        });
     }
 
     //Called when the game.html fails to load
