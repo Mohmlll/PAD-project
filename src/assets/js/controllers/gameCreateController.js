@@ -58,14 +58,43 @@ class GameCreateController {
     async onAddGame() {
         let form = $('#game-form')[0]; // You need to use standard javascript object here
         let formData = new FormData(form);
+        let isValidInput = this.validateGameData(form)
 
-        await $.ajax({
-            url: baseUrl + "/game",
-            data: formData,
-            contentType: false,
-            processData: false,
-            method: "POST"
+        if (isValidInput) {
+            await $.ajax({
+                url: baseUrl + "/game",
+                data: formData,
+                contentType: false,
+                processData: false,
+                method: "POST"
+            });
+            await this.saveMaterials();
+            await this.redirectToGames();
+        }
+    }
+
+    validateGameData(form) {
+        form = $(form)
+        let inputs
+        let errorCount = 0;
+
+        form.each(function () {
+            inputs = $(this).find(':input') //<-- Should return all input elements in that specific form.
+
+            for (const input of inputs) {
+                const elem = $(input);
+                if (!elem.is(":valid") || elem.val() == "") {
+                    elem.removeClass('input-success');
+                    elem.addClass('input-error');
+                    errorCount++;
+                } else {
+                    elem.removeClass('input-error');
+                    elem.addClass('input-success');
+                }
+            }
         });
+
+        return errorCount === 0;
     }
 
     async onGetMaterial() {
@@ -194,8 +223,6 @@ class GameCreateController {
             e.preventDefault()
 
             await this.onAddGame();
-            await this.saveMaterials();
-            await this.redirectToGames();
         })
 
 
