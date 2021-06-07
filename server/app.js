@@ -526,7 +526,7 @@ app.get("/users", (req, res) => {
 app.post('/deleteUser', (req, res) => {
     db.handleQuery(connectionPool, {
         query: "delete from user where id = ?",
-        values: [req.body.id_user]
+        values: [req.body.id]
     }, (data) => {
         res.json({data})
     }, (err) => {

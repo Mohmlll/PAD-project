@@ -59,7 +59,7 @@ class AdminController {
         }
         if (isConfirmed && !error) {
             message.success("Gebruiker succesvol verwijderd!")
-            $("#admin_panel_user_id_" + userId).parent().children().hide();
+            $('.admin_user_delete[data-id="'+userId+'"]', this.adminView).parent().parent().hide()
         } else if (isConfirmed && error) {
             message.warning("Probleem opgelopen met verwijderen!")
         }
@@ -82,7 +82,7 @@ class AdminController {
             name = row.name;
             gameId = row.id_game;
 
-            adminTemplateUsable.find(".admin_panel_game_id").text(gameNumber).attr("id", "admin_panel_game_id_" + gameId);
+            adminTemplateUsable.find(".admin_panel_game_id").text(gameNumber)
             adminTemplateUsable.find(".admin_panel_game_delete").attr("id", "delete_button_id_" + gameId);
             adminTemplateUsable.find(".admin_panel_game_edit").attr("id", "edit_button_id_" + gameId);
             adminTemplateUsable.find(".admin_panel_game_name").text(name);
@@ -93,7 +93,7 @@ class AdminController {
         }
     }
 
-    async onDeleteGame() {
+     onDeleteGame() {
         for (let i = 0; i <= this.games.length; i++) {
             let gameId = this.games[i]["id_game"]
             let gameName = this.games[i]["name"]
@@ -127,25 +127,25 @@ class AdminController {
             userId = row.id;
             userRole = row.role;
 
-            adminUserTemplateUsable.find(".admin_panel_user_id").text(userNumber).attr("id", "admin_panel_user_id_" + userId);
-            adminUserTemplateUsable.find(".admin_user_delete").attr("id", "delete_button_user_id_" + userId);
+            adminUserTemplateUsable.find(".admin_panel_user_id").text(userNumber)
+            adminUserTemplateUsable.find(".admin_user_delete").attr("data-id", userId);
             adminUserTemplateUsable.find(".admin_panel_user_name").text(fullName);
             adminUserTemplateUsable.find(".admin_panel_user_role").text(userRole);
             adminUserTemplateUsable.appendTo("#admin_panel_user_list");
         }
     }
 
-    async onDeleteUser() {
-        for (let i = 0; i <= this.users.length; i++) {
-            let userId = this.users[i]["id"]
-            let userName = this.users[i]["firstname"]
+    onDeleteUser() {
+            $('.admin_user_delete', this.adminView).on("click", async (e) => {
+                console.log(e.currentTarget)
+                const userId = $(e.currentTarget).attr("data-id")
+                const user = this.users.find(function (a){
+                    return a.id == userId;
+                });
+                console.log(user)
 
-            $('#delete_button_user_id_' + userId, this.adminView).on("click", async (e) => {
-                console.log(userId)
-                alert(userId)
-                await this.deleteUser(userId, userName)
+                await this.deleteUser(userId, user.firstname)
             });
-        }
     }
 
     //Called when the home.html has been loaded
@@ -163,8 +163,8 @@ class AdminController {
         templateManager.listen();
         await this.onGetGame();
         await this.onGetUser();
-        await this.onDeleteGame();
-        await this.onDeleteUser();
+        this.onDeleteUser();
+        this.onDeleteGame();
     }
 
     //Called when the register.html fails to load
