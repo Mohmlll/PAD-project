@@ -73,8 +73,10 @@ class GameInfoController {
             rules = '';
             let rule_array = JSON.parse(row["rules"]);
 
-            for (const row of rule_array) {
-                rules += `- ${row} <br>`;
+            if (rule_array) {
+                for (const row of rule_array) {
+                    rules += `- ${row} <br>`;
+                }
             }
         }
         this.rules = rules;
@@ -84,8 +86,10 @@ class GameInfoController {
             diffs = '<hr>';
             let diff_array = JSON.parse(row["diffs"]);
 
-            for (const row of diff_array) {
-                diffs += `<h5>${row[0]}</h5><p>${row[1]}</p><hr>`;
+            if (diff_array) {
+                for (const row of diff_array) {
+                    diffs += `<h5>${row[0]}</h5><p>${row[1]}</p><hr>`;
+                }
             }
         }
         this.diffs = diffs;
