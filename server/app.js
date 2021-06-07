@@ -69,6 +69,24 @@ app.post("/room_example", (req, res) => {
 
 
 app.post("/game", function (req, res) {
+    let diff_titles = req.body['diffs[]'];
+    let diff_descriptions = req.body['diffs_descriptions[]'];
+    let raw_rules = req.body['rules[]'];
+
+    if (typeof diff_titles === 'string')
+        diff_titles = [diff_titles];
+
+    if (typeof diff_descriptions === 'string')
+        diff_descriptions = [diff_descriptions];
+
+    if (typeof raw_rules === 'string')
+        raw_rules = [raw_rules];
+
+    const rules = JSON.stringify(raw_rules);
+    const diffs = JSON.stringify(diff_titles.map(function (x, i) {
+        return [x, diff_descriptions[i]]
+    }));
+
     if (!req.files || Object.keys(req.files).length === 0) {
         return res.status(badRequestCode).json({reason: "No files were uploaded."});
     }
@@ -80,8 +98,6 @@ app.post("/game", function (req, res) {
     // game plan
     let gamePlan = req.files['game-plan'];
     let gamePlanPath = `${wwwrootPathUpload}uploads/${helper.randomImageString()}_gamePlan.${gamePlan.name.split(".").pop()}`
-
-
     gameIcon.mv(gameIconPath, function (err) {
         if (err) {
             return res.status(badRequestCode).json({reason: err});
@@ -90,9 +106,12 @@ app.post("/game", function (req, res) {
             if (err) {
                 return res.status(badRequestCode).json({reason: err});
             }
+
+
+
             db.handleQuery(connectionPool, {
-                query: "insert into game(name, description, target_audience_min, target_audience_max, type, amount_players, game_icon, game_plan, rules) values(?,?,?,?,?,?,?,?,?)",
-                values: [req.body.name, req.body.description, req.body['target-audience-min'], req.body['target-audience-max'], req.body.type, req.body['min-players'], "."+gameIconPath, "."+gamePlanPath, req.body['game-rules']]
+                query: "insert into game(name, description, target_audience_min, target_audience_max, type, amount_players, game_icon, game_plan, rules, diffs) values(?,?,?,?,?,?,?,?,?,?)",
+                values: [req.body.name, req.body.description, req.body['target-audience-min'], req.body['target-audience-max'], req.body.type, req.body['min-players'], "."+gameIconPath, "."+gamePlanPath, rules, diffs]
                 }, (data) => {
                     res.json({data})
                 },

@@ -67,11 +67,28 @@ class GameInfoController {
         this.target_audience_max = target_audience_max;
         let type = row["type"];
         this.type = type;
-        let rules = row["rules"] || "Geen regels";
 
-        rules = "-" + rules
-        rules = rules.replaceAll("\r\n", "\n-");
+        let rules = "Geen regels";
+        if (row["rules"]){
+            rules = '';
+            let rule_array = JSON.parse(row["rules"]);
+
+            for (const row of rule_array) {
+                rules += `- ${row} <br>`;
+            }
+        }
         this.rules = rules;
+
+        let diffs = "Geen differentiaties";
+        if (row["diffs"]){
+            diffs = '<hr>';
+            let diff_array = JSON.parse(row["diffs"]);
+
+            for (const row of diff_array) {
+                diffs += `<h5>${row[0]}</h5><p>${row[1]}</p><hr>`;
+            }
+        }
+        this.diffs = diffs;
 
         let gameInfoRowTemplate = $(gameInfoTemplate);
 
@@ -81,7 +98,8 @@ class GameInfoController {
         gameInfoRowTemplate.find(".game-image-plan").attr("src", 'uploads/' + row['game_plan'])
         gameInfoRowTemplate.find(".game-image").attr("src", 'uploads/' + row['game_icon'])
         gameInfoRowTemplate.find(".game-info-description").text(description);
-        gameInfoRowTemplate.find(".game-info-rules").text(rules);
+        gameInfoRowTemplate.find(".game-info-rules").html(rules);
+        gameInfoRowTemplate.find(".game-info-diffs").html(diffs);
         gameInfoRowTemplate.find(".game-info-target-audience-min").append(target_audience_min);
         gameInfoRowTemplate.find(".game-info-target-audience-max").append(target_audience_max);
         gameInfoRowTemplate.find(".game-info-type").append(type);
