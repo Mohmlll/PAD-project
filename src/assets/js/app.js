@@ -70,9 +70,6 @@ class App {
                 this.setHash(name);
                 this.isLoggedIn(() => new WelcomeController, () => new LoginController())
                 break;
-            case CONTROLLER_UPLOAD:
-                new UploadController();
-                break;
             case CONTROLLER_REGISTER:
                 this.setHash(name)
                 new RegisterController();
@@ -83,11 +80,11 @@ class App {
                 break;
             case CONTROLLER_GAME_CREATE:
                 this.setHash(name);
-                new GameCreateController();
+                this.isLoggedIn(() => new GameCreateController(), () => new LoginController());
                 break;
             case CONTROLLER_ADMIN_PANEL:
                 this.setHash(name)
-                new AdminController();
+                this.isLoggedIn(() => new AdminController(), () => new LoginController());
                 break;
             case CONTROLLER_GAME_INFO:
                 this.setHash(name);
@@ -134,7 +131,7 @@ class App {
      * @param whenNo - function to execute when user is logged in
      */
     isLoggedIn(whenYes, whenNo) {
-        if (sessionManager.get("username")) {
+        if (sessionManager.get("id")) {
             whenYes();
         } else {
             whenNo();
@@ -145,7 +142,9 @@ class App {
      * Removes username via sessionManager and loads the login screen
      */
     handleLogout() {
-        sessionManager.remove("username");
+        sessionManager.remove("id");
+        sessionManager.remove("role");
+        sessionManager.remove("email");
         //go to login screen
         this.loadController(CONTROLLER_LOGIN);
     }

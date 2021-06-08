@@ -93,6 +93,9 @@ class RegisterController {
                 message.error(user.message || DEFAULT_ERROR_MESSAGE);
             } else {
                 sessionManager.set("email", user.email);
+                sessionManager.set("id", user.email)
+                sessionManager.set("right", user.right)
+
                 message.success("Succesvol geregistreerd")
                 app.loadController(CONTROLLER_HOME);
             }

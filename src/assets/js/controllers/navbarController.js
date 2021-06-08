@@ -25,6 +25,7 @@ class NavbarController {
             app.loadController(CONTROLLER_HOME);
         });
         //Empty the sidebar-div and add the resulting view to the page
+
         $(".header-area").empty().append(sidebarView);
 
         templateManager.initSideBar()

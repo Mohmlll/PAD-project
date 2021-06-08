@@ -38,14 +38,12 @@ app.post("/user/login", (req, res) => {
     const password = cryptoHelper.getHashedPassword(req.body.password);
 
     db.handleQuery(connectionPool, {
-        query: "SELECT id, email, password FROM user WHERE email = ? AND password = ?",
+        query: "SELECT * FROM user WHERE email = ? AND password = ?",
         values: [email, password]
     }, (data) => {
-        console.log(data);
-        console.log(data);
         if (data.length === 1) {
             //return just the email for now, never send password back!
-            res.status(httpOkCode).json({email: data[0].email, id: data[0].id});
+            res.status(httpOkCode).json(data[0]);
         } else {
             //wrong email
             res.status(authorizationErrCode).json({reason: "Wrong email or password", values: [password, email]});
@@ -93,11 +91,11 @@ app.post("/game", function (req, res) {
 
     // game icon
     let gameIcon = req.files['game-icon'];
-    let gameIconPath = `${wwwrootPathUpload}uploads/${helper.randomImageString()}_gameIcon.${gameIcon.name.split(".").pop()}`
+    let gameIconPath = `${wwwrootPathUpload}/uploads/${helper.randomImageString()}_gameIcon.${gameIcon.name.split(".").pop()}`
 
     // game plan
     let gamePlan = req.files['game-plan'];
-    let gamePlanPath = `${wwwrootPathUpload}uploads/${helper.randomImageString()}_gamePlan.${gamePlan.name.split(".").pop()}`
+    let gamePlanPath = `${wwwrootPathUpload}/uploads/${helper.randomImageString()}_gamePlan.${gamePlan.name.split(".").pop()}`
     gameIcon.mv(gameIconPath, function (err) {
         if (err) {
             return res.status(badRequestCode).json({reason: err});

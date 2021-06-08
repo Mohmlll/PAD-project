@@ -117,11 +117,9 @@ class AdminController {
     }
 
     editRole() {
-        let selectRole = $(".admin_panel_user_role")
-        selectRole = $(selectRole)
         $('.admin_panel_user_role', this.adminView).on("change", async (e) => {
             const userId = $(e.currentTarget).attr("data-id");
-            let roleNumber = selectRole.val();
+            let roleNumber = $(e.currentTarget).val();
 
             try {
                 await this.userRepository.editRole(userId, roleNumber);

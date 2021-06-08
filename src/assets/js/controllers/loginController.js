@@ -75,8 +75,12 @@ class LoginController {
         try {
             //await keyword 'stops' code until data is returned - can only be used in async function
             const result = await this.userRepository.login(email, password)
+
+            console.log(result);
             sessionManager.set("email", result.email);
-            sessionManager.set("id", result.id);
+            sessionManager.set("id", result.id)
+            sessionManager.set("right", result.right)
+
             message.success("Succesvol ingelogd")
             app.loadController(CONTROLLER_HOME);
         } catch (e) {
@@ -129,6 +133,7 @@ class LoginController {
                 // login
                 sessionManager.set("email", result.user.email);
                 sessionManager.set("id", result.user.email)
+                sessionManager.set("right", result.user.right)
 
                 // redirect to change password page
                 app.loadController(CONTROLLER_HOME);

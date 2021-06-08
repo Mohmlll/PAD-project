@@ -55,6 +55,11 @@ class HomeController {
             this.fillGameRow(gameTemplate, game).appendTo(".clickGameListLimit3");
         }
 
+        console.log(favGames.length);
+
+        if (favGames.length > 0)
+            // $(".favGameHead").show();
+
         // loop trough available favGames
         for (const game of favGames) {
             this.fillGameRow(gameTemplate, game).appendTo(".favGameListLimit3");

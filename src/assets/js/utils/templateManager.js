@@ -60,19 +60,27 @@ class TemplateManager {
             templateManager.handleClickMenuItem(this);
         });
 
+        this.setVisibility();
+    }
 
-        // todo aparte util van maken + upgrades
+    setVisibility(){
         // show-login='true' => alleen als je ingelogd bent
         // show-login='false' => alleen als je niet ingelogd bent
+        const userId = sessionManager.get('id');
+        const right = sessionManager.get('right');
 
-        const email = sessionManager.get('email');
-
-        if (email && email.length > 0) {
+        if (userId && userId > 0) {
             $("[show-login='true']").show();
             $("[show-login='false']").hide();
         } else {
             $("[show-login='true']").hide();
             $("[show-login='false']").show();
+        }
+
+        if (right === 1){
+            $("[show-login='admin']").show();
+        } else {
+            $("[show-login='admin']").hide();
         }
     }
 

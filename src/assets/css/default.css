@@ -173,3 +173,7 @@ slider
     color: red;
     display: none;
 }
+
+[show-login='admin']{
+    display: none;
+}
