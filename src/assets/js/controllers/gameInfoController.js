@@ -223,10 +223,10 @@ class GameInfoController {
         let gameId = parseInt(window.location.hash.replace("#game", ""));
         let rating;
 
-        $("#rating_game input").on("click", (event) => {
+        $("#rating_game input").on("click", async (event) => {
             rating = $(event.target).val();
-            this.postRating(this.userId, gameId, rating);
-            this.getAvgRating(gameId)
+            await this.postRating(this.userId, gameId, rating);
+            await this.getAvgRating(gameId)
         })
 
     }
@@ -255,10 +255,10 @@ class GameInfoController {
             avg_rating = rating;
             this.ratingCount = 1
         } else if (isRated) {
-            avg_rating = (((this.avgRating * this.ratingCount - parseInt(currentUserRating)) + parseInt(rating)) / (this.ratingCount));
+            avg_rating = (((parseFloat(this.avgRating) * parseInt(this.ratingCount) - parseInt(currentUserRating)) + parseInt(rating)) / (parseInt(this.ratingCount)));
         } else {
             this.ratingCount++
-            avg_rating = (((this.avgRating * this.ratingCount - parseInt(this.currentRating)) + parseInt(rating)) / (this.ratingCount));
+            avg_rating = (((parseFloat(this.avgRating) * parseInt(this.ratingCount) - parseInt(this.currentRating)) + parseInt(rating)) / (parseInt(this.ratingCount)));
         }
         $('#avg_rating').text("Gemiddelde beoordeling: " + Math.round(avg_rating * 100) / 100 + "(" + this.ratingCount + ")")
     }
@@ -276,7 +276,6 @@ class GameInfoController {
             pdf.text(20, 30, splitDescription);
 
             pdf.text(20, 170, "Doelgroep: " + this.target_audience_min + " - " + this.target_audience_max);
-            pdf.text(20, 180, "Soort spel: " + this.type);
             pdf.text(20, 190, "Materialen:\n" + this.materialStringReplaced);
 
             pdf.save("game" + this.gameId + ".pdf")
