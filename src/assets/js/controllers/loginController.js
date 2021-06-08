@@ -132,7 +132,7 @@ class LoginController {
             case 200:
                 // login
                 sessionManager.set("email", result.user.email);
-                sessionManager.set("id", result.user.email)
+                sessionManager.set("id", result.user.id)
                 sessionManager.set("right", result.user.right)
 
                 // redirect to change password page

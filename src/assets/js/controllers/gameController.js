@@ -184,9 +184,12 @@ class GameController {
             let value = $(this).val();
             materialId = parseInt(materialId);
             value = parseInt(value);
-            materialArray.push({id: materialId, value: value});
+
+            if (value > 0)
+                materialArray.push({id: materialId, value: value});
         });
 
+        console.log(materialArray);
 
         for (let j = 0; j < materialArray.length; j++) {
             let materialRow = materialArray[j];

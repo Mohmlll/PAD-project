@@ -60,15 +60,11 @@ class App {
                 break;
             case CONTROLLER_LOGIN:
                 this.setHash(name);
-                this.isLoggedIn(() => new WelcomeController(), () => new LoginController());
+                this.isLoggedIn(() => new HomeController(), () => new LoginController());
                 break;
             case CONTROLLER_LOGOUT:
                 this.setHash(name);
                 this.handleLogout();
-                break;
-            case CONTROLLER_WELCOME:
-                this.setHash(name);
-                this.isLoggedIn(() => new WelcomeController, () => new LoginController())
                 break;
             case CONTROLLER_REGISTER:
                 this.setHash(name)
@@ -123,6 +119,7 @@ class App {
     setHash(name) {
         // als dit niet werkt staat er waarschijnlijk href="#" in je link..
         location.hash = name;
+        $(window).scrollTop(0);
     }
 
     /**
