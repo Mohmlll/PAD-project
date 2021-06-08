@@ -73,6 +73,7 @@ class GameCreateController {
             });
             await this.saveMaterials();
             await this.redirectToGames();
+            message.success("Spel is aangemaakt!")
         }
     }
 
