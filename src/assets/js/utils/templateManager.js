@@ -36,14 +36,6 @@ class TemplateManager {
                 });
             }
 
-            $("#preloader").animate({
-                'opacity': '0'
-            }, 600, function () {
-                setTimeout(function () {
-                    $("#preloader").css("visibility", "hidden").fadeOut();
-                }, 300);
-            });
-
             $("a[data-scroll-to]").on('click', function () {
                 let scroll_to = $(this).attr('data-scroll-to')
                 let scroll_to_element = $(`#${scroll_to}`);

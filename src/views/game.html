@@ -1,73 +1,87 @@
 <div class="main-area" id="welcome">
     <div class="container game-container page-container">
-        <div class="features-small-item h-100 row">
-            <div class="w-50">
-                <!--                <div class="col-md-6 col-sm-12 mt-2">-->
-                <!--                    <fieldset>-->
-                <!--                        <label class="float-left" for="search-filter"><b>Zoeken</b></label>-->
-                <!--                        <input class="form-control" id="search-filter" name="" required=""-->
-                <!--                               type="text">-->
-                <!--                    </fieldset>-->
-                <!--                </div>-->
-                <div class="col-md-6 col-sm-12 mt-2">
-                    <fieldset>
-                        <label class="float-left" for="game-target-audience-min"><b>Vanaf leerjaar</b></label>
-                        <select aria-label="Default select example" class="form-control"
-                                id="game-target-audience-min">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="features-small-item w-100 ">
+                    <div class="row">
+                        <div class="filters row" style="display: none; padding: 0 10px;">
+                            <div class="col-lg-8">
+                                <!--                <div class="col-md-6 col-sm-12 mt-2">-->
+                                <!--                    <fieldset>-->
+                                <!--                        <label class="float-left" for="search-filter"><b>Zoeken</b></label>-->
+                                <!--                        <input class="form-control" id="search-filter" name="" required=""-->
+                                <!--                               type="text">-->
+                                <!--                    </fieldset>-->
+                                <!--                </div>-->
+                                <div class="col-md-6 col-sm-12 mt-2">
+                                    <fieldset>
+                                        <label class="float-left" for="game-target-audience-min"><b>Vanaf
+                                            leerjaar</b></label>
+                                        <select aria-label="Default select example" class="form-control"
+                                                id="game-target-audience-min">
 
-                        </select>
-                    </fieldset>
-                </div>
-                <div class="col-md-6 col-sm-12 mt-2">
-                    <fieldset>
-                        <label class="float-left" for="game-target-audience-max"><b>Tot leerjaar</b></label>
-                        <select aria-label="Default select example" class="form-control"
-                                id="game-target-audience-max">
+                                        </select>
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-6 col-sm-12 mt-2">
+                                    <fieldset>
+                                        <label class="float-left" for="game-target-audience-max"><b>Tot
+                                            leerjaar</b></label>
+                                        <select aria-label="Default select example" class="form-control"
+                                                id="game-target-audience-max">
 
-                        </select>
-                    </fieldset>
-                </div>
-                <div class="col-md-6 col-sm-12 mt-2">
-                    <fieldset>
-                        <label class="float-left" for="game-type-filter"><b>Type Spel</b></label>
-                        <select aria-label="Default select example" class="form-control" id="game-type-filter">
-                            <option selected>Alle soorten</option>
-                        </select>
-                    </fieldset>
-                </div>
-                <div class="col-md-6 col-sm-12 mt-2">
-                    <fieldset>
-                        <label class="float-left" for="student-amount"><b>Min aantal spelers: </b><span
-                                id="student-amount-value">1</span></label>
-                        <div class="slidecontainer">
-                            <input class="slider" id="student-amount" max="50" min="1" type="range" value="1">
+                                        </select>
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-6 col-sm-12 mt-2">
+                                    <fieldset>
+                                        <label class="float-left" for="game-type-filter"><b>Type Spel</b></label>
+                                        <select aria-label="Default select example" class="form-control"
+                                                id="game-type-filter">
+                                            <option selected>Alle soorten</option>
+                                        </select>
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-6 col-sm-12 mt-2">
+                                    <fieldset>
+                                        <label class="float-left" for="student-amount"><b>Min aantal spelers: </b><span
+                                                id="student-amount-value">1</span></label>
+                                        <div class="slidecontainer">
+                                            <input class="slider" id="student-amount" max="50" min="1" type="range"
+                                                   value="1">
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <!--                <div class="col-md-6 col-sm-12 mt-2">-->
+                                <!--                    <fieldset>-->
+                                <!--                        <label class="float-left" for="sort-filter"><b>Sorteren</b></label>-->
+                                <!--                        <select class="form-control" id="sort-filter" name="game-filter">-->
+                                <!--                            <option>Nieuw</option>-->
+                                <!--                            <option>Populariteit</option>-->
+                                <!--                            <option>Favorieten</option>-->
+                                <!--                        </select>-->
+                                <!--                    </fieldset>-->
+                                <!--                </div>-->
+                            </div>
+                            <div class=" col-lg-4">
+                                <fieldset>
+                                    <label class="float-left" for="materialview2"><b>Materiaal</b></label>
+                                    <br>
+                                    <div id="materialview2">
+
+                                    </div>
+                                </fieldset>
+                            </div>
                         </div>
-                    </fieldset>
-                </div>
-<!--                <div class="col-md-6 col-sm-12 mt-2">-->
-<!--                    <fieldset>-->
-<!--                        <label class="float-left" for="sort-filter"><b>Sorteren</b></label>-->
-<!--                        <select class="form-control" id="sort-filter" name="game-filter">-->
-<!--                            <option>Nieuw</option>-->
-<!--                            <option>Populariteit</option>-->
-<!--                            <option>Favorieten</option>-->
-<!--                        </select>-->
-<!--                    </fieldset>-->
-<!--                </div>-->
-            </div>
-            <div class="row w-25">
-                <fieldset>
-                    <label class="float-left" for="materialview2"><b>Materiaal</b></label>
-                    <br>
-                    <div id="materialview2">
-
+                        <div class="col-md-12 col-sm-12 mt-2 mb-2">
+                            <button class="main-button btn btn-default float-right" id="open-filter-button">Filters
+                            </button>
+                            <button class="main-button btn btn-default float-right" id="filter-button" type="submit"
+                                    style="display: none">Zoeken
+                            </button>
+                        </div>
                     </div>
-                </fieldset>
-            </div>
-            <div class="col-md-12 col-sm-12 mt-2">
-                <button class="main-button btn btn-default float-right" id="filter-button" type="submit"
-                        value="Upload!">Zoeken
-                </button>
+                </div>
             </div>
         </div>
 

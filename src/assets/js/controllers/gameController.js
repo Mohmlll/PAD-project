@@ -310,10 +310,19 @@ class GameController {
         this.gameView = $(data);
 
 
+
+        $("#open-filter-button", this.gameView).on("click", () => {
+            $("#filter-button, .filters").show();
+            $("#open-filter-button").hide();
+        });
+
         $("#filter-button", this.gameView).on("click", () => {
             this.filter();
 
+            $("#filter-button, .filters").hide();
+            $("#open-filter-button").show();
         });
+
         $("#student-amount", this.gameView).on("input", () => {
             const slider = document.getElementById("student-amount");
             const output = document.getElementById("student-amount-value");
