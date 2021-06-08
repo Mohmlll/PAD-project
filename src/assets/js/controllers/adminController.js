@@ -143,6 +143,7 @@ class AdminController {
         let firstName, lastName, fullName, userId, userRole, roleNumber, userNumber;
         // get data
         this.users = await this.userRepository.getUsers();
+        const currentUser = sessionManager.get("id");
 
         for (let i = 0; i < this.users.length; i++) {
             let adminUserTemplateUsable = $(adminPanelUserTemplate);
@@ -155,10 +156,18 @@ class AdminController {
 
             userId = row.id;
             roleNumber = row.right;
+
             adminUserTemplateUsable.find("#admin_panel_user_role").val(roleNumber)
-            adminUserTemplateUsable.find("#admin_panel_user_role").attr("data-id", userId);
             adminUserTemplateUsable.find(".admin_panel_user_id").text(userNumber)
-            adminUserTemplateUsable.find(".admin_user_delete").attr("data-id", userId);
+
+            if (currentUser === userId){
+                adminUserTemplateUsable.find(".admin_user_delete").remove();
+                adminUserTemplateUsable.find("#admin_panel_user_role").attr("disabled", true);
+            } else {
+                adminUserTemplateUsable.find(".admin_user_delete").attr("data-id", userId);
+                adminUserTemplateUsable.find("#admin_panel_user_role").attr("data-id", userId);
+            }
+
             adminUserTemplateUsable.find(".admin_panel_user_name").text(fullName);
 
             adminUserTemplateUsable.appendTo("#admin_panel_user_list");
