@@ -48,7 +48,7 @@ describe("Login", function () {
             expect(xhr.request.body.email).equals("test");
 
             //The password should match what we typed earlier
-            expect(xhr.request.body.password).equals("test");
+            expect(xhr.request.body.password).equals("Hallo123");
         });
 
         //After a successful login, the URL should now contain #welcome.
