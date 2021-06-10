@@ -31,7 +31,7 @@ describe("gameCreate", function () {
         cy.get("#min-players").type("5");
 
         cy.get("#game").click();
-        
+
         cy.wait("@gameCreate");
 
     });
