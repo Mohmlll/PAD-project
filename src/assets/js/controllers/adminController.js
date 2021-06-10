@@ -9,6 +9,12 @@ class AdminController {
             .catch(() => this.error());
     }
 
+    /**
+     * Deletes the game with warning
+     * @param gameId
+     * @param gameName
+     * @returns {Promise<void>}
+     */
     async deleteGame(gameId, gameName) {
         //confirmation bericht
         Swal.fire({
@@ -41,6 +47,12 @@ class AdminController {
 
     }
 
+    /**
+     * Deletes the user with warning
+     * @param userId
+     * @param userName
+     * @returns {Promise<void>}
+     */
     async deleteUser(userId, userName) {
         //confirmation bericht
         Swal.fire({
@@ -71,7 +83,10 @@ class AdminController {
         })
     }
 
-    //Loading games in
+    /**
+     * Gets all games
+     * @returns {Promise<void>}
+     */
     async onGetGame() {
         // get template
         let adminPanelGameTemplate = await $.get("views/adminPanelGameTemplate.html");
@@ -95,6 +110,9 @@ class AdminController {
         }
     }
 
+    /**
+     * Gets the exact data-id of the game and sends it over to main function
+     */
     onDeleteGame() {
         $('.admin_panel_game_delete', this.adminView).on("click", async (e) => {
             const gameId = $(e.currentTarget).attr("data-id")
@@ -104,7 +122,9 @@ class AdminController {
             await this.deleteGame(gameId, game.name)
         });
     }
-
+    /**
+     * Gets the exact data-id of the user and sends it over to main function
+     */
     onDeleteUser() {
         $('.admin_user_delete', this.adminView).on("click", async (e) => {
             const userId = $(e.currentTarget).attr("data-id")
@@ -116,6 +136,9 @@ class AdminController {
         });
     }
 
+    /**
+     * Allows you to edit the role of an user
+     */
     editRole() {
         $('.admin_panel_user_role', this.adminView).on("change", async (e) => {
             const userId = $(e.currentTarget).attr("data-id");
@@ -136,7 +159,10 @@ class AdminController {
         });
     }
 
-    //Loading users in
+    /**
+     * Loading all users
+      * @returns {Promise<void>}
+     */
     async onGetUser() {
         // get template
         let adminPanelUserTemplate = await $.get("views/adminPanelUserTemplate.html");

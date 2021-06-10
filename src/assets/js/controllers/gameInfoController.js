@@ -8,6 +8,10 @@ class GameInfoController {
             .catch(() => this.error());
     }
 
+    /**
+     * Gets ALL information about a game and puts it into the page
+     * @returns {Promise<void>}
+     */
     async onGetGame() {
         // get data
         let gameId = parseInt(window.location.hash.replace("#game", ""));
@@ -146,6 +150,10 @@ class GameInfoController {
         gameInfoRowTemplate.appendTo("#game-info-view");
     }
 
+    /**
+     * changes HTML based on favourite or not
+     * @returns {Promise<void>}
+     */
     async favCheck() {
         let favButton = $("#game-info-un-fav");
         let unFavButton = $("#game-info-fav");
@@ -159,6 +167,11 @@ class GameInfoController {
             unFavButton.show();
         }
     }
+
+    /**
+     * Adds favourite or removes favourite
+     * @returns {Promise<void>}
+     */
 
     async fav() {
         let favButton = $("#game-info-un-fav");
@@ -203,6 +216,11 @@ class GameInfoController {
         return countCall.data[0]["total"];
     }
 
+    /**
+     * Gets the current rating for the user
+     * @param gameId
+     * @returns {Promise<*>}
+     */
     async getCurrentRating(gameId) {
         let ratingCall = await this.statRepository.getAvgRatingForSpecifiedGame(gameId)
         this.currentRating = ratingCall.data[0]["rating"]
@@ -240,7 +258,7 @@ class GameInfoController {
     }
 
     /**
-     * checks if the game already has a rating
+     * returns data if the rating already exists or not
      * @param gameId
      * @returns {Promise<boolean>}
      */
@@ -265,6 +283,13 @@ class GameInfoController {
 
     }
 
+    /**
+     * Posts rating and checks if already exists or not
+     * @param userId
+     * @param gameId
+     * @param rating
+     * @returns {Promise<void>}
+     */
     async postRating(userId, gameId, rating) {
         let currentUserRating
         try {
@@ -297,6 +322,9 @@ class GameInfoController {
         $('#avg_rating').text("Gemiddelde beoordeling: " + Math.round(avg_rating * 100) / 100 + "(" + this.ratingCount + ")")
     }
 
+    /**
+     * PDF Download
+     */
     download() {
         $("#game-download", this.gameView).on("click", () => {
             let pdf;

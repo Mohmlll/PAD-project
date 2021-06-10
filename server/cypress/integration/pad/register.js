@@ -19,11 +19,13 @@ describe("register", function () {
         //Find the register button
         cy.get("#next").should("exist");
     });
-    it('Create Account', function () {
 
+    it('Create Account', function () {
         //start up a fake server
         cy.server();
 
+        //sends a request
+        //adds an alias to the request: @register
         cy.route("POST", "/register", {"email": "testMail@outlook.com", "password" : "Hallo123"}).as("register");
 
         //fill in emailregister
@@ -59,11 +61,10 @@ describe("register", function () {
         //Click finish button
         cy.get("#finish").click();
 
-
-        //Wait for the @login-stub to be called by the click-event.
+        //Wait for the @register-stub to be called by the click-event.
         cy.wait("@register");
 
-        //The @login-stub is called, check the contents of the incoming request.
+        //The @register-stub is called, check the contents of the incoming request.
         cy.get("@register").should((xhr) => {
             //The username should match what we typed earlier
             expect(xhr.request.body.email).equals("testMail@outlook.com");
