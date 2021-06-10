@@ -284,7 +284,7 @@ class GameInfoController {
     }
 
     /**
-     * Posts rating and checks if already exists or not
+     * Posts rating/checks if already exists or not and views live updates on the screen
      * @param userId
      * @param gameId
      * @param rating
@@ -358,7 +358,10 @@ class GameInfoController {
 
         this.download()
 
-        //fav game code
+
+        /**
+         * Favorite check and button press event
+         */
         await this.favCheck()
         $("#game-info-fav", this.gameView).text("Voeg toe aan favorieten").on("click", () => {
             this.fav()

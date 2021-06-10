@@ -88,6 +88,16 @@ class GameController {
         return favCall.data.length !== 0;
     }
 
+    /**
+     * Fills the gameview with dynamically built template and has a function built in which redirects you to the game you pressed
+     * @param gameTemplate
+     * @param name
+     * @param avgRating
+     * @param isFav
+     * @param gameId
+     * @param games
+     * @returns {*|jQuery|HTMLElement}
+     */
     fillTemplate(gameTemplate, name, avgRating, isFav, gameId, games) {
         let gameRowTemplate = $(gameTemplate);
         gameRowTemplate.find(".game-name").text(name + " (" + avgRating + "☆)");
@@ -134,6 +144,10 @@ class GameController {
 
     }
 
+    /**
+     * Function which redirects user to a page with extended information regarding the game they pressed
+     * @param gameId
+     */
     navigateTo(gameId) {
         let url = window.location.href;
         app.loadController(CONTROLLER_GAME_INFO);
