@@ -180,12 +180,22 @@ class GameInfoController {
         }
     }
 
-
+    /**
+     * gets the average rating for the game
+     * @param gameId
+     * @returns {Promise<*>}
+     */
     async getAvgRating(gameId) {
         let avgRatingCall = await this.statRepository.getAvgRatingForSpecifiedGame(gameId)
         this.avgRating = avgRatingCall.data[0]["average"];
         return avgRatingCall.data[0]["average"];
     }
+
+    /**
+     * gets the total amount of ratings that a game has
+     * @param gameId
+     * @returns {Promise<*>}
+     */
 
     async getCountRating(gameId) {
         let countCall = await this.statRepository.getAvgRatingForSpecifiedGame(gameId)
@@ -199,26 +209,50 @@ class GameInfoController {
         return this.currentRating;
     }
 
+    /**
+     * sends a click everytime a game gets clicked
+     * @param gameId
+     * @returns {Promise<*>}
+     */
     async getClicks(gameId) {
         let clickCall = await this.statRepository.clicksGet(gameId)
         return clickCall.data[0]["totalClicks"];
     }
 
+    /**
+     * checks if the game is a favourite for the user
+     * @param gameId
+     * @returns {Promise<boolean>}
+     */
     async getIsFav(gameId) {
         let favCall = await this.statRepository.favCheck(this.userId, gameId)
         return favCall.data.length !== 0;
     }
 
+    /**
+     * get the users own rating for the game.
+     * @param gameId
+     * @returns {Promise<*>}
+     */
     async getRatingForUser(gameId) {
         let ratingCall = await this.statRepository.getRating(this.userId, gameId)
         return ratingCall.data[0]["rating"];
     }
 
+    /**
+     * checks if the game already has a rating
+     * @param gameId
+     * @returns {Promise<boolean>}
+     */
     async ratingCheck(gameId) {
         let ratingCall = await this.statRepository.getRating(this.userId, gameId)
         return ratingCall.data.length !== 0;
     }
 
+    /**
+     * gets the rating that was input from the user on the stars
+     * @returns {Promise<void>}
+     */
     async getRating() {
         let gameId = parseInt(window.location.hash.replace("#game", ""));
         let rating;
@@ -247,7 +281,7 @@ class GameInfoController {
         }
         let isRated = await this.ratingCheck(gameId)
         await this.statRepository.rating(userId, gameId, rating, currentUserRating)
-
+        await this.getCurrentRating(gameId);
         let avg_rating
         if (this.ratingCount === 1 && isRated) {
             avg_rating = rating;
